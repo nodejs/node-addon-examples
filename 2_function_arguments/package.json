@@ -1,0 +1,8 @@
+{
+  "name": "function_arguments",
+  "version": "0.0.0",
+  "description": "Node.js Addons Example #2",
+  "main": "addon.js",
+  "private": true,
+  "gypfile": true
+}

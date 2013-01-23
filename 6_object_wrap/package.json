@@ -1,0 +1,8 @@
+{
+  "name": "object_wrap",
+  "version": "0.0.0",
+  "description": "Node.js Addons Example #6",
+  "main": "addon.js",
+  "private": true,
+  "gypfile": true
+}

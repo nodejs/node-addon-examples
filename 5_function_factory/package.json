@@ -1,0 +1,8 @@
+{
+  "name": "function_factory",
+  "version": "0.0.0",
+  "description": "Node.js Addons Example #5",
+  "main": "addon.js",
+  "private": true,
+  "gypfile": true
+}
