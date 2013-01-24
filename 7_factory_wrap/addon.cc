@@ -16,4 +16,4 @@ void InitAll(Handle<Object> target) {
       FunctionTemplate::New(CreateObject)->GetFunction());
 }
 
-NODE_MODULE_INIT(addon, InitAll)
+NODE_MODULE_M(addon, InitAll)

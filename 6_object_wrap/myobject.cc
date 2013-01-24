@@ -17,7 +17,7 @@ void MyObject::Init(Handle<Object> target) {
       FunctionTemplate::New(PlusOne)->GetFunction());
 
   Persistent<Function> constructor = Persistent<Function>::New(tpl->GetFunction());
-  target->Get(String::NewSymbol("exports"))->ToObject()->Set(
+  target->Get(String::NewSymbol("exports")).As<Object>()->Set(
       String::NewSymbol("MyObject"),
       constructor);
 }

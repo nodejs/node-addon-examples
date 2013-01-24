@@ -24,13 +24,13 @@ Handle<Value> Add(const Arguments& args) {
 void InitAll(Handle<Object> target) {
   MyObject::Init();
 
-  target->Get(String::NewSymbol("exports"))->ToObject()->Set(
+  target->Get(String::NewSymbol("exports")).As<Object>()->Set(
       String::NewSymbol("createObject"),
       FunctionTemplate::New(CreateObject)->GetFunction());
 
-  target->Get(String::NewSymbol("exports"))->ToObject()->Set(
+  target->Get(String::NewSymbol("exports")).As<Object>()->Set(
       String::NewSymbol("add"),
       FunctionTemplate::New(Add)->GetFunction());
 }
 
-NODE_MODULE_INIT(addon, InitAll)
+NODE_MODULE_M(addon, InitAll)

@@ -22,9 +22,9 @@ Handle<Value> Add(const Arguments& args) {
 }
 
 void Init(Handle<Object> target) {
-  target->Get(String::NewSymbol("exports"))->ToObject()->Set(
+  target->Get(String::NewSymbol("exports")).As<Object>()->Set(
       String::NewSymbol("add"),
       FunctionTemplate::New(Add)->GetFunction());
 }
 
-NODE_MODULE_INIT(addon, Init)
+NODE_MODULE_M(addon, Init)

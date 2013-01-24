@@ -8,4 +8,4 @@ void InitAll(Handle<Object> target) {
   MyObject::Init(target);
 }
 
-NODE_MODULE_INIT(addon, InitAll)
+NODE_MODULE_M(addon, InitAll)

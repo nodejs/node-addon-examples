@@ -23,4 +23,4 @@ void Init(Handle<Object> target) {
       FunctionTemplate::New(CreateFunction)->GetFunction());
 }
 
-NODE_MODULE_INIT(addon, Init)
+NODE_MODULE_M(addon, Init)

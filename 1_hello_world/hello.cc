@@ -9,9 +9,9 @@ Handle<Value> Method(const Arguments& args) {
 }
 
 void init(Handle<Object> target) {
-  target->Get(String::NewSymbol("exports"))->ToObject()->Set(
+  target->Get(String::NewSymbol("exports")).As<Object>()->Set(
       String::NewSymbol("hello"),
       FunctionTemplate::New(Method)->GetFunction());
 }
 
-NODE_MODULE_INIT(hello, init)
+NODE_MODULE_M(hello, init)
