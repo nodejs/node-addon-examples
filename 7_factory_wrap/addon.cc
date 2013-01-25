@@ -9,11 +9,11 @@ Handle<Value> CreateObject(const Arguments& args) {
   return scope.Close(MyObject::NewInstance(args));
 }
 
-void InitAll(Handle<Object> target) {
+void InitAll(Handle<Object> exports, Handle<Object> module) {
   MyObject::Init();
 
-  target->Set(String::NewSymbol("exports"),
+  module->Set(String::NewSymbol("exports"),
       FunctionTemplate::New(CreateObject)->GetFunction());
 }
 
-NODE_MODULE_M(addon, InitAll)
+NODE_MODULE(addon, InitAll)

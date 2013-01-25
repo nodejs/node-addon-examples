@@ -21,10 +21,9 @@ Handle<Value> Add(const Arguments& args) {
   return scope.Close(num);
 }
 
-void Init(Handle<Object> target) {
-  target->Get(String::NewSymbol("exports")).As<Object>()->Set(
-      String::NewSymbol("add"),
+void Init(Handle<Object> exports) {
+  exports->Set(String::NewSymbol("add"),
       FunctionTemplate::New(Add)->GetFunction());
 }
 
-NODE_MODULE_M(addon, Init)
+NODE_MODULE(addon, Init)

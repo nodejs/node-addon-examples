@@ -21,16 +21,14 @@ Handle<Value> Add(const Arguments& args) {
   return scope.Close(Number::New(sum));
 }
 
-void InitAll(Handle<Object> target) {
+void InitAll(Handle<Object> exports) {
   MyObject::Init();
 
-  target->Get(String::NewSymbol("exports")).As<Object>()->Set(
-      String::NewSymbol("createObject"),
+  exports->Set(String::NewSymbol("createObject"),
       FunctionTemplate::New(CreateObject)->GetFunction());
 
-  target->Get(String::NewSymbol("exports")).As<Object>()->Set(
-      String::NewSymbol("add"),
+  exports->Set(String::NewSymbol("add"),
       FunctionTemplate::New(Add)->GetFunction());
 }
 
-NODE_MODULE_M(addon, InitAll)
+NODE_MODULE(addon, InitAll)

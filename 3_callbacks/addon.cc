@@ -14,9 +14,9 @@ Handle<Value> RunCallback(const Arguments& args) {
   return scope.Close(Undefined());
 }
 
-void Init(Handle<Object> target) {
-  target->Set(String::NewSymbol("exports"),
+void Init(Handle<Object> exports, Handle<Object> module) {
+  module->Set(String::NewSymbol("exports"),
       FunctionTemplate::New(RunCallback)->GetFunction());
 }
 
-NODE_MODULE_M(addon, Init)
+NODE_MODULE(addon, Init)

@@ -4,8 +4,8 @@
 
 using namespace v8;
 
-void InitAll(Handle<Object> target) {
-  MyObject::Init(target);
+void InitAll(Handle<Object> exports) {
+  MyObject::Init(exports);
 }
 
-NODE_MODULE_M(addon, InitAll)
+NODE_MODULE(addon, InitAll)
