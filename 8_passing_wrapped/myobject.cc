@@ -1,6 +1,7 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
 #include "myobject.h"
+
+Isolate* isolate = Isolate::GetCurrent();
 
 using namespace v8;
 
@@ -19,7 +20,7 @@ void MyObject::Init() {
 }
 
 Handle<Value> MyObject::New(const Arguments& args) {
-  HandleScope scope;
+  HandleScope scope(isolate);
 
   MyObject* obj = new MyObject();
   obj->val_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
@@ -29,7 +30,7 @@ Handle<Value> MyObject::New(const Arguments& args) {
 }
 
 Handle<Value> MyObject::NewInstance(const Arguments& args) {
-  HandleScope scope;
+  HandleScope scope(isolate);
 
   const unsigned argc = 1;
   Handle<Value> argv[argc] = { args[0] };

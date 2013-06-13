@@ -1,4 +1,3 @@
-#define BUILDING_NODE_EXTENSION
 #ifndef MYOBJECT_H
 #define MYOBJECT_H
 

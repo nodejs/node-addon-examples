@@ -1,10 +1,12 @@
 #include <node.h>
 #include <v8.h>
 
+Isolate* isolate = Isolate::GetCurrent();
+
 using namespace v8;
 
 Handle<Value> Method(const Arguments& args) {
-  HandleScope scope;
+  HandleScope scope(isolate);
   return scope.Close(String::New("world"));
 }
 

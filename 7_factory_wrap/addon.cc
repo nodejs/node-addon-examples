@@ -1,11 +1,12 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
 #include "myobject.h"
+
+Isolate* isolate = Isolate::GetCurrent();
 
 using namespace v8;
 
 Handle<Value> CreateObject(const Arguments& args) {
-  HandleScope scope;
+  HandleScope scope(isolate);
   return scope.Close(MyObject::NewInstance(args));
 }
 
