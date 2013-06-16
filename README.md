@@ -33,15 +33,18 @@ Omission of the current isolate will only trigger a compile-time warning at this
 // NODE_MODULE_VERSION was incremented for v0.11
 
 #if NODE_MODULE_VERSION > 0x000B
+#  define MY_NODE_ISOLATE_DECL Isolate* isolate = Isolate::GetCurrent();
 #  define MY_NODE_ISOLATE node::node_isolate
 #  define MY_NODE_ISOLATE_PRE node::node_isolate, 
 #  define MY_NODE_ISOLATE_POST , node::node_isolate 
 #else
+#  define MY_NODE_ISOLATE_DECL
 #  define MY_NODE_ISOLATE
 #  define MY_NODE_ISOLATE_PRE
 #  define MY_NODE_ISOLATE_POST
 #endif
 
+MY_NODE_ISOLATE_DECL
 HandleScope scope(MY_NODE_ISOLATE);
 // ...
 Persistent<Function> constructor = Persistent<Function>::New(MY_NODE_ISOLATE_PRE tpl->GetFunction());

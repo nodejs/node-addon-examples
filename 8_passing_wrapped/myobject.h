@@ -3,6 +3,8 @@
 
 #include <node.h>
 
+extern v8::Isolate* isolate;
+
 class MyObject : public node::ObjectWrap {
  public:
   static void Init();

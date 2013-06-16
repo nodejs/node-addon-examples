@@ -1,10 +1,9 @@
 #include <node.h>
 
-Isolate* isolate = Isolate::GetCurrent();
-
 using namespace v8;
 
 Handle<Value> CreateObject(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   Local<Object> obj = Object::New();

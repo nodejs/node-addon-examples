@@ -1,27 +1,31 @@
 #include <node.h>
 #include "myobject.h"
 
-Isolate* isolate = Isolate::GetCurrent();
-
 using namespace v8;
 
 MyObject::MyObject() {};
 MyObject::~MyObject() {};
 
 void MyObject::Init(Handle<Object> exports) {
+  Isolate* isolate = Isolate::GetCurrent();
+
   // Prepare constructor template
   Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
   tpl->SetClassName(String::NewSymbol("MyObject"));
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
+
   // Prototype
   tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
       FunctionTemplate::New(PlusOne)->GetFunction());
 
-  Persistent<Function> constructor = Persistent<Function>::New(isolate, tpl->GetFunction());
+  Persistent<Function> constructor
+      = Persistent<Function>::New(isolate, tpl->GetFunction());
+
   exports->Set(String::NewSymbol("MyObject"), constructor);
 }
 
 Handle<Value> MyObject::New(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   MyObject* obj = new MyObject();
@@ -32,6 +36,7 @@ Handle<Value> MyObject::New(const Arguments& args) {
 }
 
 Handle<Value> MyObject::PlusOne(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.This());

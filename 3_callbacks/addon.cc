@@ -1,15 +1,14 @@
 #include <node.h>
 
-Isolate* isolate = Isolate::GetCurrent();
-
 using namespace v8;
 
 Handle<Value> RunCallback(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   Local<Function> cb = Local<Function>::Cast(args[0]);
   const unsigned argc = 1;
-  Local<Value> argv[argc] = { Local<Value>::New(String::New("hello world")) };
+  Local<Value> argv[argc] = { String::New("hello world") };
   cb->Call(Context::GetCurrent()->Global(), argc, argv);
 
   return scope.Close(Undefined(isolate));

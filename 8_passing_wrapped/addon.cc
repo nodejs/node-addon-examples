@@ -1,16 +1,16 @@
 #include <node.h>
 #include "myobject.h"
 
-Isolate* isolate = Isolate::GetCurrent();
-
 using namespace v8;
 
 Handle<Value> CreateObject(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
   return scope.Close(MyObject::NewInstance(args));
 }
 
 Handle<Value> Add(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   MyObject* obj1 = node::ObjectWrap::Unwrap<MyObject>(

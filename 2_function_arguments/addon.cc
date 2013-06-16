@@ -1,14 +1,14 @@
 #include <node.h>
 
-Isolate* isolate = Isolate::GetCurrent();
-
 using namespace v8;
 
 Handle<Value> Add(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   if (args.Length() < 2) {
-    ThrowException(Exception::TypeError(String::New("Wrong number of arguments")));
+    ThrowException(Exception::TypeError(
+        String::New("Wrong number of arguments")));
     return scope.Close(Undefined(isolate));
   }
 

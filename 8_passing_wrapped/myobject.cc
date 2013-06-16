@@ -1,9 +1,9 @@
 #include <node.h>
 #include "myobject.h"
 
-Isolate* isolate = Isolate::GetCurrent();
-
 using namespace v8;
+
+Isolate* isolate = Isolate::GetCurrent();
 
 MyObject::MyObject() {};
 MyObject::~MyObject() {};
@@ -16,7 +16,7 @@ void MyObject::Init() {
   tpl->SetClassName(String::NewSymbol("MyObject"));
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
-  constructor = Persistent<Function>::New(tpl->GetFunction());
+  constructor = Persistent<Function>::New(isolate, tpl->GetFunction());
 }
 
 Handle<Value> MyObject::New(const Arguments& args) {

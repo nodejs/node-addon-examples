@@ -1,20 +1,22 @@
 #include <node.h>
 
-Isolate* isolate = Isolate::GetCurrent();
-
 using namespace v8;
 
 Handle<Value> MyFunction(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
   return scope.Close(String::New("hello world"));
 }
 
 Handle<Value> CreateFunction(const Arguments& args) {
+  Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   Local<FunctionTemplate> tpl = FunctionTemplate::New(MyFunction);
   Local<Function> fn = tpl->GetFunction();
-  fn->SetName(String::NewSymbol("theFunction")); // omit this to make it anonymous
+
+  // omit this to make it anonymous
+  fn->SetName(String::NewSymbol("theFunction"));
 
   return scope.Close(fn);
 }
