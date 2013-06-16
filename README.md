@@ -29,24 +29,27 @@ Persistent<Function> constructor = Persistent<Function>::New(isolate, tpl->GetFu
 Omission of the current isolate will only trigger a compile-time warning at this stage but addon authors wishing to remove those warnings and remain backward-compatible with v0.10 and prior may need to get creative with macros:
 
 ```c++
-// node::node_isolate can be used to fetch a reference to Node's Isolate
 // NODE_MODULE_VERSION was incremented for v0.11
 
 #if NODE_MODULE_VERSION > 0x000B
 #  define MY_NODE_ISOLATE_DECL Isolate* isolate = Isolate::GetCurrent();
-#  define MY_NODE_ISOLATE node::node_isolate
-#  define MY_NODE_ISOLATE_PRE node::node_isolate, 
-#  define MY_NODE_ISOLATE_POST , node::node_isolate 
+#  define MY_NODE_ISOLATE      isolate
+#  define MY_NODE_ISOLATE_PRE  isolate, 
+#  define MY_NODE_ISOLATE_POST , isolate 
+#  define MY_HANDLESCOPE v8::HandleScope scope(MY_NODE_ISOLATE);
 #else
 #  define MY_NODE_ISOLATE_DECL
 #  define MY_NODE_ISOLATE
 #  define MY_NODE_ISOLATE_PRE
 #  define MY_NODE_ISOLATE_POST
+#  define MY_HANDLESCOPE v8::HandleScope scope;
 #endif
 
 MY_NODE_ISOLATE_DECL
-HandleScope scope(MY_NODE_ISOLATE);
+MY_HANDLESCOPE
+
 // ...
+
 Persistent<Function> constructor = Persistent<Function>::New(MY_NODE_ISOLATE_PRE tpl->GetFunction());
 ```
 
