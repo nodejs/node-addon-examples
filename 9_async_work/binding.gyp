@@ -2,7 +2,12 @@
   "targets": [
     {
       "target_name": "addon",
-      "sources": [ "addon.cc" ]
+      "sources": [
+        "addon.cc",
+        "pi_est.cc",
+        "sync.cc",
+        "async.cc"
+      ]
     }
   ]
 }
