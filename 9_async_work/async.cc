@@ -29,15 +29,14 @@ void AsyncWork(uv_work_t *req) {
 // this function will be run inside the main event loop
 // so it is safe to use V8 again
 void AsyncAfter(uv_work_t *req) {
-  Isolate* isolate = Isolate::GetCurrent();
-  HandleScope scope(isolate);
+  HandleScope scope;
 
   // fetch our data structure
   AsyncData *asyncData = (AsyncData *)req->data;
   // create an arguments array for the callback
   Handle<Value> argv[] = {
     Null(),
-    Number::New(isolate, asyncData->estimate)
+    Number::New(asyncData->estimate)
   };
 
   // surround in a try/catch for safety
@@ -49,7 +48,7 @@ void AsyncAfter(uv_work_t *req) {
 
   // dispose the Persistent handle so the callback
   // function can be garbage-collected
-  asyncData->callback.Dispose(isolate);
+  asyncData->callback.Dispose();
   // clean up any memory we allocated
   delete asyncData;
   delete req;
@@ -57,8 +56,7 @@ void AsyncAfter(uv_work_t *req) {
 
 // Asynchronous access to the `Estimate()` function
 Handle<Value> CalculateAsync(const Arguments& args) {
-  Isolate* isolate = Isolate::GetCurrent();
-  HandleScope scope(isolate);
+  HandleScope scope;
 
   // create an async work token
   uv_work_t *req = new uv_work_t;
@@ -71,7 +69,7 @@ Handle<Value> CalculateAsync(const Arguments& args) {
   // expect a function as the second argument
   // we create a Persistent reference to it so
   // it won't be garbage-collected
-  asyncData->callback = Persistent<Function>::New(isolate,
+  asyncData->callback = Persistent<Function>::New(
       Local<Function>::Cast(args[1]));
 
   // pass the work token to libuv to be run when a

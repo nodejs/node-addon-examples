@@ -6,8 +6,7 @@ using namespace v8;
 
 // Simple synchronous access to the `Estimate()` function
 Handle<Value> CalculateSync(const Arguments& args) {
-  Isolate* isolate = Isolate::GetCurrent();
-  HandleScope scope(isolate);
+  HandleScope scope;
 
   // expect a number as the first argument
   int points = args[0]->Uint32Value();
