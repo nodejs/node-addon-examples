@@ -1,4 +1,3 @@
-#define BUILDING_NODE_EXTENSION
 #ifndef MYOBJECT_H
 #define MYOBJECT_H
 
@@ -7,15 +6,15 @@
 class MyObject : public node::ObjectWrap {
  public:
   static void Init();
-  static v8::Handle<v8::Value> NewInstance(const v8::Arguments& args);
+  static void NewInstance(const v8::FunctionCallbackInfo<v8::Value>& info);
 
  private:
   MyObject();
   ~MyObject();
 
   static v8::Persistent<v8::Function> constructor;
-  static v8::Handle<v8::Value> New(const v8::Arguments& args);
-  static v8::Handle<v8::Value> PlusOne(const v8::Arguments& args);
+  template<class T> static void New(const v8::FunctionCallbackInfo<T>& info);
+  template<class T> static void PlusOne(const v8::FunctionCallbackInfo<T>& info);
   double counter_;
 };
 

@@ -1,21 +1,24 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
 
 using namespace v8;
 
-Handle<Value> MyFunction(const Arguments& args) {
-  HandleScope scope;
-  return scope.Close(String::New("hello world"));
+template<class T> void MyFunction(const v8::FunctionCallbackInfo<T>& info) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
+  info.GetReturnValue().Set(String::New("hello world"));
 }
 
-Handle<Value> CreateFunction(const Arguments& args) {
-  HandleScope scope;
+template<class T> void CreateFunction(const v8::FunctionCallbackInfo<T>& info) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
 
   Local<FunctionTemplate> tpl = FunctionTemplate::New(MyFunction);
   Local<Function> fn = tpl->GetFunction();
-  fn->SetName(String::NewSymbol("theFunction")); // omit this to make it anonymous
 
-  return scope.Close(fn);
+  // omit this to make it anonymous
+  fn->SetName(String::NewSymbol("theFunction"));
+
+  info.GetReturnValue().Set(fn);
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {

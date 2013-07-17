@@ -5,12 +5,13 @@
 using namespace v8;
 
 // Simple synchronous access to the `Estimate()` function
-Handle<Value> CalculateSync(const Arguments& args) {
-  HandleScope scope;
+void CalculateSync(const v8::FunctionCallbackInfo<v8::Value>& info) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
 
   // expect a number as the first argument
-  int points = args[0]->Uint32Value();
+  int points = info[0]->Uint32Value();
   double est = Estimate(points);
 
-  return scope.Close(Number::New(est));
+  info.GetReturnValue().Set(Number::New(est));
 }

@@ -1,3 +1,3 @@
 var addon = require('./build/Release/hello');
 
-console.log(addon.hello()); // 'world'
+console.log('hello', addon.hello()); // 'world'

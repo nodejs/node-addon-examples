@@ -1,3 +1,3 @@
 #include <node.h>
 
-v8::Handle<v8::Value> CalculateSync(const v8::Arguments& args);
+void CalculateSync(const v8::FunctionCallbackInfo<v8::Value>& info);

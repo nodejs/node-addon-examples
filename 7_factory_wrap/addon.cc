@@ -1,12 +1,12 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
 #include "myobject.h"
 
 using namespace v8;
 
-Handle<Value> CreateObject(const Arguments& args) {
-  HandleScope scope;
-  return scope.Close(MyObject::NewInstance(args));
+template<class T> void CreateObject(const v8::FunctionCallbackInfo<T>& info) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
+  MyObject::NewInstance(info);
 }
 
 void InitAll(Handle<Object> exports, Handle<Object> module) {

@@ -29,34 +29,36 @@ void AsyncWork(uv_work_t *req) {
 // this function will be run inside the main event loop
 // so it is safe to use V8 again
 void AsyncAfter(uv_work_t *req) {
-  HandleScope scope;
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
 
   // fetch our data structure
   AsyncData *asyncData = (AsyncData *)req->data;
   // create an arguments array for the callback
   Handle<Value> argv[] = {
     Null(),
-    Number::New(asyncData->estimate)
+    Number::New(isolate, asyncData->estimate)
   };
 
   // surround in a try/catch for safety
   TryCatch try_catch;
   // execute the callback function
-  asyncData->callback->Call(Context::GetCurrent()->Global(), 2, argv);
+  Local<v8::Function>::New(isolate, asyncData->callback)->Call(Context::GetCurrent()->Global(), 2, argv);
   if (try_catch.HasCaught())
     node::FatalException(try_catch);
 
   // dispose the Persistent handle so the callback
   // function can be garbage-collected
-  asyncData->callback.Dispose();
+  asyncData->callback.Dispose(isolate);
   // clean up any memory we allocated
   delete asyncData;
   delete req;
 }
 
 // Asynchronous access to the `Estimate()` function
-Handle<Value> CalculateAsync(const Arguments& args) {
-  HandleScope scope;
+void CalculateAsync(const v8::FunctionCallbackInfo<v8::Value>& info) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
 
   // create an async work token
   uv_work_t *req = new uv_work_t;
@@ -65,12 +67,12 @@ Handle<Value> CalculateAsync(const Arguments& args) {
   req->data = asyncData;
 
   // expect a number as the first argument
-  asyncData->points = args[0]->Uint32Value();
+  asyncData->points = info[0]->Uint32Value();
   // expect a function as the second argument
   // we create a Persistent reference to it so
   // it won't be garbage-collected
-  asyncData->callback = Persistent<Function>::New(
-      Local<Function>::Cast(args[1]));
+  asyncData->callback.Reset(isolate,
+      Local<Function>::Cast(info[1]));
 
   // pass the work token to libuv to be run when a
   // worker-thread is available to
@@ -81,5 +83,5 @@ Handle<Value> CalculateAsync(const Arguments& args) {
     (uv_after_work_cb)AsyncAfter  // function to run when complete
   );
 
-  return scope.Close(Undefined());
+  info.GetReturnValue().SetUndefined();
 }

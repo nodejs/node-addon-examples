@@ -1,11 +1,11 @@
 #include <node.h>
-#include <v8.h>
 
 using namespace v8;
 
-Handle<Value> Method(const Arguments& args) {
-  HandleScope scope;
-  return scope.Close(String::New("world"));
+template<class T> void Method(const v8::FunctionCallbackInfo<T>& info) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
+  info.GetReturnValue().Set(String::New("world"));
 }
 
 void init(Handle<Object> exports) {

@@ -1,15 +1,15 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
 
 using namespace v8;
 
-Handle<Value> CreateObject(const Arguments& args) {
-  HandleScope scope;
+template<class T> void CreateObject(const v8::FunctionCallbackInfo<T>& info) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
 
   Local<Object> obj = Object::New();
-  obj->Set(String::NewSymbol("msg"), args[0]->ToString());
+  obj->Set(String::NewSymbol("msg"), info[0]->ToString());
 
-  return scope.Close(obj);
+  info.GetReturnValue().Set(obj);
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {

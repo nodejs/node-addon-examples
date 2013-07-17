@@ -1,8 +1,9 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
 #include "myobject.h"
 
 using namespace v8;
+
+Isolate* isolate = Isolate::GetCurrent();
 
 MyObject::MyObject() {};
 MyObject::~MyObject() {};
@@ -15,25 +16,25 @@ void MyObject::Init() {
   tpl->SetClassName(String::NewSymbol("MyObject"));
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
-  constructor = Persistent<Function>::New(tpl->GetFunction());
+  constructor.Reset(isolate, tpl->GetFunction());
 }
 
-Handle<Value> MyObject::New(const Arguments& args) {
-  HandleScope scope;
+template<class T> void MyObject::New(const v8::FunctionCallbackInfo<T>& info) {
+  HandleScope scope(isolate);
 
   MyObject* obj = new MyObject();
-  obj->val_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
-  obj->Wrap(args.This());
+  obj->val_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
+  obj->Wrap(info.This());
 
-  return args.This();
+  info.GetReturnValue().Set(info.This());
 }
 
-Handle<Value> MyObject::NewInstance(const Arguments& args) {
-  HandleScope scope;
+void MyObject::NewInstance(const v8::FunctionCallbackInfo<Value>& info) {
+  HandleScope scope(isolate);
 
   const unsigned argc = 1;
-  Handle<Value> argv[argc] = { args[0] };
-  Local<Object> instance = constructor->NewInstance(argc, argv);
+  Handle<Value> argv[argc] = { info[0] };
+  Local<Object> instance = Local<Function>::New(isolate, constructor)->NewInstance(argc, argv);
 
-  return scope.Close(instance);
+  info.GetReturnValue().Set(instance);
 }
