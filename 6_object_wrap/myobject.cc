@@ -17,8 +17,7 @@ void MyObject::Init(Handle<Object> exports) {
   // Prototype
   tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
       FunctionTemplate::New(PlusOne)->GetFunction());
-  v8::Persistent<v8::Function> constructor;
-  constructor.Reset(isolate, tpl->GetFunction());
+  v8::Persistent<v8::Function> constructor(isolate, tpl->GetFunction());
   exports->Set(String::NewSymbol("MyObject"), Local<v8::Function>::New(isolate, constructor));
 }
 

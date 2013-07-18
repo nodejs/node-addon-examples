@@ -9,13 +9,13 @@ template<class T> void Add(const v8::FunctionCallbackInfo<T>& info) {
   if (info.Length() < 2) {
     ThrowException(Exception::TypeError(
         String::New("Wrong number of arguments")));
-    info.GetReturnValue().Set(Undefined(isolate));
+    info.GetReturnValue().SetUndefined();
     return;
   }
 
   if (!info[0]->IsNumber() || !info[1]->IsNumber()) {
     ThrowException(Exception::TypeError(String::New("Wrong arguments")));
-    info.GetReturnValue().Set(Undefined(isolate));
+    info.GetReturnValue().SetUndefined();
     return;
   }
 

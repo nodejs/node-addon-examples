@@ -10,6 +10,7 @@ Persistent<Function> MyObject::constructor;
 
 void MyObject::Init() {
   Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
   // Prepare constructor template
   Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
   tpl->SetClassName(String::NewSymbol("MyObject"));

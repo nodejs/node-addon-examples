@@ -11,7 +11,7 @@ template<class T> void RunCallback(const v8::FunctionCallbackInfo<T>& info) {
   Local<Value> argv[argc] = { String::New("hello world") };
   cb->Call(Context::GetCurrent()->Global(), argc, argv);
 
-  info.GetReturnValue().Set(Undefined(isolate));
+  info.GetReturnValue().SetUndefined();
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {

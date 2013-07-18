@@ -11,6 +11,7 @@ MyObject::~MyObject() {};
 Persistent<Function> MyObject::constructor;
 
 void MyObject::Init() {
+  HandleScope scope(isolate);
   // Prepare constructor template
   Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
   tpl->SetClassName(String::NewSymbol("MyObject"));
