@@ -43,7 +43,7 @@ void AsyncAfter(uv_work_t *req) {
   // surround in a try/catch for safety
   TryCatch try_catch;
   // execute the callback function
-  Local<v8::Function>::New(isolate, asyncData->callback)->Call(Context::GetCurrent()->Global(), 2, argv);
+  Local<Function>::New(isolate, asyncData->callback)->Call(Context::GetCurrent()->Global(), 2, argv);
   if (try_catch.HasCaught())
     node::FatalException(try_catch);
 
@@ -56,7 +56,7 @@ void AsyncAfter(uv_work_t *req) {
 }
 
 // Asynchronous access to the `Estimate()` function
-void CalculateAsync(const v8::FunctionCallbackInfo<v8::Value>& info) {
+void CalculateAsync(const v8::FunctionCallbackInfo<Value>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 

@@ -5,7 +5,7 @@
 using namespace v8;
 
 // Simple synchronous access to the `Estimate()` function
-void CalculateSync(const v8::FunctionCallbackInfo<v8::Value>& info) {
+void CalculateSync(const v8::FunctionCallbackInfo<Value>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
