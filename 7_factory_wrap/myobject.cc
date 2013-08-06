@@ -30,8 +30,6 @@ template<class T> void MyObject::New(const v8::FunctionCallbackInfo<T>& info) {
   MyObject* obj = new MyObject();
   obj->counter_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
   obj->Wrap(info.This());
-
-  info.GetReturnValue().Set(info.This());
 }
 
 void MyObject::NewInstance(const v8::FunctionCallbackInfo<v8::Value>& info) {

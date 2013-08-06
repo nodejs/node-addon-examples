@@ -18,7 +18,7 @@ void MyObject::Init(Handle<Object> exports) {
   tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
       FunctionTemplate::New(PlusOne)->GetFunction());
   v8::Persistent<v8::Function> constructor(isolate, tpl->GetFunction());
-  exports->Set(String::NewSymbol("MyObject"), Local<v8::Function>::New(isolate, constructor));
+  exports->Set(String::NewSymbol("MyObject"), tpl->GetFunction());
 }
 
 template<class T> void MyObject::New(const v8::FunctionCallbackInfo<T>& info) {
@@ -28,8 +28,6 @@ template<class T> void MyObject::New(const v8::FunctionCallbackInfo<T>& info) {
   MyObject* obj = new MyObject();
   obj->counter_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
   obj->Wrap(info.This());
-
-  info.GetReturnValue().Set(info.This());
 }
 
 template<class T> void MyObject::PlusOne(const v8::FunctionCallbackInfo<T>& info) {
