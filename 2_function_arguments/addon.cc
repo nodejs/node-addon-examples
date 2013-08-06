@@ -2,24 +2,26 @@
 
 using namespace v8;
 
-Handle<Value> Add(const Arguments& args) {
+template<class T> void Add(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
-  if (args.Length() < 2) {
+  if (info.Length() < 2) {
     ThrowException(Exception::TypeError(
         String::New("Wrong number of arguments")));
-    return scope.Close(Undefined(isolate));
+    info.GetReturnValue().SetUndefined();
+    return;
   }
 
-  if (!args[0]->IsNumber() || !args[1]->IsNumber()) {
+  if (!info[0]->IsNumber() || !info[1]->IsNumber()) {
     ThrowException(Exception::TypeError(String::New("Wrong arguments")));
-    return scope.Close(Undefined(isolate));
+    info.GetReturnValue().SetUndefined();
+    return;
   }
 
-  Local<Number> num = Number::New(args[0]->NumberValue() +
-      args[1]->NumberValue());
-  return scope.Close(num);
+  Local<Number> num = Number::New(info[0]->NumberValue() +
+      info[1]->NumberValue());
+  info.GetReturnValue().Set(num);
 }
 
 void Init(Handle<Object> exports) {

@@ -2,13 +2,13 @@
 
 using namespace v8;
 
-Handle<Value> MyFunction(const Arguments& args) {
+template<class T> void MyFunction(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
-  return scope.Close(String::New("hello world"));
+  info.GetReturnValue().Set(String::New("hello world"));
 }
 
-Handle<Value> CreateFunction(const Arguments& args) {
+template<class T> void CreateFunction(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
@@ -18,7 +18,7 @@ Handle<Value> CreateFunction(const Arguments& args) {
   // omit this to make it anonymous
   fn->SetName(String::NewSymbol("theFunction"));
 
-  return scope.Close(fn);
+  info.GetReturnValue().Set(fn);
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {

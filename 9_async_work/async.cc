@@ -43,7 +43,7 @@ void AsyncAfter(uv_work_t *req) {
   // surround in a try/catch for safety
   TryCatch try_catch;
   // execute the callback function
-  asyncData->callback->Call(Context::GetCurrent()->Global(), 2, argv);
+  Local<Function>::New(isolate, asyncData->callback)->Call(Context::GetCurrent()->Global(), 2, argv);
   if (try_catch.HasCaught())
     node::FatalException(try_catch);
 
@@ -56,7 +56,7 @@ void AsyncAfter(uv_work_t *req) {
 }
 
 // Asynchronous access to the `Estimate()` function
-Handle<Value> CalculateAsync(const Arguments& args) {
+void CalculateAsync(const v8::FunctionCallbackInfo<Value>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
@@ -67,12 +67,12 @@ Handle<Value> CalculateAsync(const Arguments& args) {
   req->data = asyncData;
 
   // expect a number as the first argument
-  asyncData->points = args[0]->Uint32Value();
+  asyncData->points = info[0]->Uint32Value();
   // expect a function as the second argument
   // we create a Persistent reference to it so
   // it won't be garbage-collected
-  asyncData->callback = Persistent<Function>::New(isolate,
-      Local<Function>::Cast(args[1]));
+  asyncData->callback.Reset(isolate,
+      Local<Function>::Cast(info[1]));
 
   // pass the work token to libuv to be run when a
   // worker-thread is available to
@@ -83,5 +83,5 @@ Handle<Value> CalculateAsync(const Arguments& args) {
     (uv_after_work_cb)AsyncAfter  // function to run when complete
   );
 
-  return scope.Close(Undefined());
+  info.GetReturnValue().SetUndefined();
 }

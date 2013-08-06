@@ -3,10 +3,10 @@
 
 using namespace v8;
 
-Handle<Value> CreateObject(const Arguments& args) {
+template<class T> void CreateObject(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
-  return scope.Close(MyObject::NewInstance(args));
+  MyObject::NewInstance(info);
 }
 
 void InitAll(Handle<Object> exports, Handle<Object> module) {

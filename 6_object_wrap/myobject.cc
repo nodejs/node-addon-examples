@@ -17,30 +17,25 @@ void MyObject::Init(Handle<Object> exports) {
   // Prototype
   tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
       FunctionTemplate::New(PlusOne)->GetFunction());
-
-  Persistent<Function> constructor
-      = Persistent<Function>::New(isolate, tpl->GetFunction());
-
-  exports->Set(String::NewSymbol("MyObject"), constructor);
+  v8::Persistent<v8::Function> constructor(isolate, tpl->GetFunction());
+  exports->Set(String::NewSymbol("MyObject"), tpl->GetFunction());
 }
 
-Handle<Value> MyObject::New(const Arguments& args) {
+template<class T> void MyObject::New(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   MyObject* obj = new MyObject();
-  obj->counter_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
-  obj->Wrap(args.This());
-
-  return args.This();
+  obj->counter_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
+  obj->Wrap(info.This());
 }
 
-Handle<Value> MyObject::PlusOne(const Arguments& args) {
+template<class T> void MyObject::PlusOne(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
-  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.This());
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.This());
   obj->counter_ += 1;
 
-  return scope.Close(Number::New(obj->counter_));
+  info.GetReturnValue().Set(Number::New(obj->counter_));
 }

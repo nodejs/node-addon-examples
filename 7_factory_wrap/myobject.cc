@@ -10,6 +10,7 @@ Persistent<Function> MyObject::constructor;
 
 void MyObject::Init() {
   Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
   // Prepare constructor template
   Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
   tpl->SetClassName(String::NewSymbol("MyObject"));
@@ -19,37 +20,34 @@ void MyObject::Init() {
   tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
       FunctionTemplate::New(PlusOne)->GetFunction());
 
-  constructor = Persistent<Function>::New(isolate, tpl->GetFunction());
+  constructor.Reset(isolate, tpl->GetFunction());
 }
 
-Handle<Value> MyObject::New(const Arguments& args) {
+template<class T> void MyObject::New(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   MyObject* obj = new MyObject();
-  obj->counter_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
-  obj->Wrap(args.This());
-
-  return args.This();
+  obj->counter_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
+  obj->Wrap(info.This());
 }
 
-Handle<Value> MyObject::NewInstance(const Arguments& args) {
+void MyObject::NewInstance(const v8::FunctionCallbackInfo<v8::Value>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   const unsigned argc = 1;
-  Handle<Value> argv[argc] = { args[0] };
-  Local<Object> instance = constructor->NewInstance(argc, argv);
-
-  return scope.Close(instance);
+  Handle<Value> argv[argc] = { info[0] };
+  Local<Object> instance = Local<Function>::New(isolate, constructor)->NewInstance(argc, argv);
+  info.GetReturnValue().Set(instance);
 }
 
-Handle<Value> MyObject::PlusOne(const Arguments& args) {
+template<class T> void  MyObject::PlusOne(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
-  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.This());
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.This());
   obj->counter_ += 1;
 
-  return scope.Close(Number::New(obj->counter_));
+  info.GetReturnValue().Set(Number::New(obj->counter_));
 }

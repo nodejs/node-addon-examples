@@ -2,10 +2,10 @@
 
 using namespace v8;
 
-Handle<Value> Method(const Arguments& args) {
+template<class T> void Method(const v8::FunctionCallbackInfo<T>& info) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
-  return scope.Close(String::New("world"));
+  info.GetReturnValue().Set(String::New("world"));
 }
 
 void init(Handle<Object> exports) {
