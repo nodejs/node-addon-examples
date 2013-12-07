@@ -57,9 +57,7 @@ NAN_METHOD(Method) {
 }
 
 void Init(Handle<Object> exports) {
-  exports->Set(
-      String::NewSymbol("hello"),
-      FunctionTemplate::New(Method)->GetFunction());
+  exports->Set(NanSymbol("hello"), FunctionTemplate::New(Method)->GetFunction());
 }
 
 NODE_MODULE(hello, Init)
@@ -75,15 +73,13 @@ This code defines the entry-point for the Node addon, it tells Node where to go 
 
 ```c++
 void Init(Handle<Object> exports) {
-  exports->Set(
-      String::NewSymbol("hello"),
-      FunctionTemplate::New(Method)->GetFunction());
+  exports->Set(NanSymbol("hello"), FunctionTemplate::New(Method)->GetFunction());
 }
 ```
 
 This code is our entry-point. We can receive up to two arguments here, the first is `exports`, the same as `module.exports` in a .js file and the second argument (omitted in this case) is `module` which is the same as `module` in a .js file. Normally you would attach properties to `exports` but you can use the `module` argument to *replace* its `exports` property so you are exporting a single thing, the equivalent of: `module.exports = function () { ... }`.
 
-In our case we just want to attach a `"hello"` property to `module.exports` so we set a V8 `String` property to a V8 `Function` object. We use a V8 `FunctionTemplate` to turn a regular (but compatible) C++ function into a V8-callable function. In this case, the `Method` function.
+In our case we just want to attach a `"hello"` property to `module.exports` so we set a V8 `String` property to a V8 `Function` object. We use the `NanSymbol()` function to create a "symbol" string that we may reuse in future, so generally you should use these for object properties and other repeatable symbols. We use a V8 `FunctionTemplate` to turn a regular (but compatible) C++ function into a V8-callable function. In this case, the `Method` function.
 
 ```c++
 NAN_METHOD(Method) {

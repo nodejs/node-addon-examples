@@ -8,8 +8,7 @@ NAN_METHOD(Method) {
 }
 
 void Init(Handle<Object> exports) {
-  exports->Set(String::NewSymbol("hello"),
-      FunctionTemplate::New(Method)->GetFunction());
+  exports->Set(NanSymbol("hello"), FunctionTemplate::New(Method)->GetFunction());
 }
 
 NODE_MODULE(hello, Init)
