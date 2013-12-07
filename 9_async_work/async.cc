@@ -28,7 +28,7 @@ void AsyncWork(uv_work_t *req) {
 // Function to execute when the async work is complete
 // this function will be run inside the main event loop
 // so it is safe to use V8 again
-void AsyncAfter(uv_work_t *req) {
+void AsyncAfter(uv_work_t *req, int status) {
   HandleScope scope;
 
   // fetch our data structure
@@ -76,10 +76,12 @@ Handle<Value> CalculateAsync(const Arguments& args) {
   // worker-thread is available to
   uv_queue_work(
     uv_default_loop(),
-    req,                          // work token
-    AsyncWork,                    // work function
-    (uv_after_work_cb)AsyncAfter  // function to run when complete
+    req,       // work token
+    AsyncWork, // work function
+               // function called when complete:
+    static_cast<uv_after_work_cb>(AsyncAfter)
   );
 
   return scope.Close(Undefined());
 }
+
