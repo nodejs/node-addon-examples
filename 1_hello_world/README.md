@@ -130,6 +130,12 @@ var addon = require('bindings')('hello.node')
 
 The invocation of our addon comes from `console.log(addon.hello())` where we fetch the `Method` function in our C++ code and execute it. It returns a `"hello"` String which is printed to the console.
 
+The [nan](./nan/) directory contains a complete copy of this example. Run `npm install` and `node hello.js` to compile and run the code.
+
+The [node_0.10](./node_0.10/) directory contains a version of the example without NAN, compatible with Node 0.10 and prior (only).
+
+The [node_0.12](./node_0.12/) directory contains a version of the example without NAN, compatible with Node 0.11 and above (only).
+
 ***[Proceed to example 2 &raquo;](../2_function_arguments/)***
 
 ***[Index](../#readme)***
