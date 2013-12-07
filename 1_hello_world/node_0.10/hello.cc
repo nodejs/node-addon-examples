@@ -8,9 +8,9 @@ Handle<Value> Method(const Arguments& args) {
   return scope.Close(String::New("world"));
 }
 
-void init(Handle<Object> exports) {
+void Init(Handle<Object> exports) {
   exports->Set(String::NewSymbol("hello"),
       FunctionTemplate::New(Method)->GetFunction());
 }
 
-NODE_MODULE(hello, init)
+NODE_MODULE(hello, Init)

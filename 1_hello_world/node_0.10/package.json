@@ -4,5 +4,8 @@
   "description": "Node.js Addons Example #1",
   "main": "hello.js",
   "private": true,
+  "scripts": {
+    "test": "node hello.js"
+  },
   "gypfile": true
 }
