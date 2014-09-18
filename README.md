@@ -3,54 +3,22 @@ Node.js Addon Examples
 
 See the Node.js C++ [addons page](http://nodejs.org/docs/latest/api/addons.html) for details of the examples here.
 
-In each directory, run:
+Each directory contains a subdirectory for:
 
-```sh
+* **Node 0.10**: Mostly compatible with Node 0.8 and even 0.6, older style V8 programming
+* **Node 0.12**: Newer style V8 programming, compatible with Node 0.11+
+* **NAN**: The example rewritten using [NAN](https://github.com/rvagg/nan/) for compatibility with Node 0.8 -> 0.11+
+
+You will need [node-gyp](https://github.com/TooTallNate/node-gyp/) installed as a global:
+
+```text
+$ sudo npm install node-gyp -g
+```
+
+In each example directory, run:
+
+```text
+$ npm install
 $ node-gyp rebuild
 $ node ./
 ```
-
-**See the [v0.11](https://github.com/rvagg/node-addon-examples/tree/v0.11/) branch for updated examples applicable to Node v0.11 and above.**
-
-## Compatibility notes
-
-### Node v0.11: V8 requires current isolate
-
-The V8 upgrade that occured when v0.11 was released requires that the current *isolate* be passed to scope creation calls and most `New()` calls.
-
-```c++
-Isolate* isolate = Isolate::GetCurrent();
-// ...
-HandleScope scope(isolate);
-// ...
-Persistent<Function> constructor = Persistent<Function>::New(isolate, tpl->GetFunction());
-```
-
-Omission of the current isolate will only trigger a compile-time warning at this stage but addon authors wishing to remove those warnings and remain backward-compatible with v0.10 and prior may need to get creative with macros:
-
-```c++
-// NODE_MODULE_VERSION was incremented for v0.11
-
-#if NODE_MODULE_VERSION > 0x000B
-#  define MY_NODE_ISOLATE_DECL Isolate* isolate = Isolate::GetCurrent();
-#  define MY_NODE_ISOLATE      isolate
-#  define MY_NODE_ISOLATE_PRE  isolate, 
-#  define MY_NODE_ISOLATE_POST , isolate 
-#  define MY_HANDLESCOPE v8::HandleScope scope(MY_NODE_ISOLATE);
-#else
-#  define MY_NODE_ISOLATE_DECL
-#  define MY_NODE_ISOLATE
-#  define MY_NODE_ISOLATE_PRE
-#  define MY_NODE_ISOLATE_POST
-#  define MY_HANDLESCOPE v8::HandleScope scope;
-#endif
-
-MY_NODE_ISOLATE_DECL
-MY_HANDLESCOPE
-
-// ...
-
-Persistent<Function> constructor = Persistent<Function>::New(MY_NODE_ISOLATE_PRE tpl->GetFunction());
-```
-
-----------------------------------------------------
