@@ -2,30 +2,30 @@
 
 using namespace v8;
 
-void Add(const v8::FunctionCallbackInfo<Value>& args) {
+void Add(const FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
 
   if (args.Length() < 2) {
-    ThrowException(Exception::TypeError(String::New("Wrong number of arguments")));
+    isolate->ThrowException(Exception::TypeError(
+        String::NewFromUtf8(isolate, "Wrong number of arguments")));
     return;
   }
 
   if (!args[0]->IsNumber() || !args[1]->IsNumber()) {
-    ThrowException(Exception::TypeError(String::New("Wrong arguments")));
+    isolate->ThrowException(Exception::TypeError(
+        String::NewFromUtf8(isolate, "Wrong arguments")));
     return;
   }
 
-  double arg0 = args[0]->NumberValue();
-  double arg1 = args[1]->NumberValue();
-  Local<Number> num = Number::New(arg0 + arg1);
+  double value = args[0]->NumberValue() + args[1]->NumberValue();
+  Local<Number> num = Number::New(isolate, value);
 
   args.GetReturnValue().Set(num);
 }
 
 void Init(Handle<Object> exports) {
-  exports->Set(String::NewSymbol("add"),
-      FunctionTemplate::New(Add)->GetFunction());
+  NODE_SET_METHOD(exports, "add", Add);
 }
 
 NODE_MODULE(addon, Init)

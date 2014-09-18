@@ -5,7 +5,7 @@
   "main": "addon.js",
   "private": true,
   "dependencies": {
-    "bindings": "~1.1.1"
+    "bindings": "~1.2.1"
   },
   "scripts": {
     "test": "node addon.js"

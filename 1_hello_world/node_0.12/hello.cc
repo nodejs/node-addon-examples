@@ -6,12 +6,13 @@ using namespace v8;
 void Method(const v8::FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
-  args.GetReturnValue().Set(String::New("world"));
+  args.GetReturnValue().Set(String::NewFromUtf8(isolate, "world"));
 }
 
 void Init(Handle<Object> exports) {
-  exports->Set(String::NewSymbol("hello"),
-      FunctionTemplate::New(Method)->GetFunction());
+  Isolate* isolate = Isolate::GetCurrent();
+  exports->Set(String::NewFromUtf8(isolate, "hello"),
+      FunctionTemplate::New(isolate, Method)->GetFunction());
 }
 
 NODE_MODULE(hello, Init)

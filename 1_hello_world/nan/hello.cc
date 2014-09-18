@@ -4,11 +4,11 @@ using namespace v8;
 
 NAN_METHOD(Method) {
   NanScope();
-  NanReturnValue(String::New("world"));
+  NanReturnValue(NanNew("world"));
 }
 
 void Init(Handle<Object> exports) {
-  exports->Set(NanSymbol("hello"), FunctionTemplate::New(Method)->GetFunction());
+  exports->Set(NanNew("hello"), NanNew<FunctionTemplate>(Method)->GetFunction());
 }
 
 NODE_MODULE(hello, Init)

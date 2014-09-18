@@ -7,5 +7,8 @@
   "scripts": {
     "test": "node hello.js"
   },
-  "gypfile": true
+  "gypfile": true,
+  "dependencies": {
+    "bindings": "~1.2.1"
+  }
 }

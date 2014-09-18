@@ -17,13 +17,13 @@ NAN_METHOD(Add) {
 
   double arg0 = args[0]->NumberValue();
   double arg1 = args[1]->NumberValue();
-  Local<Number> num = Number::New(arg0 + arg1);
+  Local<Number> num = NanNew(arg0 + arg1);
 
   NanReturnValue(num);
 }
 
 void Init(Handle<Object> exports) {
-  exports->Set(NanSymbol("add"), FunctionTemplate::New(Add)->GetFunction());
+  exports->Set(NanNew("add"), NanNew<FunctionTemplate>(Add)->GetFunction());
 }
 
 NODE_MODULE(addon, Init)

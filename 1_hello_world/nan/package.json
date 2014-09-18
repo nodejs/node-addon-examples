@@ -5,7 +5,8 @@
   "main": "hello.js",
   "private": true,
   "dependencies": {
-    "nan": "~0.6.0"
+    "bindings": "~1.2.1",
+    "nan": "~1.3.0"
   },
   "scripts": {
     "test": "node hello.js"
