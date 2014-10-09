@@ -9,6 +9,8 @@ NAN_METHOD(RunCallback) {
   const unsigned argc = 1;
   Local<Value> argv[argc] = { NanNew("hello world") };
   NanMakeCallback(NanGetCurrentContext()->Global(), cb, argc, argv);
+
+  NanReturnUndefined();
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {
