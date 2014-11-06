@@ -12,7 +12,9 @@ class MyObject : public node::ObjectWrap {
   ~MyObject();
 
   static NAN_METHOD(New);
+  static NAN_METHOD(GetValue);
   static NAN_METHOD(PlusOne);
+  static NAN_METHOD(Multiply);
   static v8::Persistent<v8::Function> constructor;
   double value_;
 };
