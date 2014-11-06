@@ -19,7 +19,9 @@ void MyObject::Init(Handle<Object> exports) {
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
   // Prototype
+  NODE_SET_PROTOTYPE_METHOD(tpl, "value", GetValue);
   NODE_SET_PROTOTYPE_METHOD(tpl, "plusOne", PlusOne);
+  NODE_SET_PROTOTYPE_METHOD(tpl, "multiply", Multiply);
 
   NanAssignPersistent(constructor, tpl->GetFunction());
   exports->Set(NanNew("MyObject"), tpl->GetFunction());
@@ -43,6 +45,14 @@ NAN_METHOD(MyObject::New) {
   }
 }
 
+NAN_METHOD(MyObject::GetValue) {
+  NanScope();
+
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.Holder());
+
+  NanReturnValue(NanNew(obj->value_));
+}
+
 NAN_METHOD(MyObject::PlusOne) {
   NanScope();
 
@@ -50,4 +60,18 @@ NAN_METHOD(MyObject::PlusOne) {
   obj->value_ += 1;
 
   NanReturnValue(NanNew(obj->value_));
+}
+
+NAN_METHOD(MyObject::Multiply) {
+  NanScope();
+
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.Holder());
+  double multiple = args[0]->IsUndefined() ? 1 : args[0]->NumberValue();
+
+  Local<Function> cons = NanNew<Function>(constructor);
+
+  const int argc = 1;
+  Local<Value> argv[argc] = { NanNew(obj->value_ * multiple) };
+
+  NanReturnValue(cons->NewInstance(argc, argv));
 }
