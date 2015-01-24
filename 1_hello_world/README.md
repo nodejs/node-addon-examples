@@ -43,7 +43,7 @@ This file tells GYP the following things:
 
 ### Step 4
 
-Now write some code! Create a file called 
+Now write some code!
 First we create a file `hello.cc` and the following contents:
 
 ```c++
