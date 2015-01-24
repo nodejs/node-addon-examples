@@ -43,7 +43,7 @@ This file tells GYP the following things:
 
 ### Step 4
 
-Now write some code!
+Now write some code! Create a file called 
 First we create a file `hello.cc` and the following contents:
 
 ```c++
@@ -66,7 +66,7 @@ NODE_MODULE(hello, Init)
 This code contains three main components, starting from the bottom:
 
 ```c++
-NODE_MODULE(hello, init)
+NODE_MODULE(hello, Init)
 ```
 
 This code defines the entry-point for the Node addon, it tells Node where to go once the library has been loaded into active memory. The first argument **must match the "target" in our *binding.gyp***. The second argument points to the function to invoke.
