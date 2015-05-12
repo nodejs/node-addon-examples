@@ -98,7 +98,7 @@ This is where NAN first comes in useful for us. The changing V8 API has made it 
 
 Compile your addon: if you don't have `node-gyp` installed, use `sudo npm install node-gyp -g` to install it. It comes bundled with npm but is not normally linked as an executable in your `PATH` so it's best to install it separately.
 
-Run `node-gyp configure` to set up the build fixtures. In the *./build/* directory, a *Makefile* and associated property files will be created on Unix systems and a *vcxproj* fill will be created on Windows.
+Run `node-gyp configure` to set up the build fixtures. In the *./build/* directory, a *Makefile* and associated property files will be created on Unix systems and a *vcxproj* file will be created on Windows.
 
 Next, run `node-gyp build` to start the build process and watch your addon compile. You can use `node-gyp build` again to incrementally recompile changed source files. Alternatively you can use `node-gyp rebuild` to combine the `configure` and `build` steps in one.
 
