@@ -13,7 +13,7 @@ First we need to set up an npm-compatible package. Use `npm init` in a new direc
 
 ### Step 2
 
-Next we need to install **[NAN](https://github.com/rvagg/nan)**. NAN will serve as a thin abstraction layer between the C++ code we write and the Node and V8 APIs so that we can target multiple versions of Node without worrying too much about the changing V8 or Node APIs. Run `npm install nan@latest --save` to install NAN and save it as a `"dependency"` in your **package.json*.
+Next we need to install **[NAN](https://github.com/rvagg/nan)**. NAN will serve as a thin abstraction layer between the C++ code we write and the Node and V8 APIs so that we can target multiple versions of Node without worrying too much about the changing V8 or Node APIs. Run `npm install nan@latest --save` to install NAN and save it as a `"dependency"` in your *package.json*.
 
 ### Step 3
 
