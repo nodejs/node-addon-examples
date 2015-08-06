@@ -3,6 +3,8 @@
 
 using namespace v8;
 
+Persistent<Function> MyObject::constructor;
+
 MyObject::MyObject() {};
 MyObject::~MyObject() {};
 
@@ -12,10 +14,11 @@ void MyObject::Init(Handle<Object> target) {
   tpl->SetClassName(String::NewSymbol("MyObject"));
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
   // Prototype
-  tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
-      FunctionTemplate::New(PlusOne)->GetFunction());
+  NODE_SET_PROTOTYPE_METHOD(tpl, "value", GetValue);
+  NODE_SET_PROTOTYPE_METHOD(tpl, "plusOne", PlusOne);
+  NODE_SET_PROTOTYPE_METHOD(tpl, "multiply", Multiply);
 
-  Persistent<Function> constructor = Persistent<Function>::New(tpl->GetFunction());
+  constructor = Persistent<Function>::New(tpl->GetFunction());
   target->Set(String::NewSymbol("MyObject"), constructor);
 }
 
@@ -23,17 +26,37 @@ Handle<Value> MyObject::New(const Arguments& args) {
   HandleScope scope;
 
   MyObject* obj = new MyObject();
-  obj->counter_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
+  obj->value_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
   obj->Wrap(args.This());
 
   return args.This();
+}
+
+Handle<Value> MyObject::GetValue(const Arguments& args) {
+  HandleScope scope;
+
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.Holder());
+
+  return scope.Close(Number::New(obj->value_));
 }
 
 Handle<Value> MyObject::PlusOne(const Arguments& args) {
   HandleScope scope;
 
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.This());
-  obj->counter_ += 1;
+  obj->value_ += 1;
 
-  return scope.Close(Number::New(obj->counter_));
+  return scope.Close(Number::New(obj->value_));
+}
+
+Handle<Value> MyObject::Multiply(const Arguments& args) {
+  HandleScope scope;
+
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.This());
+  double multiple = args[0]->IsUndefined() ? 1 : args[0]->NumberValue();
+
+  const int argc = 1;
+  Local<Value> argv[argc] = { Number::New(obj->value_ * multiple) };
+
+  return scope.Close(constructor->NewInstance(argc, argv));
 }
