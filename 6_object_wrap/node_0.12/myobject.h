@@ -13,7 +13,9 @@ class MyObject : public node::ObjectWrap {
   ~MyObject();
 
   static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
+  static void GetValue(const v8::FunctionCallbackInfo<v8::Value>& args);
   static void PlusOne(const v8::FunctionCallbackInfo<v8::Value>& args);
+  static void Multiply(const v8::FunctionCallbackInfo<v8::Value>& args);
   static v8::Persistent<v8::Function> constructor;
   double value_;
 };

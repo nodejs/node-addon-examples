@@ -45,6 +45,13 @@ void MyObject::New(const FunctionCallbackInfo<Value>& args) {
   }
 }
 
+void MyObject::GetValue(const FunctionCallbackInfo<Value>& args) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.Holder());
+  args.GetReturnValue().Set(Number::New(isolate, obj->value_));
+}
+
 void MyObject::PlusOne(const FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
@@ -53,4 +60,18 @@ void MyObject::PlusOne(const FunctionCallbackInfo<Value>& args) {
   obj->value_ += 1;
 
   args.GetReturnValue().Set(Number::New(isolate, obj->value_));
+}
+
+void MyObject::Multiply(const FunctionCallbackInfo<Value>& args) {
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
+
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.Holder());
+  double multiple = args[0]->IsUndefined() ? 1 : args[0]->NumberValue();
+
+  const int argc = 1;
+  Local<Value> argv[argc] = { Number::New(isolate, obj->value_ * multiple) };
+
+  Local<Function> cons = Local<Function>::New(isolate, constructor);
+  args.GetReturnValue().Set(cons->NewInstance(argc, argv));
 }
