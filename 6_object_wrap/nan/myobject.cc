@@ -1,8 +1,6 @@
 #include "myobject.h"
 
-using namespace v8;
-
-Persistent<Function> MyObject::constructor;
+Nan::Persistent<v8::Function> MyObject::constructor;
 
 MyObject::MyObject(double value) : value_(value) {
 }
@@ -10,68 +8,58 @@ MyObject::MyObject(double value) : value_(value) {
 MyObject::~MyObject() {
 }
 
-void MyObject::Init(Handle<Object> exports) {
-  NanScope();
+void MyObject::Init(v8::Local<v8::Object> exports) {
+  Nan::HandleScope scope;
 
   // Prepare constructor template
-  Local<FunctionTemplate> tpl = NanNew<FunctionTemplate>(New);
-  tpl->SetClassName(NanNew("MyObject"));
+  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
+  tpl->SetClassName(Nan::New("MyObject").ToLocalChecked());
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
   // Prototype
-  NODE_SET_PROTOTYPE_METHOD(tpl, "value", GetValue);
-  NODE_SET_PROTOTYPE_METHOD(tpl, "plusOne", PlusOne);
-  NODE_SET_PROTOTYPE_METHOD(tpl, "multiply", Multiply);
+  Nan::SetPrototypeMethod(tpl, "value", GetValue);
+  Nan::SetPrototypeMethod(tpl, "plusOne", PlusOne);
+  Nan::SetPrototypeMethod(tpl, "multiply", Multiply);
 
-  NanAssignPersistent(constructor, tpl->GetFunction());
-  exports->Set(NanNew("MyObject"), tpl->GetFunction());
+  constructor.Reset(tpl->GetFunction());
+  exports->Set(Nan::New("MyObject").ToLocalChecked(), tpl->GetFunction());
 }
 
-NAN_METHOD(MyObject::New) {
-  NanScope();
-
-  if (args.IsConstructCall()) {
+void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  if (info.IsConstructCall()) {
     // Invoked as constructor: `new MyObject(...)`
-    double value = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
+    double value = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
     MyObject* obj = new MyObject(value);
-    obj->Wrap(args.This());
-    NanReturnValue(args.This());
+    obj->Wrap(info.This());
+    info.GetReturnValue().Set(info.This());
   } else {
     // Invoked as plain function `MyObject(...)`, turn into construct call.
     const int argc = 1;
-    Local<Value> argv[argc] = { args[0] };
-    Local<Function> cons = NanNew<Function>(constructor);
-    NanReturnValue(cons->NewInstance(argc, argv));
+    v8::Local<v8::Value> argv[argc] = { info[0] };
+    v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
+    info.GetReturnValue().Set(cons->NewInstance(argc, argv));
   }
 }
 
-NAN_METHOD(MyObject::GetValue) {
-  NanScope();
-
-  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.Holder());
-
-  NanReturnValue(NanNew(obj->value_));
+void MyObject::GetValue(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
+  info.GetReturnValue().Set(Nan::New(obj->value_));
 }
 
-NAN_METHOD(MyObject::PlusOne) {
-  NanScope();
-
-  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.Holder());
+void MyObject::PlusOne(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
   obj->value_ += 1;
-
-  NanReturnValue(NanNew(obj->value_));
+  info.GetReturnValue().Set(Nan::New(obj->value_));
 }
 
-NAN_METHOD(MyObject::Multiply) {
-  NanScope();
+void MyObject::Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
+  double multiple = info[0]->IsUndefined() ? 1 : info[0]->NumberValue();
 
-  MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.Holder());
-  double multiple = args[0]->IsUndefined() ? 1 : args[0]->NumberValue();
-
-  Local<Function> cons = NanNew<Function>(constructor);
+  v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
 
   const int argc = 1;
-  Local<Value> argv[argc] = { NanNew(obj->value_ * multiple) };
+  v8::Local<v8::Value> argv[argc] = { Nan::New(obj->value_ * multiple) };
 
-  NanReturnValue(cons->NewInstance(argc, argv));
+  info.GetReturnValue().Set(cons->NewInstance(argc, argv));
 }

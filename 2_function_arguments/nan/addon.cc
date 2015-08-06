@@ -1,29 +1,27 @@
 #include <nan.h>
 
-using namespace v8;
+void Add(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
-NAN_METHOD(Add) {
-  NanScope();
-
-  if (args.Length() < 2) {
-    NanThrowTypeError("Wrong number of arguments");
-    NanReturnUndefined();
+  if (info.Length() < 2) {
+    Nan::ThrowTypeError("Wrong number of arguments");
+    return;
   }
 
-  if (!args[0]->IsNumber() || !args[1]->IsNumber()) {
-    NanThrowTypeError("Wrong arguments");
-    NanReturnUndefined();
+  if (!info[0]->IsNumber() || !info[1]->IsNumber()) {
+    Nan::ThrowTypeError("Wrong arguments");
+    return;
   }
 
-  double arg0 = args[0]->NumberValue();
-  double arg1 = args[1]->NumberValue();
-  Local<Number> num = NanNew(arg0 + arg1);
+  double arg0 = info[0]->NumberValue();
+  double arg1 = info[1]->NumberValue();
+  v8::Local<v8::Number> num = Nan::New(arg0 + arg1);
 
-  NanReturnValue(num);
+  info.GetReturnValue().Set(num);
 }
 
-void Init(Handle<Object> exports) {
-  exports->Set(NanNew("add"), NanNew<FunctionTemplate>(Add)->GetFunction());
+void Init(v8::Local<v8::Object> exports) {
+  exports->Set(Nan::New("add").ToLocalChecked(),
+               Nan::New<v8::FunctionTemplate>(Add)->GetFunction());
 }
 
 NODE_MODULE(addon, Init)

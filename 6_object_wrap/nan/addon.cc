@@ -1,9 +1,7 @@
 #include <nan.h>
 #include "myobject.h"
 
-using namespace v8;
-
-void InitAll(Handle<Object> exports) {
+void InitAll(v8::Local<v8::Object> exports) {
   MyObject::Init(exports);
 }
 
