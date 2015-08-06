@@ -1,41 +1,37 @@
 #include <node.h>
 #include "myobject.h"
 
-using namespace v8;
-
 MyObject::MyObject() {};
 MyObject::~MyObject() {};
 
-Persistent<Function> MyObject::constructor;
+Nan::Persistent<v8::Function> MyObject::constructor;
 
 void MyObject::Init() {
-  NanScope();
+  Nan::HandleScope scope;
 
   // Prepare constructor template
-  Local<FunctionTemplate> tpl = NanNew<FunctionTemplate>(New);
-  tpl->SetClassName(NanNew("MyObject"));
+  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
+  tpl->SetClassName(Nan::New("MyObject").ToLocalChecked());
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
-  NanAssignPersistent(constructor, tpl->GetFunction());
+  constructor.Reset(tpl->GetFunction());
 }
 
-NAN_METHOD(MyObject::New) {
-  NanScope();
-
+void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   MyObject* obj = new MyObject();
-  obj->val_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
-  obj->Wrap(args.This());
+  obj->val_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
+  obj->Wrap(info.This());
 
-  NanReturnValue(args.This());
+  info.GetReturnValue().Set(info.This());
 }
 
-Local<Object> MyObject::NewInstance(Local<Value> arg) {
-  NanEscapableScope();
+v8::Local<v8::Object> MyObject::NewInstance(v8::Local<v8::Value> arg) {
+  Nan::EscapableHandleScope scope;
 
   const unsigned argc = 1;
-  Local<Value> argv[argc] = { arg };
-  Local<Function> cons = NanNew<Function>(constructor);
-  Local<Object> instance = cons->NewInstance(argc, argv);
+  v8::Local<v8::Value> argv[argc] = { arg };
+  v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
+  v8::Local<v8::Object> instance = cons->NewInstance(argc, argv);
 
-  return NanEscapeScope(instance);
+  return scope.Escape(instance);
 }

@@ -1,26 +1,21 @@
 #include <nan.h>
 
-using namespace v8;
-
-NAN_METHOD(MyFunction) {
-  NanScope();
-  NanReturnValue(NanNew("hello world"));
+void MyFunction(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  info.GetReturnValue().Set(Nan::New("hello world").ToLocalChecked());
 }
 
-NAN_METHOD(CreateFunction) {
-  NanScope();
-
-  Local<FunctionTemplate> tpl = NanNew<FunctionTemplate>(MyFunction);
-  Local<Function> fn = tpl->GetFunction();
+void CreateFunction(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(MyFunction);
+  v8::Local<v8::Function> fn = tpl->GetFunction();
 
   // omit this to make it anonymous
-  fn->SetName(NanNew("theFunction"));
+  fn->SetName(Nan::New("theFunction").ToLocalChecked());
 
-  NanReturnValue(fn);
+  info.GetReturnValue().Set(fn);
 }
 
-void Init(Handle<Object> exports, Handle<Object> module) {
-  NODE_SET_METHOD(module, "exports", CreateFunction);
+void Init(v8::Local<v8::Object> exports, v8::Local<v8::Object> module) {
+  Nan::SetMethod(module, "exports", CreateFunction);
 }
 
 NODE_MODULE(addon, Init)

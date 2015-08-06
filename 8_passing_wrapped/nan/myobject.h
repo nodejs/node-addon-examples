@@ -3,7 +3,7 @@
 
 #include <nan.h>
 
-class MyObject : public node::ObjectWrap {
+class MyObject : public Nan::ObjectWrap {
  public:
   static void Init();
   static v8::Local<v8::Object> NewInstance(v8::Local<v8::Value> arg);
@@ -13,8 +13,8 @@ class MyObject : public node::ObjectWrap {
   MyObject();
   ~MyObject();
 
-  static v8::Persistent<v8::Function> constructor;
-  static NAN_METHOD(New);
+  static Nan::Persistent<v8::Function> constructor;
+  static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
   double val_;
 };
 
