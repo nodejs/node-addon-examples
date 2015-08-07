@@ -14,7 +14,7 @@ class MyObject : public Nan::ObjectWrap {
   ~MyObject();
 
   static Nan::Persistent<v8::Function> constructor;
-  static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
+  static NAN_METHOD(New);
   double val_;
 };
 

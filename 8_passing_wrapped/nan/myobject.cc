@@ -11,13 +11,13 @@ void MyObject::Init() {
 
   // Prepare constructor template
   v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
-  tpl->SetClassName(Nan::New("MyObject").ToLocalChecked());
+  tpl->SetClassName(Nan::New<v8::String>("MyObject").ToLocalChecked());
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
   constructor.Reset(tpl->GetFunction());
 }
 
-void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+NAN_METHOD(MyObject::New) {
   MyObject* obj = new MyObject();
   obj->val_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
   obj->Wrap(info.This());

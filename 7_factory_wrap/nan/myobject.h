@@ -5,7 +5,7 @@
 
 class MyObject : public Nan::ObjectWrap {
  public:
-  static void Init();
+  static NAN_MODULE_INIT(Init);
   static v8::Local<v8::Object> NewInstance(v8::Local<v8::Value> arg);
 
  private:
@@ -13,8 +13,8 @@ class MyObject : public Nan::ObjectWrap {
   ~MyObject();
 
   static Nan::Persistent<v8::Function> constructor;
-  static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void PlusOne(const Nan::FunctionCallbackInfo<v8::Value>& info);
+  static NAN_METHOD(New);
+  static NAN_METHOD(PlusOne);
   double counter_;
 };
 

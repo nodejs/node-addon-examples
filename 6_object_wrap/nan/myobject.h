@@ -5,16 +5,16 @@
 
 class MyObject : public Nan::ObjectWrap {
  public:
-  static void Init(v8::Local<v8::Object> exports);
+  static NAN_MODULE_INIT(Init);
 
  private:
   explicit MyObject(double value = 0);
   ~MyObject();
 
-  static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void GetValue(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void PlusOne(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info);
+  static NAN_METHOD(New);
+  static NAN_METHOD(GetValue);
+  static NAN_METHOD(PlusOne);
+  static NAN_METHOD(Multiply);
   static Nan::Persistent<v8::Function> constructor;
   double value_;
 };

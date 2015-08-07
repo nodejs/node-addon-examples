@@ -8,7 +8,7 @@ MyObject::MyObject(double value) : value_(value) {
 MyObject::~MyObject() {
 }
 
-void MyObject::Init(v8::Local<v8::Object> exports) {
+NAN_MODULE_INIT(MyObject::Init) {
   Nan::HandleScope scope;
 
   // Prepare constructor template
@@ -22,11 +22,13 @@ void MyObject::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "multiply", Multiply);
 
   constructor.Reset(tpl->GetFunction());
-  exports->Set(Nan::New("MyObject").ToLocalChecked(), tpl->GetFunction());
+  Nan::Set(target,
+    Nan::New<v8::String>("MyObject").ToLocalChecked(),
+    tpl->GetFunction()
+  );
 }
 
-void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  if (info.IsConstructCall()) {
+NAN_METHOD(MyObject::New) {  if (info.IsConstructCall()) {
     // Invoked as constructor: `new MyObject(...)`
     double value = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
     MyObject* obj = new MyObject(value);
@@ -41,18 +43,18 @@ void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   }
 }
 
-void MyObject::GetValue(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+NAN_METHOD(MyObject::GetValue) {
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
   info.GetReturnValue().Set(Nan::New(obj->value_));
 }
 
-void MyObject::PlusOne(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+NAN_METHOD(MyObject::PlusOne) {
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
   obj->value_ += 1;
-  info.GetReturnValue().Set(Nan::New(obj->value_));
+  info.GetReturnValue().Set(Nan::New<v8::Number>(obj->value_));
 }
 
-void MyObject::Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+NAN_METHOD(MyObject::Multiply) {
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
   double multiple = info[0]->IsUndefined() ? 1 : info[0]->NumberValue();
 
@@ -60,6 +62,5 @@ void MyObject::Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
   const int argc = 1;
   v8::Local<v8::Value> argv[argc] = { Nan::New(obj->value_ * multiple) };
-
   info.GetReturnValue().Set(cons->NewInstance(argc, argv));
 }
