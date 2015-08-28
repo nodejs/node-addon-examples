@@ -1,0 +1,20 @@
+{
+  "name": "code_coverage",
+  "version": "0.0.0",
+  "description": "Node.js Addons Example of Binary Code Coverage",
+  "main": "addon.js",
+  "private": true,
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "nan": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "node-gyp": "^2.0.2"
+  },
+  "scripts": {
+    "coverage": "test/coverage.sh",
+    "test": "mocha test/addon.js"
+  },
+  "gypfile": true
+}
