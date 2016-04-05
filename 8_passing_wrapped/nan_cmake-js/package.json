@@ -1,0 +1,19 @@
+{
+  "name": "passing_wrapped",
+  "version": "0.0.0",
+  "description": "Node.js Addons Example #8",
+  "private": true,
+  "main": "test.js",
+  "scripts": {
+    "build": "cmake-js build",
+    "rebuild": "cmake-js rebuild",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "bindings": "^1.2.1"
+  },
+  "devDependencies": {
+    "cmake-js": "^3.1.2",
+    "nan": "^2.2.1"
+  }
+}
