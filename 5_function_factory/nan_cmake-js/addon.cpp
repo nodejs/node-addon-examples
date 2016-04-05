@@ -1,21 +1,33 @@
+
 #include <nan.h>
 
-void MyFunction(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  info.GetReturnValue().Set(Nan::New("hello world").ToLocalChecked());
+NAN_METHOD(myFunction);      ///< the function to be instantiated
+NAN_METHOD(createFunction);  ///< the function factory
+
+NAN_METHOD(myFunction)
+{
+    info.GetReturnValue().Set(Nan::New("Hello world!").ToLocalChecked());
 }
 
-void CreateFunction(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(MyFunction);
-  v8::Local<v8::Function> fn = tpl->GetFunction();
+NAN_METHOD(createFunction)
+{
+    // create a new function from myFunction's template
+    v8::Local<v8::FunctionTemplate> functionTemplate = Nan::New<v8::FunctionTemplate>(myFunction);
+    v8::Local<v8::Function> functionInstance = functionTemplate->GetFunction();
 
-  // omit this to make it anonymous
-  fn->SetName(Nan::New("theFunction").ToLocalChecked());
+    // omit this to make it anonymous
+    functionInstance->SetName(Nan::New("theFunction").ToLocalChecked());
 
-  info.GetReturnValue().Set(fn);
+    info.GetReturnValue().Set(functionInstance);
 }
 
-void Init(v8::Local<v8::Object> exports, v8::Local<v8::Object> module) {
-  Nan::SetMethod(module, "exports", CreateFunction);
+// module initialization
+
+NAN_MODULE_INIT(init)
+{
+    Nan::Set(target,
+             Nan::New("createFunction").ToLocalChecked(),
+             Nan::GetFunction(Nan::New<v8::FunctionTemplate>(createFunction)).ToLocalChecked());
 }
 
-NODE_MODULE(addon, Init)
+NODE_MODULE(addon, init)

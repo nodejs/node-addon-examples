@@ -1,17 +1,35 @@
+
 #include <nan.h>
+
 #include "myobject.hpp"
 
-void CreateObject(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  info.GetReturnValue().Set(MyObject::NewInstance(info[0]));
+NAN_METHOD(createObject)
+{
+    if (info.Length() != 1)
+    {
+        Nan::ThrowTypeError("Wrong number of arguments");
+        return;
+    }
+    if (!info[0]->IsNumber())
+    {
+        Nan::ThrowTypeError("Wrong argument type");
+        return;
+    }
+
+    info.GetReturnValue().Set(MyObject::NewInstance(info[0]));
 }
 
-void InitAll(v8::Local<v8::Object> exports, v8::Local<v8::Object> module) {
-  Nan::HandleScope scope;
+// module initialization
 
-  MyObject::Init();
+NAN_MODULE_INIT(init)
+{
+    Nan::HandleScope scope;
 
-  module->Set(Nan::New("exports").ToLocalChecked(),
-      Nan::New<v8::FunctionTemplate>(CreateObject)->GetFunction());
+    MyObject::init(target);
+
+    Nan::Set(target,
+             Nan::New("createObject").ToLocalChecked(),
+             Nan::GetFunction(Nan::New<v8::FunctionTemplate>(createObject)).ToLocalChecked());
 }
 
-NODE_MODULE(addon, InitAll)
+NODE_MODULE(addon, init)

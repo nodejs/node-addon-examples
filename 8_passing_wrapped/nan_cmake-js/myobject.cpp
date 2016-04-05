@@ -1,37 +1,51 @@
-#include <node.h>
-#include "myobject.hpp"
 
-MyObject::MyObject() {};
-MyObject::~MyObject() {};
+#include "myobject.hpp"
 
 Nan::Persistent<v8::Function> MyObject::constructor;
 
-void MyObject::Init() {
-  Nan::HandleScope scope;
-
-  // Prepare constructor template
-  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
-  tpl->SetClassName(Nan::New("MyObject").ToLocalChecked());
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-  constructor.Reset(tpl->GetFunction());
+MyObject::MyObject()
+: val_(0)
+{
 }
 
-void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  MyObject* obj = new MyObject();
-  obj->val_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
-  obj->Wrap(info.This());
-
-  info.GetReturnValue().Set(info.This());
+MyObject::~MyObject()
+{
 }
 
-v8::Local<v8::Object> MyObject::NewInstance(v8::Local<v8::Value> arg) {
-  Nan::EscapableHandleScope scope;
+NAN_METHOD(MyObject::New)
+{
+    MyObject* obj = new MyObject();
+    obj->val_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
+    obj->Wrap(info.This());
 
-  const unsigned argc = 1;
-  v8::Local<v8::Value> argv[argc] = { arg };
-  v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
-  v8::Local<v8::Object> instance = cons->NewInstance(argc, argv);
+    info.GetReturnValue().Set(info.This());
+}
 
-  return scope.Escape(instance);
+double MyObject::val() const
+{
+    return val_;
+}
+
+v8::Local<v8::Object> MyObject::NewInstance(v8::Local<v8::Value> arg)
+{
+    Nan::EscapableHandleScope scope;
+
+    const unsigned argc = 1;
+    v8::Local<v8::Value> argv[argc] = { arg };
+    v8::Local<v8::Function> ctor = Nan::New<v8::Function>(constructor);
+    v8::Local<v8::Object> instance = ctor->NewInstance(argc, argv);
+
+    return scope.Escape(instance);
+}
+
+NAN_MODULE_INIT(MyObject::init)
+{
+    Nan::HandleScope scope;
+
+    // prepare constructor template
+    v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
+    tpl->SetClassName(Nan::New("MyObject").ToLocalChecked());
+    tpl->InstanceTemplate()->SetInternalFieldCount(1);  // 1 attribute: this->val_
+
+    constructor.Reset(tpl->GetFunction());
 }
