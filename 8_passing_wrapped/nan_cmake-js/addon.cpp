@@ -1,27 +1,38 @@
+
 #include <nan.h>
+
 #include "myobject.hpp"
 
-using namespace v8;
+NAN_METHOD(createObject);  ///< object factory
+NAN_METHOD(add);           ///< object consumer
 
-void CreateObject(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  info.GetReturnValue().Set(MyObject::NewInstance(info[0]));
+NAN_METHOD(createObject)
+{
+    info.GetReturnValue().Set(MyObject::NewInstance(info[0]));
 }
 
-void Add(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  MyObject* obj1 = Nan::ObjectWrap::Unwrap<MyObject>(info[0]->ToObject());
-  MyObject* obj2 = Nan::ObjectWrap::Unwrap<MyObject>(info[1]->ToObject());
-  double sum = obj1->Val() + obj2->Val();
-  info.GetReturnValue().Set(Nan::New(sum));
+NAN_METHOD(add)
+{
+    MyObject* obj1 = Nan::ObjectWrap::Unwrap<MyObject>(info[0]->ToObject());
+    MyObject* obj2 = Nan::ObjectWrap::Unwrap<MyObject>(info[1]->ToObject());
+
+    double sum = obj1->val() + obj2->val();
+
+    info.GetReturnValue().Set(Nan::New(sum));
 }
 
-void InitAll(v8::Local<v8::Object> exports) {
-  MyObject::Init();
+// module initialization
 
-  exports->Set(Nan::New("createObject").ToLocalChecked(),
-      Nan::New<v8::FunctionTemplate>(CreateObject)->GetFunction());
+NAN_MODULE_INIT(init)
+{
+    MyObject::init(target);
 
-  exports->Set(Nan::New("add").ToLocalChecked(),
-      Nan::New<v8::FunctionTemplate>(Add)->GetFunction());
+    Nan::Set(target,
+             Nan::New("createObject").ToLocalChecked(),
+             Nan::GetFunction(Nan::New<v8::FunctionTemplate>(createObject)).ToLocalChecked());
+    Nan::Set(target,
+             Nan::New("add").ToLocalChecked(),
+             Nan::GetFunction(Nan::New<v8::FunctionTemplate>(add)).ToLocalChecked());
 }
 
-NODE_MODULE(addon, InitAll)
+NODE_MODULE(addon, init)

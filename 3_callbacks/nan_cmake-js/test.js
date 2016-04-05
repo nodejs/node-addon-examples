@@ -1,5 +1,6 @@
+
 var addon = require('bindings')('addon');
 
-addon(function(msg){
-  console.log(msg); // 'hello world'
+addon.runCallback(function(msg) {
+    console.log(msg);  // 'Hello world!'
 });

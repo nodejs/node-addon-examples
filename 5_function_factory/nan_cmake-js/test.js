@@ -1,4 +1,5 @@
+
 var addon = require('bindings')('addon');
 
-var fn = addon();
-console.log(fn()); // 'hello world'
+var fn = addon.createFunction();
+console.log(fn());  // 'Hello world!'

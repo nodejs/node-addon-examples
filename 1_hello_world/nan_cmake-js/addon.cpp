@@ -1,12 +1,24 @@
+
+// based on https://github.com/fcanas/node-native-boilerplate
+
 #include <nan.h>
 
-void Method(const Nan::FunctionCallbackInfo<v8::Value>& info) {
-  info.GetReturnValue().Set(Nan::New("world").ToLocalChecked());
+// method declaration + definition
+
+NAN_METHOD(sayHello);  // this should go into a header file
+
+NAN_METHOD(sayHello)   // and this should be in a separate source file
+{
+    info.GetReturnValue().Set(Nan::New("Hello world!").ToLocalChecked());
 }
 
-void Init(v8::Local<v8::Object> exports) {
-  exports->Set(Nan::New("hello").ToLocalChecked(),
-               Nan::New<v8::FunctionTemplate>(Method)->GetFunction());
+// module initialization
+
+NAN_MODULE_INIT(init)
+{
+    Nan::Set(target,
+             Nan::New("sayHello").ToLocalChecked(),
+             Nan::GetFunction(Nan::New<v8::FunctionTemplate>(sayHello)).ToLocalChecked());
 }
 
-NODE_MODULE(hello, Init)
+NODE_MODULE(addon, init)

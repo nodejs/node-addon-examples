@@ -1,22 +1,25 @@
-#ifndef MYOBJECT_H
-#define MYOBJECT_H
+
+#pragma once
 
 #include <nan.h>
 
-class MyObject : public Nan::ObjectWrap {
- public:
-  static void Init(v8::Local<v8::Object> exports);
+class MyObject : public Nan::ObjectWrap
+{
+private:
 
- private:
-  explicit MyObject(double value = 0);
-  ~MyObject();
+    static Nan::Persistent<v8::Function> constructor;
+    double value_;
 
-  static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void GetValue(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void PlusOne(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static void Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  static Nan::Persistent<v8::Function> constructor;
-  double value_;
+    explicit MyObject(double value = 0);
+    ~MyObject();
+
+    static NAN_METHOD(New);
+
+    static NAN_METHOD(getValue);
+    static NAN_METHOD(plusOne);
+    static NAN_METHOD(multiply);  ///< @return a new object whose `value_` is `this->value_ * number`
+
+public:
+
+    static NAN_MODULE_INIT(init);
 };
-
-#endif

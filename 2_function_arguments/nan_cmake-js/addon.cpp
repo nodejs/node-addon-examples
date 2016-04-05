@@ -1,27 +1,40 @@
+
 #include <nan.h>
 
-void Add(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+NAN_METHOD(add)
+{
+    if (info.Length() != 2)
+    {
+        Nan::ThrowTypeError("Wrong number of arguments");
+        return;
+    }
+    // @see https://v8docs.nodesource.com/node-5.0/dc/d0a/classv8_1_1_value.html
+    if (!info[0]->IsNumber() || !info[1]->IsNumber())
+    {
+        Nan::ThrowTypeError("Wrong argument types");
+        return;
+    }
 
-  if (info.Length() < 2) {
-    Nan::ThrowTypeError("Wrong number of arguments");
-    return;
-  }
+    // get the arguments and compute the result
+    // @see https://v8docs.nodesource.com/node-5.0/dc/d0a/classv8_1_1_value.html
+    double arg0 = info[0]->NumberValue();
+    double arg1 = info[1]->NumberValue();
+    v8::Local<v8::Number> num = Nan::New(arg0 + arg1);
 
-  if (!info[0]->IsNumber() || !info[1]->IsNumber()) {
-    Nan::ThrowTypeError("Wrong arguments");
-    return;
-  }
+    // in C++11, the return type can be deduced by the compiler
+    // @see https://github.com/nodejs/nan/blob/master/doc%2Fnew.md#nannew
+    // auto num = Nan::New(arg0 + arg1);
 
-  double arg0 = info[0]->NumberValue();
-  double arg1 = info[1]->NumberValue();
-  v8::Local<v8::Number> num = Nan::New(arg0 + arg1);
-
-  info.GetReturnValue().Set(num);
+    info.GetReturnValue().Set(num);
 }
 
-void Init(v8::Local<v8::Object> exports) {
-  exports->Set(Nan::New("add").ToLocalChecked(),
-               Nan::New<v8::FunctionTemplate>(Add)->GetFunction());
+// module initialization
+
+NAN_MODULE_INIT(init)
+{
+    Nan::Set(target,
+             Nan::New("add").ToLocalChecked(),
+             Nan::GetFunction(Nan::New<v8::FunctionTemplate>(add)).ToLocalChecked());
 }
 
-NODE_MODULE(addon, Init)
+NODE_MODULE(addon, init)

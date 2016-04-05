@@ -1,21 +1,24 @@
-#ifndef MYOBJECT_H
-#define MYOBJECT_H
+
+#pragma once
 
 #include <nan.h>
 
-class MyObject : public Nan::ObjectWrap {
- public:
-  static void Init();
-  static v8::Local<v8::Object> NewInstance(v8::Local<v8::Value> arg);
-  double Val() const { return val_; }
+class MyObject : public Nan::ObjectWrap
+{
+private:
 
- private:
-  MyObject();
-  ~MyObject();
+    static Nan::Persistent<v8::Function> constructor;
+    double val_;
 
-  static Nan::Persistent<v8::Function> constructor;
-  static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
-  double val_;
+    MyObject();
+    ~MyObject();
+
+    static NAN_METHOD(New);
+
+public:
+
+    double val() const;
+
+    static v8::Local<v8::Object> NewInstance(v8::Local<v8::Value> arg);
+    static NAN_MODULE_INIT(init);
 };
-
-#endif
