@@ -1,0 +1,15 @@
+{
+  "name": "function_arguments",
+  "version": "0.0.0",
+  "description": "Node.js Addons Example #2",
+  "main": "addon.js",
+  "private": true,
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "nan": "^2.0.0"
+  },
+  "scripts": {
+    "test": "node addon.js"
+  },
+  "gypfile": true
+}
