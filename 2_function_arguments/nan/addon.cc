@@ -1,6 +1,6 @@
 #include <nan.h>
 
-void Add(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+NAN_METHOD(Add) {
 
   if (info.Length() < 2) {
     Nan::ThrowTypeError("Wrong number of arguments");
@@ -19,9 +19,8 @@ void Add(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   info.GetReturnValue().Set(num);
 }
 
-void Init(v8::Local<v8::Object> exports) {
-  exports->Set(Nan::New("add").ToLocalChecked(),
-               Nan::New<v8::FunctionTemplate>(Add)->GetFunction());
+NAN_MODULE_INIT(Init) {
+  Nan::SetMethod(target, "add", Add);
 }
 
 NODE_MODULE(addon, Init)
