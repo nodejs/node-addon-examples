@@ -37,7 +37,7 @@ void MyObject::Init(node::js::value env, node::js::value exports) {
   node::js::SetFunctionName(env, plusOneFunction, node::js::CreateString(env, "plusOne"));
   node::js::SetProperty(env, prototype, node::js::PropertyName(env, "plusOne"),
                         plusOneFunction);
-  node::js::SetProperty(env, prototype, node::js::PropertyName(env, "Multiply"),
+  node::js::SetProperty(env, prototype, node::js::PropertyName(env, "multiply"),
                         node::js::CreateFunction(env, Multiply));
 
   constructor = node::js::CreatePersistent(env, function);
@@ -63,8 +63,6 @@ void MyObject::New(node::js::value env, node::js::FunctionCallbackInfo info) {
   }
 */
 
-printf("Called \n");
-
   // assumes its a constructor call
   node::js::value args[1];
   node::js::GetCallbackArgs(info, args, 1);
@@ -74,8 +72,6 @@ printf("Called \n");
   }
   MyObject* obj = new MyObject(value);
   node::js::value jsobj = node::js::GetCallbackObject(env, info);
-  node::js::SetProperty(env, jsobj, node::js::PropertyName(env, "test2"),
-                        node::js::CreateString(env, "test string"));
   node::js::Wrap(env, jsobj, (void*) obj);
 //  node::js::SetReturnValue(env, info, jsobj);
 }
@@ -85,6 +81,8 @@ void MyObject::GetValue(node::js::value env, node::js::FunctionCallbackInfo info
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
   info.GetReturnValue().Set(Nan::New(obj->value_));
 */
+  MyObject* obj = (MyObject*) node::js::Unwrap(env, node::js::GetCallbackObject(env, info));
+  node::js::SetReturnValue(env, info, node::js::CreateNumber(env, 0));
 }
 
 void MyObject::PlusOne(node::js::value env, node::js::FunctionCallbackInfo info) {
@@ -93,6 +91,8 @@ void MyObject::PlusOne(node::js::value env, node::js::FunctionCallbackInfo info)
   obj->value_ += 1;
   info.GetReturnValue().Set(Nan::New(obj->value_));
 */
+  MyObject* obj = (MyObject*) node::js::Unwrap(env, node::js::GetCallbackObject(env, info));
+  node::js::SetReturnValue(env, info, node::js::CreateNumber(env, 0));
 }
 
 void MyObject::Multiply(node::js::value env, node::js::FunctionCallbackInfo info) {
@@ -107,4 +107,18 @@ void MyObject::Multiply(node::js::value env, node::js::FunctionCallbackInfo info
 
   info.GetReturnValue().Set(cons->NewInstance(argc, argv));
 */
+  node::js::value args[1];
+  node::js::GetCallbackArgs(info, args, 1);
+
+  double multiple = 0;
+  if (node::js::GetUndefined(env) != args[0]) {
+    multiple = node::js::GetNumberFromValue(args[0]);
+  }
+
+  MyObject* obj = (MyObject*) node::js::Unwrap(env, node::js::GetCallbackObject(env, info));
+
+  node::js::value cons = node::js::GetPersistentValue(env, constructor);
+  const int argc = 1;
+  node::js::value argv[argc] = { node::js::CreateNumber(env, 1 * multiple) };
+  node::js::SetReturnValue(env, info, node::js::NewInstance(env, cons, argc, argv));
 }
