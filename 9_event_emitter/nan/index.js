@@ -1,9 +1,10 @@
-var EventEmitter = require('events').EventEmitter,
-    inherits = require('util').inherits;
+var EventEmitter = require('events').EventEmitter;
 
 var addon = require('bindings')('addon');
 
-inherits(addon.Timer, EventEmitter);
+// inherits(addon.Timer, EventEmitter); // does NOT work in node@4...
+addon.Timer.prototype.__proto__ = EventEmitter.prototype;
+
 var timer = new addon.Timer(),
     counter = 0;
 
@@ -12,7 +13,7 @@ timer.on('tick', function () {
     counter += 1;
 });
 
-var timeout = 5000, repeat = 200;  //ms
+var timeout = 3000, repeat = 200;  //ms
 
 // Start the timer. timeout and repeat are in milliseconds.
 // If timeout is zero, the callback fires on the next event
