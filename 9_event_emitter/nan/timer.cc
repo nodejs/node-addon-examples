@@ -42,7 +42,6 @@ void Timer::Start(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   Timer* obj = Nan::ObjectWrap::Unwrap<Timer>(info.Holder());
   if (obj->timer_req_ != nullptr) {
     // already started
-    info.GetReturnValue().Set(Nan::Undefined());
     return;
   }
   uint64_t timeout = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
@@ -56,7 +55,6 @@ void Timer::Start(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
 void Timer::Stop(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   Timer* obj = Nan::ObjectWrap::Unwrap<Timer>(info.Holder());
-  info.GetReturnValue().Set(Nan::Undefined());
   if (obj->timer_req_ == nullptr) {
     return;
   }
