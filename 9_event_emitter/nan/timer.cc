@@ -28,7 +28,7 @@ void Timer::Init(v8::Local<v8::Object> exports) {
 
 void Timer::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   if (!info.IsConstructCall()) {
-    Nan::ThrowError("`new` required");
+    return Nan::ThrowError("`new` required");
   }
   Timer* obj = new Timer();
   obj->Wrap(info.This());
@@ -49,10 +49,9 @@ void Timer::Start(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   uint64_t repeat = info[1]->IsUndefined() ? 0 : info[1]->NumberValue();
   uv_timer_t *tr = new uv_timer_t;
   obj->timer_req_ = tr;
-  tr->data = static_cast<void*>(obj);
+  tr->data = obj;
   uv_timer_init(uv_default_loop(), tr);
   uv_timer_start(tr, onTick, timeout, repeat);
-  info.GetReturnValue().Set(Nan::Undefined());
 }
 
 void Timer::Stop(const Nan::FunctionCallbackInfo<v8::Value>& info) {
