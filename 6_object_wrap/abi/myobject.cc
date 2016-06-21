@@ -1,11 +1,15 @@
 #include "myobject.h"
 
-node::js::persistent constructor;
+node::js::persistent MyObject::constructor;
 
 MyObject::MyObject(double value) : value_(value) {
 }
 
 MyObject::~MyObject() {
+}
+
+void MyObject::Destructor(void* nativeObject) {
+  ((MyObject*) nativeObject)->~MyObject();
 }
 
 void MyObject::Init(node::js::value env, node::js::value exports) {
@@ -31,24 +35,8 @@ void MyObject::Init(node::js::value env, node::js::value exports) {
 }
 
 void MyObject::New(node::js::value env, node::js::FunctionCallbackInfo info) {
-/*
-  if (info.IsConstructCall()) {
-    // Invoked as constructor: `new MyObject(...)`
-    double value = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
-    MyObject* obj = new MyObject(value);
-    obj->Wrap(info.This());
-    info.GetReturnValue().Set(info.This());
-  } else {
-    // Invoked as plain function `MyObject(...)`, turn into construct call.
-    const int argc = 1;
-    v8::Local<v8::Value> argv[argc] = { info[0] };
-    v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
-    info.GetReturnValue().Set(cons->NewInstance(argc, argv));
-  }
-*/
-
-  // assumes its a constructor call
   if (node::js::IsContructCall(env, info)) {
+    // Invoked as constructor: `new MyObject(...)`
     node::js::value args[1];
     node::js::GetCallbackArgs(info, args, 1);
     double value = 0;
@@ -57,9 +45,10 @@ void MyObject::New(node::js::value env, node::js::FunctionCallbackInfo info) {
     }
     MyObject* obj = new MyObject(value);
     node::js::value jsobj = node::js::GetCallbackObject(env, info);
-    node::js::Wrap(env, jsobj, (void*) obj, nullptr);
+    node::js::Wrap(env, jsobj, (void*) obj, MyObject::Destructor);
     node::js::SetReturnValue(env, info, jsobj);
   } else {
+    // Invoked as plain function `MyObject(...)`, turn into construct call.
     node::js::value args[1];
     node::js::GetCallbackArgs(info, args, 1);
     const int argc = 1;
