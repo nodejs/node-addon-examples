@@ -1,10 +1,6 @@
 var addon = require('bindings')('addon');
-var util = require('util');
 
 var obj = new addon.MyObject(10);
-
-console.log(obj);
-
 console.log( obj.plusOne() ); // 11
 console.log( obj.plusOne() ); // 12
 console.log( obj.plusOne() ); // 13
