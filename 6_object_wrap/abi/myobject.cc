@@ -18,15 +18,21 @@ void MyObject::Init(node::js::value env, node::js::value exports) {
   node::js::value prototype =
     node::js::GetProperty(env, function, node::js::PropertyName(env, "prototype"));
 
+  node::js::value valueFunction = node::js::CreateFunction(env, GetValue);
+  node::js::SetFunctionName(env, valueFunction, node::js::CreateString(env, "value"));
   node::js::SetProperty(env, prototype, node::js::PropertyName(env, "value"),
-                        node::js::CreateFunction(env, GetValue));
+                        valueFunction);
 
   node::js::value plusOneFunction = node::js::CreateFunction(env, PlusOne);
   node::js::SetFunctionName(env, plusOneFunction, node::js::CreateString(env, "plusOne"));
   node::js::SetProperty(env, prototype, node::js::PropertyName(env, "plusOne"),
                         plusOneFunction);
-  node::js::SetProperty(env, prototype, node::js::PropertyName(env, "multiply"),
-                        node::js::CreateFunction(env, Multiply));
+
+
+  node::js::value multiplyFunction = node::js::CreateFunction(env, Multiply);
+  node::js::SetFunctionName(env, multiplyFunction, node::js::CreateString(env, "multiply"));
+  node::js::SetProperty(env, prototype, node::js::PropertyName(env, "multiply"), 
+                        multiplyFunction);
 
   constructor = node::js::CreatePersistent(env, function);
 
