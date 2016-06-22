@@ -6,7 +6,7 @@
 class MyObject {
  public:
   static void Init(node::js::value env);
-  static void Destructor(void* jsObject);
+  static void Destructor(void* nativeObject);
   static node::js::value NewInstance(node::js::value env, node::js::value arg);
 
  private:

@@ -6,7 +6,7 @@
 class MyObject {
  public:
   static void Init(node::js::value env, node::js::value exports);
-  static void Destructor(void* jsObject);
+  static void Destructor(void* nativeObject);
 
  private:
   explicit MyObject(double value = 0);
