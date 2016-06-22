@@ -2,7 +2,7 @@
 
 void CreateObject(node::js::env env, const node::js::FunctionCallbackInfo info) {
   node::js::value args[1];
-  node::js::GetCallbackArgs(info, args, 1);
+  node::js::GetCallbackArgs(env, info, args, 1);
 
   node::js::value obj = node::js::CreateObject(env);
   node::js::SetProperty(env, obj, node::js::PropertyName(env, "msg"),

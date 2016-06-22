@@ -20,9 +20,9 @@ void MyObject::Init(node::js::value env) {
 
 void MyObject::New(node::js::value env, node::js::FunctionCallbackInfo info) {
   node::js::value args[1];
-  node::js::GetCallbackArgs(info, args, 1);
+  node::js::GetCallbackArgs(env, info, args, 1);
   MyObject* obj = new MyObject();
-  obj->val_ = (args[0] == node::js::GetUndefined(env)) ? 0 : node::js::GetNumberFromValue(args[0]);
+  obj->val_ = (args[0] == node::js::GetUndefined(env)) ? 0 : node::js::GetNumberFromValue(env, args[0]);
   node::js::value jsobj = node::js::GetCallbackObject(env, info);
   node::js::Wrap(env, jsobj, (void*) obj, MyObject::Destructor);
   node::js::SetReturnValue(env, info, jsobj);

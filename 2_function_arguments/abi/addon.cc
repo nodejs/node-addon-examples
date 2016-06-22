@@ -1,7 +1,7 @@
 #include <node_jsvmapi.h>
 
 void Add(node::js::env env, node::js::FunctionCallbackInfo info) {
-    if (node::js::GetCallbackArgsLength(info) < 2) {
+    if (node::js::GetCallbackArgsLength(env, info) < 2) {
         node::js::ThrowError(
             env,
             node::js::CreateTypeError(
@@ -11,10 +11,10 @@ void Add(node::js::env env, node::js::FunctionCallbackInfo info) {
     }
 
     node::js::value args[2];
-    node::js::GetCallbackArgs(info, args, 2);
+    node::js::GetCallbackArgs(env, info, args, 2);
 
-    if (node::js::GetTypeOfValue(args[0]) != node::js::valuetype::Number ||
-        node::js::GetTypeOfValue(args[1]) != node::js::valuetype::Number) {
+    if (node::js::GetTypeOfValue(env, args[0]) != node::js::valuetype::Number ||
+        node::js::GetTypeOfValue(env, args[1]) != node::js::valuetype::Number) {
         node::js::ThrowError(
             env,
             node::js::CreateTypeError(
@@ -23,7 +23,7 @@ void Add(node::js::env env, node::js::FunctionCallbackInfo info) {
         return;
     }
 
-    double value = node::js::GetNumberFromValue(args[0]) + node::js::GetNumberFromValue(args[1]);
+    double value = node::js::GetNumberFromValue(env, args[0]) + node::js::GetNumberFromValue(env, args[1]);
     node::js::value num = node::js::CreateNumber(env, value);
 
     node::js::SetReturnValue(env, info, num);

@@ -44,10 +44,10 @@ void MyObject::New(node::js::value env, node::js::FunctionCallbackInfo info) {
   if (node::js::IsContructCall(env, info)) {
     // Invoked as constructor: `new MyObject(...)`
     node::js::value args[1];
-    node::js::GetCallbackArgs(info, args, 1);
+    node::js::GetCallbackArgs(env, info, args, 1);
     double value = 0;
     if (node::js::GetUndefined(env) != args[0]) {
-      value = node::js::GetNumberFromValue(args[0]);
+      value = node::js::GetNumberFromValue(env, args[0]);
     }
     MyObject* obj = new MyObject(value);
     node::js::value jsobj = node::js::GetCallbackObject(env, info);
@@ -56,7 +56,7 @@ void MyObject::New(node::js::value env, node::js::FunctionCallbackInfo info) {
   } else {
     // Invoked as plain function `MyObject(...)`, turn into construct call.
     node::js::value args[1];
-    node::js::GetCallbackArgs(info, args, 1);
+    node::js::GetCallbackArgs(env, info, args, 1);
     const int argc = 1;
     node::js::value argv[argc] = { args[0] };
     node::js::value cons = node::js::GetPersistentValue(env, constructor);
@@ -77,11 +77,11 @@ void MyObject::PlusOne(node::js::value env, node::js::FunctionCallbackInfo info)
 
 void MyObject::Multiply(node::js::value env, node::js::FunctionCallbackInfo info) {
   node::js::value args[1];
-  node::js::GetCallbackArgs(info, args, 1);
+  node::js::GetCallbackArgs(env, info, args, 1);
 
   double multiple = 1;
   if (node::js::GetUndefined(env) != args[0]) {
-    multiple = node::js::GetNumberFromValue(args[0]);
+    multiple = node::js::GetNumberFromValue(env, args[0]);
   }
 
   MyObject* obj = (MyObject*) node::js::Unwrap(env, node::js::GetCallbackObject(env, info));

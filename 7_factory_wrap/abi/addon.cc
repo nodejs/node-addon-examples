@@ -2,7 +2,7 @@
 
 void CreateObject(node::js::value env, node::js::FunctionCallbackInfo info) {
   node::js::value args[1];
-  node::js::GetCallbackArgs(info, args, 1);
+  node::js::GetCallbackArgs(env, info, args, 1);
   node::js::SetReturnValue(env, info, MyObject::NewInstance(env, args[0]));
 }
 

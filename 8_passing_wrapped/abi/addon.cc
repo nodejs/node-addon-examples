@@ -4,13 +4,13 @@ using namespace node::js;
 
 void CreateObject(node::js::value env, node::js::FunctionCallbackInfo info) {
   node::js::value args[1];
-  node::js::GetCallbackArgs(info, args, 1);
+  node::js::GetCallbackArgs(env, info, args, 1);
   node::js::SetReturnValue(env, info, MyObject::NewInstance(env, args[0]));
 }
 
 void Add(node::js::value env, node::js::FunctionCallbackInfo info) {
   node::js::value args[2];
-  node::js::GetCallbackArgs(info, args, 2);
+  node::js::GetCallbackArgs(env, info, args, 2);
   MyObject* obj1 = (MyObject*) node::js::Unwrap(env, args[0]);
   MyObject* obj2 = (MyObject*) node::js::Unwrap(env, args[1]);
   double sum = obj1->Val() + obj2->Val();
