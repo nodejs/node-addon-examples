@@ -13,8 +13,8 @@ void Add(napi_env napi_env, napi_func_cb_info info) {
     napi_value args[2];
     napi_get_cb_args(napi_env, info, args, 2);
 
-    if (napi_get_type_of_value(napi_env, args[0]) != napi_valuetype::Number ||
-        napi_get_type_of_value(napi_env, args[1]) != napi_valuetype::Number) {
+    if (napi_get_type_of_value(napi_env, args[0]) != napi_number ||
+        napi_get_type_of_value(napi_env, args[1]) != napi_number) {
         napi_throw_error(
             napi_env,
             napi_create_type_error(
