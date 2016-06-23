@@ -1,47 +1,47 @@
 #include <node_jsvmapi.h>
 
-void Add(node::js::env env, node::js::FunctionCallbackInfo info) {
-    if (node::js::GetCallbackArgsLength(env, info) < 2) {
-        node::js::ThrowError(
-            env,
-            node::js::CreateTypeError(
-                env,
-                node::js::CreateString(env, "Wrong number of arguments")));
+void Add(napi_env napi_env, napi_func_cb_info info) {
+    if (napi_get_cb_args_length(napi_env, info) < 2) {
+        napi_throw_error(
+            napi_env,
+            napi_create_type_error(
+                napi_env,
+                napi_create_string(napi_env, "Wrong number of arguments")));
         return;
     }
 
-    node::js::value args[2];
-    node::js::GetCallbackArgs(env, info, args, 2);
+    napi_value args[2];
+    napi_get_cb_args(napi_env, info, args, 2);
 
-    if (node::js::GetTypeOfValue(env, args[0]) != node::js::valuetype::Number ||
-        node::js::GetTypeOfValue(env, args[1]) != node::js::valuetype::Number) {
-        node::js::ThrowError(
-            env,
-            node::js::CreateTypeError(
-                env,
-                node::js::CreateString(env, "Wrong arguments")));
+    if (napi_get_type_of_value(napi_env, args[0]) != napi_valuetype::Number ||
+        napi_get_type_of_value(napi_env, args[1]) != napi_valuetype::Number) {
+        napi_throw_error(
+            napi_env,
+            napi_create_type_error(
+                napi_env,
+                napi_create_string(napi_env, "Wrong arguments")));
         return;
     }
 
-    double value = node::js::GetNumberFromValue(env, args[0]) + node::js::GetNumberFromValue(env, args[1]);
-    node::js::value num = node::js::CreateNumber(env, value);
+    double value = napi_get_number_from_value(napi_env, args[0]) + napi_get_number_from_value(napi_env, args[1]);
+    napi_value num = napi_create_number(napi_env, value);
 
-    node::js::SetReturnValue(env, info, num);
+    napi_set_return_value(napi_env, info, num);
 }
 
 
-void new_init(node::js::env env, node::js::value exports, node::js::value module) {
-  node::js::SetProperty(env, exports,
-                        node::js::PropertyName(env, "add"),
-                        node::js::CreateFunction(env, Add));
+void new_init(napi_env napi_env, napi_value exports, napi_value module) {
+  napi_set_property(napi_env, exports,
+                        napi_proterty_name(napi_env, "add"),
+                        napi_create_function(napi_env, Add));
 }
 
-// NODE_MODULE's init callback's signature uses v8 type for its parameter
+// NODE_MODULE's init napi_callback's signature uses v8 type for its parameter
 // // which complicates our effort to create a VM neutral and ABI stable API.
 // // For not I am working around the issue by assuming v8 and thunking into
-// // an init callback with a VM neutral signature.
+// // an init napi_callback with a VM neutral signature.
 void Init(v8::Local<v8::Object> exports, v8::Local<v8::Object> module) {
-  node::js::legacy::WorkaroundNewModuleInit(exports, module, new_init);
+  WorkaroundNewModuleInit(exports, module, new_init);
 }
 
 NODE_MODULE(addon, Init)

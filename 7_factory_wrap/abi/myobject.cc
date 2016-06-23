@@ -9,44 +9,44 @@ void MyObject::Destructor(void* nativeObject) {
   ((MyObject*) nativeObject)->~MyObject();
 }
 
-node::js::persistent MyObject::constructor;
+napi_persistent MyObject::constructor;
 
-void MyObject::Init(node::js::value env) {
-  node::js::value function = node::js::CreateConstructorForWrap(env, New);
-  node::js::SetFunctionName(env, function, node::js::CreateString(env, "MyObject"));
-  node::js::value prototype =
-    node::js::GetProperty(env, function, node::js::PropertyName(env, "prototype"));
+void MyObject::Init(napi_env env) {
+  napi_value function = napi_create_constructor_for_wrap(env, New);
+  napi_set_function_name(env, function, napi_create_string(env, "MyObject"));
+  napi_value prototype =
+    napi_get_property(env, function, napi_proterty_name(env, "prototype"));
 
-  node::js::value plusOneFunction = node::js::CreateFunction(env, PlusOne);
-  node::js::SetFunctionName(env, plusOneFunction, node::js::CreateString(env, "plusOne"));
-  node::js::SetProperty(env, prototype, node::js::PropertyName(env, "plusOne"),
+  napi_value plusOneFunction = napi_create_function(env, PlusOne);
+  napi_set_function_name(env, plusOneFunction, napi_create_string(env, "plusOne"));
+  napi_set_property(env, prototype, napi_proterty_name(env, "plusOne"),
                         plusOneFunction);
 
-  constructor = node::js::CreatePersistent(env, function);
+  constructor = napi_create_persistent(env, function);
 }
 
-void MyObject::New(node::js::value env, node::js::FunctionCallbackInfo info) {
-  node::js::value args[1];
-  node::js::GetCallbackArgs(env, info, args, 1);
+void MyObject::New(napi_env env, napi_func_cb_info info) {
+  napi_value args[1];
+  napi_get_cb_args(env, info, args, 1);
   MyObject* obj = new MyObject();
-  obj->counter_ = (args[0] == node::js::GetUndefined(env)) ? 0 : node::js::GetNumberFromValue(env, args[0]);
-  node::js::value jsobj = node::js::GetCallbackObject(env, info);
-  node::js::Wrap(env, jsobj, (void*) obj, MyObject::Destructor);
-  node::js::SetReturnValue(env, info, jsobj);
+  obj->counter_ = (args[0] == napi_get_undefined_(env)) ? 0 : napi_get_number_from_value(env, args[0]);
+  napi_value jsobj = napi_get_cb_object(env, info);
+  napi_wrap(env, jsobj, (void*) obj, MyObject::Destructor);
+  napi_set_return_value(env, info, jsobj);
 }
 
 
-node::js::value MyObject::NewInstance(node::js::value env, node::js::value arg) {
+napi_value MyObject::NewInstance(napi_env env, napi_value arg) {
   const int argc = 1;
-  node::js::value argv[argc] = { arg };
-  node::js::value cons = node::js::GetPersistentValue(env, constructor);
-  return node::js::NewInstance(env, cons, argc, argv);
+  napi_value argv[argc] = { arg };
+  napi_value cons = napi_get_persistent_value(env, constructor);
+  return napi_new_instance(env, cons, argc, argv);
 
 }
 
-void MyObject::PlusOne(node::js::value env, node::js::FunctionCallbackInfo info) {
-  MyObject* obj = (MyObject*) node::js::Unwrap(env, node::js::GetCallbackObject(env, info));
+void MyObject::PlusOne(napi_env env, napi_func_cb_info info) {
+  MyObject* obj = (MyObject*) napi_unwrap(env, napi_get_cb_object(env, info));
   obj->counter_ += 1;
 
-  node::js::SetReturnValue(env, info, node::js::CreateNumber(env, obj->counter_));
+  napi_set_return_value(env, info, napi_create_number(env, obj->counter_));
 }

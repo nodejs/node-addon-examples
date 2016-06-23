@@ -5,17 +5,17 @@
 
 class MyObject {
  public:
-  static void Init(node::js::value env);
+  static void Init(napi_env env);
   static void Destructor(void* nativeObject);
-  static node::js::value NewInstance(node::js::value env, node::js::value arg);
+  static napi_value NewInstance(napi_env env, napi_value arg);
 
  private:
   MyObject();
   ~MyObject();
 
-  static node::js::persistent constructor;
-  static void New(node::js::value env, node::js::FunctionCallbackInfo info);
-  static void PlusOne(node::js::value env, node::js::FunctionCallbackInfo info);
+  static napi_persistent constructor;
+  static void New(napi_env env, napi_func_cb_info info);
+  static void PlusOne(napi_env env, napi_func_cb_info info);
   double counter_;
 };
 

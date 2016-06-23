@@ -1,30 +1,30 @@
 #include <node_jsvmapi.h>
 
-void MyFunction(node::js::env env, node::js::FunctionCallbackInfo info) { 
-  node::js::SetReturnValue(env, info, node::js::CreateString(env, "hello world"));
+void MyFunction(napi_env napi_env, napi_func_cb_info info) { 
+  napi_set_return_value(napi_env, info, napi_create_string(napi_env, "hello world"));
 }
 
-void CreateFunction(node::js::env env, node::js::FunctionCallbackInfo info) { 
-  node::js::value fn = node::js::CreateFunction(env, MyFunction);
+void napi_create_function(napi_env napi_env, napi_func_cb_info info) { 
+  napi_value fn = napi_create_function(napi_env, MyFunction);
 
   // omit this to make it anonymous
-  node::js::SetFunctionName(env, fn, node::js::CreateString(env, "theFunction"));
+  napi_set_function_name(napi_env, fn, napi_create_string(napi_env, "theFunction"));
 
-  node::js::SetReturnValue(env, info, fn);
+  napi_set_return_value(napi_env, info, fn);
 }
 
-void new_init(node::js::env env, node::js::value exports, node::js::value module) {
-  node::js::SetProperty(env, module,
-                        node::js::PropertyName(env, "exports"),
-                        node::js::CreateFunction(env, CreateFunction));
+void new_init(napi_env napi_env, napi_value exports, napi_value module) {
+  napi_set_property(napi_env, module,
+                        napi_proterty_name(napi_env, "exports"),
+                        napi_create_function(napi_env, napi_create_function));
 }
 
-// NODE_MODULE's init callback's signature uses v8 type for its parameter
+// NODE_MODULE's init napi_callback's signature uses v8 type for its parameter
 // // which complicates our effort to create a VM neutral and ABI stable API.
 // // For not I am working around the issue by assuming v8 and thunking into
-// // an init callback with a VM neutral signature.
+// // an init napi_callback with a VM neutral signature.
 void Init(v8::Local<v8::Object> exports, v8::Local<v8::Object> module) {
-  node::js::legacy::WorkaroundNewModuleInit(exports, module, new_init);
+  WorkaroundNewModuleInit(exports, module, new_init);
 }
 
 NODE_MODULE(addon, Init)
