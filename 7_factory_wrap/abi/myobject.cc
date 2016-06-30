@@ -15,11 +15,11 @@ void MyObject::Init(napi_env env) {
   napi_value function = napi_create_constructor_for_wrap(env, New);
   napi_set_function_name(env, function, napi_create_string(env, "MyObject"));
   napi_value prototype =
-    napi_get_property(env, function, napi_proterty_name(env, "prototype"));
+    napi_get_property(env, function, napi_property_name(env, "prototype"));
 
   napi_value plusOneFunction = napi_create_function(env, PlusOne);
   napi_set_function_name(env, plusOneFunction, napi_create_string(env, "plusOne"));
-  napi_set_property(env, prototype, napi_proterty_name(env, "plusOne"),
+  napi_set_property(env, prototype, napi_property_name(env, "plusOne"),
                         plusOneFunction);
 
   constructor = napi_create_persistent(env, function);

@@ -16,27 +16,27 @@ void MyObject::Init(napi_value napi_env, napi_value exports) {
   napi_value function = napi_create_constructor_for_wrap(napi_env, New);
   napi_set_function_name(napi_env, function, napi_create_string(napi_env, "MyObject"));
   napi_value prototype =
-    napi_get_property(napi_env, function, napi_proterty_name(napi_env, "prototype"));
+    napi_get_property(napi_env, function, napi_property_name(napi_env, "prototype"));
 
   napi_value napi_valueFunction = napi_create_function(napi_env, GetValue);
   napi_set_function_name(napi_env, napi_valueFunction, napi_create_string(napi_env, "napi_value"));
-  napi_set_property(napi_env, prototype, napi_proterty_name(napi_env, "napi_value"),
+  napi_set_property(napi_env, prototype, napi_property_name(napi_env, "napi_value"),
                         napi_valueFunction);
 
   napi_value plusOneFunction = napi_create_function(napi_env, PlusOne);
   napi_set_function_name(napi_env, plusOneFunction, napi_create_string(napi_env, "plusOne"));
-  napi_set_property(napi_env, prototype, napi_proterty_name(napi_env, "plusOne"),
+  napi_set_property(napi_env, prototype, napi_property_name(napi_env, "plusOne"),
                         plusOneFunction);
 
 
   napi_value multiplyFunction = napi_create_function(napi_env, Multiply);
   napi_set_function_name(napi_env, multiplyFunction, napi_create_string(napi_env, "multiply"));
-  napi_set_property(napi_env, prototype, napi_proterty_name(napi_env, "multiply"), 
+  napi_set_property(napi_env, prototype, napi_property_name(napi_env, "multiply"), 
                         multiplyFunction);
 
   constructor = napi_create_persistent(napi_env, function);
 
-  napi_set_property(napi_env, exports, napi_proterty_name(napi_env, "MyObject"),
+  napi_set_property(napi_env, exports, napi_property_name(napi_env, "MyObject"),
                         function);
 }
 

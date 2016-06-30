@@ -9,7 +9,7 @@ void napi_create_object(napi_env env, napi_func_cb_info info) {
 void Init(napi_env env, napi_value exports, napi_value module) {
   MyObject::Init(env);
   napi_set_property(env, module,
-                        napi_proterty_name(env, "exports"),
+                        napi_property_name(env, "exports"),
                         napi_create_function(env, napi_create_object));
 }
 

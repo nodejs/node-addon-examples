@@ -9,7 +9,7 @@ void Method(napi_env napi_env, napi_func_cb_info info) {
 
 void Init(napi_env napi_env, napi_value exports, napi_value module) {
   napi_set_property(napi_env, exports,
-                    napi_proterty_name(napi_env, "hello"),
+                    napi_property_name(napi_env, "hello"),
                     napi_create_function(napi_env, Method));
 }
 

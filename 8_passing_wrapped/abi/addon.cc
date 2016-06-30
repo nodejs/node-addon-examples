@@ -19,12 +19,12 @@ void Init(napi_env env, napi_value exports, napi_value module) {
   MyObject::Init(env);
 
   napi_set_property(env, exports,
-              napi_proterty_name(env, "createObject"),
+              napi_property_name(env, "createObject"),
               napi_create_function(env, napi_create_object));
 
 
   napi_set_property(env, exports,
-              napi_proterty_name(env, "add"),
+              napi_property_name(env, "add"),
               napi_create_function(env, Add));
 }
 

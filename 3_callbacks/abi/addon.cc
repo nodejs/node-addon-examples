@@ -12,7 +12,7 @@ void RunCallback(napi_env napi_env, const napi_func_cb_info info) {
 
 void Init(napi_env napi_env, napi_value exports, napi_value module) {
   napi_set_property(napi_env, module,
-                        napi_proterty_name(napi_env, "exports"),
+                        napi_property_name(napi_env, "exports"),
                         napi_create_function(napi_env, RunCallback));
 }
 
