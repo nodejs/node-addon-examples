@@ -12,31 +12,31 @@ void MyObject::Destructor(void* nativeObject) {
   ((MyObject*) nativeObject)->~MyObject();
 }
 
-void MyObject::Init(napi_value napi_env, napi_value exports) {
-  napi_value function = napi_create_constructor_for_wrap(napi_env, New);
-  napi_set_function_name(napi_env, function, napi_create_string(napi_env, "MyObject"));
+void MyObject::Init(napi_env env, napi_value exports) {
+  napi_value function = napi_create_constructor_for_wrap(env, New);
+  napi_set_function_name(env, function, napi_property_name(env, "MyObject"));
   napi_value prototype =
-    napi_get_property(napi_env, function, napi_property_name(napi_env, "prototype"));
+    napi_get_property(env, function, napi_property_name(env, "prototype"));
 
-  napi_value napi_valueFunction = napi_create_function(napi_env, GetValue);
-  napi_set_function_name(napi_env, napi_valueFunction, napi_create_string(napi_env, "napi_value"));
-  napi_set_property(napi_env, prototype, napi_property_name(napi_env, "napi_value"),
+  napi_value napi_valueFunction = napi_create_function(env, GetValue);
+  napi_set_function_name(env, napi_valueFunction, napi_property_name(env, "napi_value"));
+  napi_set_property(env, prototype, napi_property_name(env, "napi_value"),
                         napi_valueFunction);
 
-  napi_value plusOneFunction = napi_create_function(napi_env, PlusOne);
-  napi_set_function_name(napi_env, plusOneFunction, napi_create_string(napi_env, "plusOne"));
-  napi_set_property(napi_env, prototype, napi_property_name(napi_env, "plusOne"),
+  napi_value plusOneFunction = napi_create_function(env, PlusOne);
+  napi_set_function_name(env, plusOneFunction, napi_property_name(env, "plusOne"));
+  napi_set_property(env, prototype, napi_property_name(env, "plusOne"),
                         plusOneFunction);
 
 
-  napi_value multiplyFunction = napi_create_function(napi_env, Multiply);
-  napi_set_function_name(napi_env, multiplyFunction, napi_create_string(napi_env, "multiply"));
-  napi_set_property(napi_env, prototype, napi_property_name(napi_env, "multiply"), 
+  napi_value multiplyFunction = napi_create_function(env, Multiply);
+  napi_set_function_name(env, multiplyFunction, napi_property_name(env, "multiply"));
+  napi_set_property(env, prototype, napi_property_name(env, "multiply"), 
                         multiplyFunction);
 
-  constructor = napi_create_persistent(napi_env, function);
+  constructor = napi_create_persistent(env, function);
 
-  napi_set_property(napi_env, exports, napi_property_name(napi_env, "MyObject"),
+  napi_set_property(env, exports, napi_property_name(env, "MyObject"),
                         function);
 }
 
@@ -50,9 +50,9 @@ void MyObject::New(napi_env env, napi_func_cb_info info) {
       value = napi_get_number_from_value(env, args[0]);
     }
     MyObject* obj = new MyObject(value);
-    napi_value jsobj = napi_get_cb_object(env, info);
-    napi_wrap(env, jsobj, (void*) obj, MyObject::Destructor);
-    napi_set_return_value(env, info, jsobj);
+    napi_value jsthis = napi_get_cb_this(env, info);
+    napi_wrap(env, jsthis, (void*) obj, MyObject::Destructor, nullptr);
+    napi_set_return_value(env, info, jsthis);
   } else {
     // Invoked as plain function `MyObject(...)`, turn into construct call.
     napi_value args[1];
@@ -65,12 +65,12 @@ void MyObject::New(napi_env env, napi_func_cb_info info) {
 }
 
 void MyObject::GetValue(napi_env env, napi_func_cb_info info) {
-  MyObject* obj = (MyObject*) napi_unwrap(env, napi_get_cb_object(env, info));
+  MyObject* obj = (MyObject*) napi_unwrap(env, napi_get_cb_this(env, info));
   napi_set_return_value(env, info, napi_create_number(env, obj->value_));
 }
 
 void MyObject::PlusOne(napi_env env, napi_func_cb_info info) {
-  MyObject* obj = (MyObject*) napi_unwrap(env, napi_get_cb_object(env, info));
+  MyObject* obj = (MyObject*) napi_unwrap(env, napi_get_cb_this(env, info));
   obj->value_ += 1;
   napi_set_return_value(env, info, napi_create_number(env, obj->value_));
 }
@@ -84,7 +84,7 @@ void MyObject::Multiply(napi_env env, napi_func_cb_info info) {
     multiple = napi_get_number_from_value(env, args[0]);
   }
 
-  MyObject* obj = (MyObject*) napi_unwrap(env, napi_get_cb_object(env, info));
+  MyObject* obj = (MyObject*) napi_unwrap(env, napi_get_cb_this(env, info));
 
   napi_value cons = napi_get_persistent_value(env, constructor);
   const int argc = 1;
