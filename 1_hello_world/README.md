@@ -49,16 +49,15 @@ First we create a file `hello.cc` and the following contents:
 ```c++
 #include <nan.h>
 
-using namespace v8;
-
-NAN_METHOD(Method) {
-  NanScope();
-  NanReturnValue(String::New("world"));
+NAN_METHOD(hello) {
+  info.GetReturnValue().Set(Nan::New("world").ToLocalChecked());
 }
 
-void Init(Handle<Object> exports) {
-  exports->Set(NanSymbol("hello"), FunctionTemplate::New(Method)->GetFunction());
+NAN_MODULE_INIT(Init){
+    NAN_EXPORT(target, hello);
+    Nan::Export(target, "kitty", Method); // export Method with a different name
 }
+
 
 NODE_MODULE(hello, Init)
 ```
@@ -72,27 +71,41 @@ NODE_MODULE(hello, Init)
 This code defines the entry-point for the Node addon, it tells Node where to go once the library has been loaded into active memory. The first argument **must match the "target" in our *binding.gyp***. The second argument points to the function to invoke.
 
 ```c++
-void Init(Handle<Object> exports) {
-  exports->Set(NanSymbol("hello"), FunctionTemplate::New(Method)->GetFunction());
+NAN_MODULE_INIT(Init){
+    NAN_EXPORT(target, hello);
+    Nan::Export(target, "hello2", hello); //export with a different name
 }
+
+// internals
+// void Init(Nan::ADDON_REGISTER_FUNCTION_ARGS_TYPE target){
+// void Init(v8::Local<v8::Object> target){
+//     Nan::Set(target
+//             ,Nan::New<v8::String>("hello").ToLocalChecked()
+//             ,Nan::GetFunction(Nan::New<v8::FunctionTemplate>(hello)).ToLocalChecked()
+//             );
+// }
 ```
 
-This code is our entry-point. We can receive up to two arguments here, the first is `exports`, the same as `module.exports` in a .js file and the second argument (omitted in this case) is `module` which is the same as `module` in a .js file. Normally you would attach properties to `exports` but you can use the `module` argument to *replace* its `exports` property so you are exporting a single thing, the equivalent of: `module.exports = function () { ... }`.
+This code is our entry-point. With the macro we create a function calld `Init`, that receives one argument `target`, which is almost the same as `module.exports` in a .js file.
 
-In our case we just want to attach a `"hello"` property to `module.exports` so we set a V8 `String` property to a V8 `Function` object. We use the `NanSymbol()` function to create a "symbol" string that we may reuse in future, so generally you should use these for object properties and other repeatable symbols. We use a V8 `FunctionTemplate` to turn a regular (but compatible) C++ function into a V8-callable function. In this case, the `Method` function.
+In our case we just want to attach a `"hello"` property to `module.exports` so we use the NAN_EXPORT macro to register the function in target our export equivalent. There is also the Nan::Export function that allows us to use another name for the exported function.
 
 ```c++
-NAN_METHOD(Method) {
-  NanScope();
-  NanReturnValue(String::New("world"));
+NAN_METHOD(hello) {
+    info.GetReturnValue().Set(Nan::New("world").ToLocalChecked());
 }
+
+// internals
+// Nan::NAN_METHOD_RETURN_TYPE hello(Nan::NAN_METHOD_ARGS_TYPE info)
+// void hello(const Nan::FunctionCallbackInfo<v8::Value>& info){
+//    info.GetReturnValue().Set(Nan::New("world").ToLocalChecked());
+//}
+
 ```
 
-This is where NAN first comes in useful for us. The changing V8 API has made it difficult to target different versions of Node with the same C++ code so NAN helps provide a simple mapping so we can define a V8 compatible function that `FunctionTemplate` will accept. In recent versions of V8, `NAN_METHOD(Method)` would expand to: `void Method(const v8::FunctionCallbackInfo<v8::Value>& args)` which is the standard signature for a function that can be called by V8. The `args` parameter contains call information, such as JavaScript function parameters, and allows us to set return values.
+This is where NAN comes in very useful for us. The changing V8 API has made it difficult to target different versions of Node with the same C++ code so NAN helps provide a simple mapping so we can define a V8 compatible function that `FunctionTemplate` will accept. In recent versions of V8, `NAN_METHOD(Method)` would expand to: `void Method(const Nan::FunctionCallbackInfo<v8::Value>& info)` which is the standard signature for a function. The `info` parameter contains call information, such as JavaScript function parameters, and allows us to set return values.
 
-`NanScope()` is used here to set a V8 "handle scope" which is much like the function-scope in JavaScript. It defines the lifetime for which any created "handles" are safe from the garbage collector. When we use this at the top of our function we are declaring that any V8 object we create should live for the life of that function. If we omit the handle scope then created objects may attach to the global scope and may end up not being garbage collected, leading to a memory leak.
-
-`NanReturnValue()` sets the return value for our function. In this case we are creating a simple V8 `String` object with the contents `"world"`, this will be exposed as a standard JavaScript `String` with the value `"world"`. Since this object is created within the handle scope we declared above, its freedom from garbage collection will be lost as soon as it leaves our function *unless* it is referenced by another function, either in JavaScript or in a new handle scope in our C++. In our case we will be printing the string so it will be attached to a new scope in our JavaScript code.
+`info.GetReturnValue()` get the return value for us and `Set()` sets the return value for our function. In this case we are creating a simple V8 `String` object with the contents `"world"`, this will be exposed as a standard JavaScript `String` with the value `"world"`.
 
 ### Step 5
 
