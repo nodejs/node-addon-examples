@@ -13,26 +13,14 @@ void MyObject::Destructor(void* nativeObject) {
 }
 
 void MyObject::Init(napi_env env, napi_value exports) {
-  napi_value function = napi_create_constructor_for_wrap(env, New);
-  napi_set_function_name(env, function, napi_property_name(env, "MyObject"));
-  napi_value prototype =
-    napi_get_property(env, function, napi_property_name(env, "prototype"));
+  napi_method_descriptor methods[] = {
+    { GetValue, "napi_value" },
+    { PlusOne, "plusOne" },
+    { Multiply, "multiply" },
+  };
 
-  napi_value napi_valueFunction = napi_create_function(env, GetValue);
-  napi_set_function_name(env, napi_valueFunction, napi_property_name(env, "napi_value"));
-  napi_set_property(env, prototype, napi_property_name(env, "napi_value"),
-                        napi_valueFunction);
-
-  napi_value plusOneFunction = napi_create_function(env, PlusOne);
-  napi_set_function_name(env, plusOneFunction, napi_property_name(env, "plusOne"));
-  napi_set_property(env, prototype, napi_property_name(env, "plusOne"),
-                        plusOneFunction);
-
-
-  napi_value multiplyFunction = napi_create_function(env, Multiply);
-  napi_set_function_name(env, multiplyFunction, napi_property_name(env, "multiply"));
-  napi_set_property(env, prototype, napi_property_name(env, "multiply"), 
-                        multiplyFunction);
+  napi_value function = napi_create_constructor_for_wrap_with_methods(
+          env, New, "MyObject", 3, methods);
 
   constructor = napi_create_persistent(env, function);
 
