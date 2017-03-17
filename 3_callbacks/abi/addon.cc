@@ -1,19 +1,36 @@
-#include <node_jsvmapi.h>
+#include <node_api.h>
+#include <assert.h>
 
-void RunCallback(napi_env env, const napi_func_cb_info info) {
+void RunCallback(napi_env env, const napi_callback_info info) {
+  napi_status status;
+
   napi_value args[1];
-  napi_get_cb_args(env, info, args, 1);
+  status = napi_get_cb_args(env, info, args, 1);
+  assert(status == napi_ok);
+
   napi_value cb = args[0];
 
   napi_value argv[1];
-  argv[0] = napi_create_string(env, "hello world");
-  napi_call_function(env, napi_get_global_scope(env) , cb, 1, argv);
+  status = napi_create_string_utf8(env, "hello world", -1, argv);
+  assert(status == napi_ok);
+
+  napi_value global;
+  status = napi_get_global(env, &global);
+  assert(status == napi_ok);
+
+  napi_value result;
+  status = napi_call_function(env, global, cb, 1, argv, &result);
+  assert(status == napi_ok);
 }
+
+#define DECLARE_NAPI_METHOD(name, func)                          \
+  { name, func, 0, 0, 0, napi_default, 0 }
 
 void Init(napi_env env, napi_value exports, napi_value module) {
-  napi_set_property(env, module,
-                        napi_property_name(env, "exports"),
-                        napi_create_function(env, RunCallback));
+  napi_status status;
+  napi_property_descriptor desc = DECLARE_NAPI_METHOD("exports", RunCallback);
+  status = napi_define_properties(env, module, 1, &desc);
+  assert(status == napi_ok);
 }
 
-NODE_MODULE_ABI(addon, Init)
+NAPI_MODULE(addon, Init)

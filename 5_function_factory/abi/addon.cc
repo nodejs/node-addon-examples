@@ -1,23 +1,38 @@
-#include <node_jsvmapi.h>
+﻿#include <node_api.h>
+#include <assert.h>
 
-void MyFunction(napi_env env, napi_func_cb_info info) { 
-  napi_set_return_value(env, info, napi_create_string(env, "hello world"));
+void MyFunction(napi_env env, napi_callback_info info) {
+  napi_status status;
+
+  napi_value str;
+  status = napi_create_string_utf8(env, "hello world", -1, &str);
+  assert(status == napi_ok);
+
+  status = napi_set_return_value(env, info, str);
+  assert(status == napi_ok);
 }
 
-void napi_create_function(napi_env env, napi_func_cb_info info) { 
-  napi_value fn = napi_create_function(env, MyFunction);
+void CreateFunction(napi_env env, napi_callback_info info) {
+  napi_status status;
 
-  // omit this to make it anonymous
-  napi_set_function_name(env, fn, napi_property_name(env, "theFunction"));
+  napi_value fn;
+  status = napi_create_function(env, "theFunction", MyFunction, nullptr, &fn);
+  assert(status == napi_ok);
 
-  napi_set_return_value(env, info, fn);
+  status = napi_set_return_value(env, info, fn);
+  assert(status == napi_ok);
 }
+
+#define DECLARE_NAPI_METHOD(name, func)                          \
+  { name, func, 0, 0, 0, napi_default, 0 }
 
 void Init(napi_env env, napi_value exports, napi_value module) {
-  napi_set_property(env, module,
-                        napi_property_name(env, "exports"),
-                        napi_create_function(env, napi_create_function));
+  napi_status status;
+  napi_property_descriptor desc =
+      DECLARE_NAPI_METHOD("exports", CreateFunction);
+  status = napi_define_properties(env, module, 1, &desc);
+  assert(status == napi_ok);
 }
 
-NODE_MODULE_ABI(addon, Init)
+NAPI_MODULE(addon, Init)
 

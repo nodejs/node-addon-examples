@@ -1,40 +1,59 @@
-#include <node_jsvmapi.h>
+#include <node_api.h>
+#include <assert.h>
 
-void Add(napi_env env, napi_func_cb_info info) {
-  if (napi_get_cb_args_length(env, info) < 2) {
-    napi_throw(
-          env,
-          napi_create_type_error(
-              env,
-              napi_create_string(env, "Wrong number of arguments")));
+void Add(napi_env env, napi_callback_info info) {
+  napi_status status;
+
+  int argc;
+  status = napi_get_cb_args_length(env, info, &argc);
+  assert(status == napi_ok);
+
+  if (argc < 2) {
+    napi_throw_type_error(env, "Wrong number of arguments");
     return;
   }
 
   napi_value args[2];
-  napi_get_cb_args(env, info, args, 2);
+  status = napi_get_cb_args(env, info, args, 2);
+  assert(status == napi_ok);
 
-  if (napi_get_type_of_value(env, args[0]) != napi_number ||
-    napi_get_type_of_value(env, args[1]) != napi_number) {
-    napi_throw(
-        env,
-        napi_create_type_error(
-             env,
-             napi_create_string(env, "Wrong arguments")));
+  napi_valuetype valuetype0;
+  status = napi_get_type_of_value(env, args[0], &valuetype0);
+  assert(status == napi_ok);
+
+  napi_valuetype valuetype1;
+  status = napi_get_type_of_value(env, args[1], &valuetype1);
+  assert(status == napi_ok);
+
+  if (valuetype0 != napi_number || valuetype1 != napi_number) {
+    napi_throw_type_error(env, "Wrong arguments");
     return;
   }
 
-  double value = napi_get_number_from_value(env, args[0])
-               + napi_get_number_from_value(env, args[1]);
-  napi_value num = napi_create_number(env, value);
+  double value0;
+  status = napi_get_value_double(env, args[0], &value0);
+  assert(status == napi_ok);
 
-  napi_set_return_value(env, info, num);
+  double value1;
+  status = napi_get_value_double(env, args[1], &value1);
+  assert(status == napi_ok);
+
+  napi_value sum;
+  status = napi_create_number(env, value0 + value1, &sum);
+  assert(status == napi_ok);
+
+  status = napi_set_return_value(env, info, sum);
+  assert(status == napi_ok);
 }
 
+#define DECLARE_NAPI_METHOD(name, func)                          \
+  { name, func, 0, 0, 0, napi_default, 0 }
 
 void Init(napi_env env, napi_value exports, napi_value module) {
-  napi_set_property(env, exports,
-                    napi_property_name(env, "add"),
-                    napi_create_function(env, Add));
+  napi_status status;
+  napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("add", Add);
+  status = napi_define_properties(env, exports, 1, &addDescriptor);
+  assert(status == napi_ok);
 }
 
-NODE_MODULE_ABI(addon, Init)
+NAPI_MODULE(addon, Init)

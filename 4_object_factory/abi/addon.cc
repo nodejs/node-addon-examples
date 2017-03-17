@@ -1,20 +1,32 @@
-#include <node_jsvmapi.h>
+#include <node_api.h>
+#include <assert.h>
 
-void napi_create_object(napi_env env, const napi_func_cb_info info) {
+void CreateObject(napi_env env, const napi_callback_info info) {
+  napi_status status;
+
   napi_value args[1];
-  napi_get_cb_args(env, info, args, 1);
+  status = napi_get_cb_args(env, info, args, 1);
+  assert(status == napi_ok);
 
-  napi_value obj = napi_create_object(env);
-  napi_set_property(env, obj, napi_property_name(env, "msg"),
-                        args[0]);
+  napi_value obj;
+  status = napi_create_object(env, &obj);
+  assert(status == napi_ok);
 
-  napi_set_return_value(env, info, obj);
+  status = napi_set_named_property(env, obj, "msg", args[0]);
+  assert(status == napi_ok);
+
+  status = napi_set_return_value(env, info, obj);
+  assert(status == napi_ok);
 }
+
+#define DECLARE_NAPI_METHOD(name, func)                          \
+  { name, func, 0, 0, 0, napi_default, 0 }
 
 void Init(napi_env env, napi_value exports, napi_value module) {
-  napi_set_property(env, module,
-                        napi_property_name(env, "exports"),
-                        napi_create_function(env, napi_create_object));
+  napi_status status;
+  napi_property_descriptor desc = DECLARE_NAPI_METHOD("exports", CreateObject);
+  status = napi_define_properties(env, module, 1, &desc);
+  assert(status == napi_ok);
 }
 
-NODE_MODULE_ABI(addon, Init)
+NAPI_MODULE(addon, Init)

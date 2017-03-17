@@ -1,16 +1,33 @@
 #include "myobject.h"
+#include <assert.h>
 
-void napi_create_object(napi_env env, napi_func_cb_info info) {
+void CreateObject(napi_env env, napi_callback_info info) {
+  napi_status status;
+
   napi_value args[1];
-  napi_get_cb_args(env, info, args, 1);
-  napi_set_return_value(env, info, MyObject::NewInstance(env, args[0]));
+  status = napi_get_cb_args(env, info, args, 1);
+  assert(status == napi_ok);
+
+  napi_value instance;
+  status = MyObject::NewInstance(env, args[0], &instance);
+  assert(status == napi_ok);
+
+  status = napi_set_return_value(env, info, instance);
+  assert(status == napi_ok);
 }
+
+#define DECLARE_NAPI_METHOD(name, func)                          \
+  { name, func, 0, 0, 0, napi_default, 0 }
 
 void Init(napi_env env, napi_value exports, napi_value module) {
-  MyObject::Init(env);
-  napi_set_property(env, module,
-                        napi_property_name(env, "exports"),
-                        napi_create_function(env, napi_create_object));
+  napi_status status;
+
+  status = MyObject::Init(env);
+  assert(status == napi_ok);
+
+  napi_property_descriptor desc = DECLARE_NAPI_METHOD("exports", CreateObject);
+  status = napi_define_properties(env, module, 1, &desc);
+  assert(status == napi_ok);
 }
 
-NODE_MODULE_ABI(addon, Init)
+NAPI_MODULE(addon, Init)

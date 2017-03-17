@@ -1,36 +1,80 @@
-#include <node.h>
 #include "myobject.h"
+#include <assert.h>
 
+MyObject::MyObject() : env_(nullptr), wrapper_(nullptr) {}
 
-MyObject::MyObject() {};
-MyObject::~MyObject() {};
+MyObject::~MyObject() { napi_delete_reference(env_, wrapper_); }
 
-void MyObject::Destructor(void* nativeObject) {
-  ((MyObject*) nativeObject)->~MyObject();
+void MyObject::Destructor(void* nativeObject, void* /*finalize_hint*/) {
+  reinterpret_cast<MyObject*>(nativeObject)->~MyObject();
 }
 
-napi_persistent MyObject::constructor;
+napi_ref MyObject::constructor;
 
-void MyObject::Init(napi_env env) {
-  napi_value function = napi_create_constructor_for_wrap(env, New);
-  napi_set_function_name(env, function, napi_property_name(env, "MyObject"));
+napi_status MyObject::Init(napi_env env) {
+  napi_status status;
 
-  constructor = napi_create_persistent(env, function);
+  napi_value cons;
+  status = napi_define_class(env, "MyObject", New, nullptr, 0, nullptr, &cons);
+  if (status != napi_ok) return status;
+
+  status = napi_create_reference(env, cons, 1, &constructor);
+  if (status != napi_ok) return status;
+
+  return napi_ok;
 }
 
-void MyObject::New(napi_env env, napi_func_cb_info info) {
+void MyObject::New(napi_env env, napi_callback_info info) {
+  napi_status status;
+
   napi_value args[1];
-  napi_get_cb_args(env, info, args, 1);
+  status = napi_get_cb_args(env, info, args, 1);
+  assert(status == napi_ok);
+
   MyObject* obj = new MyObject();
-  obj->val_ = (args[0] == napi_get_undefined_(env)) ? 0 : napi_get_number_from_value(env, args[0]);
-  napi_value jsthis = napi_get_cb_this(env, info);
-  napi_wrap(env, jsthis, (void*) obj, MyObject::Destructor, nullptr);
-  napi_set_return_value(env, info, jsthis);
+
+  napi_valuetype valuetype;
+  status = napi_get_type_of_value(env, args[0], &valuetype);
+  assert(status == napi_ok);
+
+  if (valuetype == napi_undefined) {
+    obj->val_ = 0;
+  } else {
+    status = napi_get_value_double(env, args[0], &obj->val_);
+    assert(status == napi_ok);
+  }
+
+  napi_value jsthis;
+  status = napi_get_cb_this(env, info, &jsthis);
+  assert(status == napi_ok);
+
+  obj->env_ = env;
+  status = napi_wrap(env,
+                     jsthis,
+                     reinterpret_cast<void*>(obj),
+                     MyObject::Destructor,
+                     nullptr,  // finalize_hint
+                     &obj->wrapper_);
+  assert(status == napi_ok);
+
+  status = napi_set_return_value(env, info, jsthis);
+  assert(status == napi_ok);
 }
 
-napi_value MyObject::NewInstance(napi_env env, napi_value arg) {
+napi_status MyObject::NewInstance(napi_env env,
+                                  napi_value arg,
+                                  napi_value* instance) {
+  napi_status status;
+
   const int argc = 1;
-  napi_value argv[argc] = { arg };
-  napi_value cons = napi_get_persistent_value(env, constructor);
-  return napi_new_instance(env, cons, argc, argv);
+  napi_value argv[argc] = {arg};
+
+  napi_value cons;
+  status = napi_get_reference_value(env, constructor, &cons);
+  if (status != napi_ok) return status;
+
+  status = napi_new_instance(env, cons, argc, argv, instance);
+  if (status != napi_ok) return status;
+
+  return napi_ok;
 }

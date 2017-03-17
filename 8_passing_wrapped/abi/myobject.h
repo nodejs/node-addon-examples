@@ -1,22 +1,26 @@
-#ifndef MYOBJECT_H
-#define MYOBJECT_H
+#ifndef TEST_ADDONS_NAPI_8_PASSING_WRAPPED_MYOBJECT_H_
+#define TEST_ADDONS_NAPI_8_PASSING_WRAPPED_MYOBJECT_H_
 
-#include <node_jsvmapi.h>
+#include <node_api.h>
 
 class MyObject {
  public:
-  static void Init(napi_env env);
-  static void Destructor(void* nativeObject);
-  static napi_value NewInstance(napi_env env, napi_value arg);
+  static napi_status Init(napi_env env);
+  static void Destructor(void* nativeObject, void* finalize_hint);
+  static napi_status NewInstance(napi_env env,
+                                 napi_value arg,
+                                 napi_value* instance);
   double Val() const { return val_; }
 
  private:
   MyObject();
   ~MyObject();
 
-  static napi_persistent constructor;
-  static void New(napi_env env, napi_func_cb_info info);
+  static napi_ref constructor;
+  static void New(napi_env env, napi_callback_info info);
   double val_;
+  napi_env env_;
+  napi_ref wrapper_;
 };
 
-#endif
+#endif  // TEST_ADDONS_NAPI_8_PASSING_WRAPPED_MYOBJECT_H_
