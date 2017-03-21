@@ -49,7 +49,7 @@ void Add(napi_env env, napi_callback_info info) {
 #define DECLARE_NAPI_METHOD(name, func)                          \
   { name, func, 0, 0, 0, napi_default, 0 }
 
-void Init(napi_env env, napi_value exports, napi_value module) {
+void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
   napi_status status;
   napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("add", Add);
   status = napi_define_properties(env, exports, 1, &addDescriptor);
