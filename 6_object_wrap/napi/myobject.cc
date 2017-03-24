@@ -51,7 +51,7 @@ void MyObject::New(napi_env env, napi_callback_info info) {
     double value = 0;
 
     napi_valuetype valuetype;
-    status = napi_get_type_of_value(env, args[0], &valuetype);
+    status = napi_typeof(env, args[0], &valuetype);
     assert(status == napi_ok);
 
     if (valuetype != napi_undefined) {
@@ -82,7 +82,7 @@ void MyObject::New(napi_env env, napi_callback_info info) {
     status = napi_get_cb_args(env, info, args, 1);
     assert(status == napi_ok);
 
-    const int argc = 1;
+    const size_t argc = 1;
     napi_value argv[argc] = {args[0]};
 
     napi_value cons;
@@ -165,7 +165,7 @@ void MyObject::Multiply(napi_env env, napi_callback_info info) {
   assert(status == napi_ok);
 
   napi_valuetype valuetype;
-  status = napi_get_type_of_value(env, args[0], &valuetype);
+  status = napi_typeof(env, args[0], &valuetype);
   assert(status == napi_ok);
 
   double multiple = 1;

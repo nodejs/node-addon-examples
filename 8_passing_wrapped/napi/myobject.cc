@@ -34,7 +34,7 @@ void MyObject::New(napi_env env, napi_callback_info info) {
   MyObject* obj = new MyObject();
 
   napi_valuetype valuetype;
-  status = napi_get_type_of_value(env, args[0], &valuetype);
+  status = napi_typeof(env, args[0], &valuetype);
   assert(status == napi_ok);
 
   if (valuetype == napi_undefined) {

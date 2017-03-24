@@ -4,7 +4,7 @@
 void Add(napi_env env, napi_callback_info info) {
   napi_status status;
 
-  int argc;
+  size_t argc;
   status = napi_get_cb_args_length(env, info, &argc);
   assert(status == napi_ok);
 
@@ -18,11 +18,11 @@ void Add(napi_env env, napi_callback_info info) {
   assert(status == napi_ok);
 
   napi_valuetype valuetype0;
-  status = napi_get_type_of_value(env, args[0], &valuetype0);
+  status = napi_typeof(env, args[0], &valuetype0);
   assert(status == napi_ok);
 
   napi_valuetype valuetype1;
-  status = napi_get_type_of_value(env, args[1], &valuetype1);
+  status = napi_typeof(env, args[1], &valuetype1);
   assert(status == napi_ok);
 
   if (valuetype0 != napi_number || valuetype1 != napi_number) {
