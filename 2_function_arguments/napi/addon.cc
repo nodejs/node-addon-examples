@@ -10,7 +10,7 @@ napi_value Add(napi_env env, napi_callback_info info) {
   assert(status == napi_ok);
 
   if (argc < 2) {
-    napi_throw_type_error(env, "Wrong number of arguments");
+    napi_throw_type_error(env, nullptr, "Wrong number of arguments");
     return nullptr;
   }
 
@@ -23,7 +23,7 @@ napi_value Add(napi_env env, napi_callback_info info) {
   assert(status == napi_ok);
 
   if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, "Wrong arguments");
+    napi_throw_type_error(env, nullptr, "Wrong arguments");
     return nullptr;
   }
 
