@@ -19,14 +19,12 @@ napi_value CreateObject(napi_env env, const napi_callback_info info) {
   return obj;
 }
 
-#define DECLARE_NAPI_METHOD(name, func)                          \
-  { name, 0, func, 0, 0, 0, napi_default, 0 }
-
-void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
-  napi_status status;
-  napi_property_descriptor desc = DECLARE_NAPI_METHOD("exports", CreateObject);
-  status = napi_define_properties(env, module, 1, &desc);
+napi_value Init(napi_env env, napi_value exports) {
+  napi_value new_exports;
+  napi_status status =
+      napi_create_function(env, "", NAPI_AUTO_LENGTH, CreateObject, nullptr, &new_exports);
   assert(status == napi_ok);
+  return new_exports;
 }
 
 NAPI_MODULE(addon, Init)

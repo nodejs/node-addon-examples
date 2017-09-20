@@ -12,7 +12,7 @@ napi_value RunCallback(napi_env env, const napi_callback_info info) {
   napi_value cb = args[0];
 
   napi_value argv[1];
-  status = napi_create_string_utf8(env, "hello world", -1, argv);
+  status = napi_create_string_utf8(env, "hello world", NAPI_AUTO_LENGTH, argv);
   assert(status == napi_ok);
 
   napi_value global;
@@ -26,14 +26,12 @@ napi_value RunCallback(napi_env env, const napi_callback_info info) {
   return nullptr;
 }
 
-#define DECLARE_NAPI_METHOD(name, func)                          \
-  { name, 0, func, 0, 0, 0, napi_default, 0 }
-
-void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
-  napi_status status;
-  napi_property_descriptor desc = DECLARE_NAPI_METHOD("exports", RunCallback);
-  status = napi_define_properties(env, module, 1, &desc);
+napi_value Init(napi_env env, napi_value exports) {
+  napi_value new_exports;
+  napi_status status =
+      napi_create_function(env, "", NAPI_AUTO_LENGTH, RunCallback, nullptr, &new_exports);
   assert(status == napi_ok);
+  return new_exports;
 }
 
 NAPI_MODULE(addon, Init)

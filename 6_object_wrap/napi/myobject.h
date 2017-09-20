@@ -5,7 +5,7 @@
 
 class MyObject {
  public:
-  static void Init(napi_env env, napi_value exports);
+  static napi_value Init(napi_env env, napi_value exports);
   static void Destructor(napi_env env, void* nativeObject, void* finalize_hint);
 
  private:

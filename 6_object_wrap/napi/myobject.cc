@@ -15,7 +15,7 @@ void MyObject::Destructor(napi_env env, void* nativeObject, void* /*finalize_hin
 #define DECLARE_NAPI_METHOD(name, func)                          \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
 
-void MyObject::Init(napi_env env, napi_value exports) {
+napi_value MyObject::Init(napi_env env, napi_value exports) {
   napi_status status;
   napi_property_descriptor properties[] = {
       { "value", 0, 0, GetValue, SetValue, 0, napi_default, 0 },
@@ -25,7 +25,7 @@ void MyObject::Init(napi_env env, napi_value exports) {
 
   napi_value cons;
   status =
-      napi_define_class(env, "MyObject", New, nullptr, 3, properties, &cons);
+      napi_define_class(env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 3, properties, &cons);
   assert(status == napi_ok);
 
   status = napi_create_reference(env, cons, 1, &constructor);
@@ -33,14 +33,16 @@ void MyObject::Init(napi_env env, napi_value exports) {
 
   status = napi_set_named_property(env, exports, "MyObject", cons);
   assert(status == napi_ok);
+  return exports;
 }
 
 napi_value MyObject::New(napi_env env, napi_callback_info info) {
   napi_status status;
 
-  bool is_constructor;
-  status = napi_is_construct_call(env, info, &is_constructor);
+  napi_value target;
+  status = napi_get_new_target(env, info, &target);
   assert(status == napi_ok);
+  bool is_constructor = target != nullptr;
 
   if (is_constructor) {
     // Invoked as constructor: `new MyObject(...)`
@@ -107,7 +109,7 @@ napi_value MyObject::GetValue(napi_env env, napi_callback_info info) {
   assert(status == napi_ok);
 
   napi_value num;
-  status = napi_create_number(env, obj->value_, &num);
+  status = napi_create_double(env, obj->value_, &num);
   assert(status == napi_ok);
 
   return num;
@@ -147,7 +149,7 @@ napi_value MyObject::PlusOne(napi_env env, napi_callback_info info) {
   obj->value_ += 1;
 
   napi_value num;
-  status = napi_create_number(env, obj->value_, &num);
+  status = napi_create_double(env, obj->value_, &num);
   assert(status == napi_ok);
 
   return num;
@@ -182,7 +184,7 @@ napi_value MyObject::Multiply(napi_env env, napi_callback_info info) {
 
   const int kArgCount = 1;
   napi_value argv[kArgCount];
-  status = napi_create_number(env, obj->value_ * multiple, argv);
+  status = napi_create_double(env, obj->value_ * multiple, argv);
   assert(status == napi_ok);
 
   napi_value instance;

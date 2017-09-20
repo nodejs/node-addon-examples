@@ -22,7 +22,7 @@ napi_status MyObject::Init(napi_env env) {
 
   napi_value cons;
   status =
-      napi_define_class(env, "MyObject", New, nullptr, 1, properties, &cons);
+      napi_define_class(env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 1, properties, &cons);
   if (status != napi_ok) return status;
 
   status = napi_create_reference(env, cons, 1, &constructor);
@@ -97,7 +97,7 @@ napi_value MyObject::PlusOne(napi_env env, napi_callback_info info) {
   obj->counter_ += 1;
 
   napi_value num;
-  status = napi_create_number(env, obj->counter_, &num);
+  status = napi_create_double(env, obj->counter_, &num);
   assert(status == napi_ok);
 
   return num;

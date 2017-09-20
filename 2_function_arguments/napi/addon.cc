@@ -36,7 +36,7 @@ napi_value Add(napi_env env, napi_callback_info info) {
   assert(status == napi_ok);
 
   napi_value sum;
-  status = napi_create_number(env, value0 + value1, &sum);
+  status = napi_create_double(env, value0 + value1, &sum);
   assert(status == napi_ok);
 
   return sum;
@@ -45,11 +45,12 @@ napi_value Add(napi_env env, napi_callback_info info) {
 #define DECLARE_NAPI_METHOD(name, func)                          \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
 
-void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
+napi_value Init(napi_env env, napi_value exports) {
   napi_status status;
   napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("add", Add);
   status = napi_define_properties(env, exports, 1, &addDescriptor);
   assert(status == napi_ok);
+  return exports;
 }
 
 NAPI_MODULE(addon, Init)

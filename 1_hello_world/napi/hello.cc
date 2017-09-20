@@ -12,11 +12,12 @@ napi_value Method(napi_env env, napi_callback_info info) {
 #define DECLARE_NAPI_METHOD(name, func)                          \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
 
-void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
+napi_value Init(napi_env env, napi_value exports) {
   napi_status status;
   napi_property_descriptor desc = DECLARE_NAPI_METHOD("hello", Method);
   status = napi_define_properties(env, exports, 1, &desc);
   assert(status == napi_ok);
+  return exports;
 }
 
 NAPI_MODULE(hello, Init)
