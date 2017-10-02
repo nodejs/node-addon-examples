@@ -7,6 +7,6 @@
   "gypfile": true,
   "dependencies": {
     "bindings": "~1.2.1",
-    "node-addon-api": "file:../../../node-addon-api"
+    "node-addon-api": "^1.0.0"
   }
 }
