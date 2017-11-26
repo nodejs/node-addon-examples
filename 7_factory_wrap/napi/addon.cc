@@ -27,4 +27,4 @@ napi_value Init(napi_env env, napi_value exports) {
   return new_exports;
 }
 
-NAPI_MODULE(addon, Init)
+NAPI_MODULE(NODE_GYP_MODULE_NAME, Init)
