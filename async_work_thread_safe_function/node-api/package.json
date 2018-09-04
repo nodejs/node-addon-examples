@@ -1,0 +1,14 @@
+{
+  "name": "async_work_thread_safe_function",
+  "version": "0.0.0",
+  "description": "Calling into JS from the thread pool",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "bindings": "~1.2.1"
+  },
+  "scripts": {
+    "test": "node index.js"
+  },
+  "gypfile": true
+}
