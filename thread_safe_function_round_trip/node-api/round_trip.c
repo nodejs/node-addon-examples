@@ -51,7 +51,7 @@ static void CallJs(napi_env env, napi_value js_cb, void* context, void* data) {
   // in `RegisterReturnValue` below, and we use the value here to decide whether
   // the data coming in from the secondary thread is stale or not.
   if (addon_data->js_accepts && !(env == NULL || js_cb == NULL)) {
-    napi_value undefined, argv[2];
+    napi_value undefined, js_thread_item;
     // Retrieve the JavaScript `undefined` value. This will serve as the `this`
     // value for the function call.
     assert(napi_get_undefined(env, &undefined) == napi_ok);
@@ -63,24 +63,27 @@ static void CallJs(napi_env env, napi_value js_cb, void* context, void* data) {
                                     &constructor) == napi_ok);
 
     // Construct a new instance of the JavaScript class to hold the native item.
-    assert(napi_new_instance(env, constructor, 0, NULL, &argv[0]) == napi_ok);
+    assert(napi_new_instance(env,
+                             constructor,
+                             0,
+                             NULL,
+                             &js_thread_item) == napi_ok);
 
     // Associate the native item with the newly constructed JavaScript object.
     // We assume that the JavaScript side will eventually pass this JavaScript
     // object back to us via `RegisterReturnValue`, which will allow the
     // eventual deallocation of the native data. That's why we do not provide a
     // finalizer here.
-    assert(napi_wrap(env, argv[0], data, NULL, NULL, NULL) == napi_ok);
-
-    // Convert the prime number to a number `napi_value` we can pass into
-    // JavaScript.
-    assert(napi_create_int32(env,
-                             ((ThreadItem*)data)->the_prime,
-                             &argv[1]) == napi_ok);
+    assert(napi_wrap(env, js_thread_item, data, NULL, NULL, NULL) == napi_ok);
 
     // Call the JavaScript function with the item as wrapped into an instance of
     // the JavaScript `ThreadItem` class and the prime.
-    assert(napi_call_function(env, undefined, js_cb, 2, argv, NULL) == napi_ok);
+    assert(napi_call_function(env,
+                              undefined,
+                              js_cb,
+                              1,
+                              &js_thread_item,
+                              NULL) == napi_ok);
   }
 }
 
@@ -241,6 +244,17 @@ static napi_value StartThread(napi_env env, napi_callback_info info) {
   return NULL;
 }
 
+static bool
+is_thread_item (napi_env env, napi_ref constructor_ref, napi_value value) {
+  bool validate;
+  napi_value constructor;
+  assert(napi_get_reference_value(env,
+                                  constructor_ref,
+                                  &constructor) == napi_ok);
+  assert(napi_instanceof(env, value, constructor, &validate) == napi_ok);
+  return validate;
+}
+
 // We use a separate binding to register a return value for a given call into
 // JavaScript, represented by a `ThreadItem` object on both the JavaScript side
 // and the native side. This allows the JavaScript side to asynchronously
@@ -251,9 +265,8 @@ static napi_value RegisterReturnValue(napi_env env, napi_callback_info info) {
   // 2. The desired return value.
   size_t argc = 2;
   napi_value argv[2];
-  napi_value constructor;
   AddonData* addon_data;
-  bool right_instance, return_value;
+  bool return_value;
   ThreadItem* item;
 
   // Retrieve the parameters with which this function was called.
@@ -275,19 +288,10 @@ static napi_value RegisterReturnValue(napi_env env, napi_callback_info info) {
 
   assert(argc == 2 && "Exactly two arguments were received");
 
-  // Retrieve the constructor for `ThreadItem` instances.
-  assert(napi_get_reference_value(env,
-                                  addon_data->thread_item_constructor,
-                                  &constructor) == napi_ok);
-
   // Make sure the first parameter is an instance of the `ThreadItem` class.
   // This type check ensures that there *is* a pointer stored inside the
   // JavaScript object, and that the pointer is to a `ThreadItem` structure.
-  assert(napi_instanceof(env,
-                         argv[0],
-                         constructor,
-                         &right_instance) == napi_ok);
-  assert(right_instance && "First argument is a `ThreadItem`");
+  assert(is_thread_item(env, addon_data->thread_item_constructor, argv[0]));
 
   // Retrieve the native data from the item.
   assert(napi_unwrap(env, argv[0], (void**)&item) == napi_ok);
@@ -315,6 +319,18 @@ static napi_value RegisterReturnValue(napi_env env, napi_callback_info info) {
 // structure.
 static napi_value ThreadItemConstructor(napi_env env, napi_callback_info info) {
   return NULL;
+}
+
+// Getter for the `prime` property of the `ThreadItem` class.
+static napi_value GetPrime(napi_env env, napi_callback_info info) {
+  napi_value jsthis, prime_property;
+  AddonData* ad;
+  assert(napi_ok == napi_get_cb_info(env, info, 0, 0, &jsthis, (void*)&ad));
+  assert(is_thread_item(env, ad->thread_item_constructor, jsthis));
+  ThreadItem* item;
+  assert(napi_ok == napi_unwrap(env, jsthis, (void**)&item));
+  assert(napi_ok == napi_create_int32(env, item->the_prime, &prime_property));
+  return prime_property;
 }
 
 static void addon_is_unloading(napi_env env, void* data, void* hint) {
@@ -352,14 +368,16 @@ static void addon_is_unloading(napi_env env, void* data, void* hint) {
   assert(uv_mutex_init(&(addon_data->check_status_mutex)) == 0);
 
   napi_value thread_item_class;
-
+  napi_property_descriptor thread_item_properties[] = {
+    { "prime", 0, 0, GetPrime, 0, 0, napi_enumerable, addon_data }
+  };
   assert(napi_define_class(env,
                            "ThreadItem",
                            NAPI_AUTO_LENGTH,
                            ThreadItemConstructor,
                            addon_data,
-                           0,
-                           NULL,
+                           1,
+                           thread_item_properties,
                            &thread_item_class) == napi_ok);
   assert(napi_create_reference(env,
                                thread_item_class,
