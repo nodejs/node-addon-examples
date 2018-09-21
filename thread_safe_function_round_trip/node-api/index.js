@@ -1,6 +1,7 @@
 const bindings = require('bindings')('round_trip');
 
-bindings.startThread((item, thePrime) => {
+bindings.startThread(item => {
+  const thePrime = item.prime;
   console.log('The prime: ' + thePrime);
 
   // Answer the call with a 90% probability of returning true somewhere between
