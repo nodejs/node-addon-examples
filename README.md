@@ -1,21 +1,34 @@
-Node.js Addon Examples - ABI Stable PoC
+Node.js Addon Examples
 =========================================
 
-This repository is the home of the Addon Examples as extended
-for the proof of concept work being done to develop an ABI
-stable API for use my node modules.
+This repository is the home of the Addon Examples.
 
-For more details please read the node-eps covering this effort.
-The current PR for the eps is: https://github.com/nodejs/node-eps/pull/20
+The directory structure is as follows:
 
-```text
-$ sudo npm install node-gyp -g
+```
+<name of example>
+  |
+  +--- <implementation 1>
+  |      |
+  |      +--- files...
+  +--- <implementation 2>
+  .      |
+  .      +--- files...
+  .
 ```
 
-In each example directory, run:
+Implementations are named either after Node.js versions (`node_0.10`,
+`node_0.12`, etc), or Node.js addon implementation APIs (`nan`, `napi`,
+or `node-addon-api`).
+
+Implementations against unsupported versions of Node.js are provided for
+completess and historical context. They are not maintained.
+
+In each example's implementation subdirectory, run
 
 ```text
 $ npm install
-$ node-gyp rebuild
 $ node ./
 ```
+
+to see the example in action.
