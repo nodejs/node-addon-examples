@@ -17,7 +17,7 @@ void MyObject::Init() {
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
   // Prototype
   tpl->PrototypeTemplate()->Set(Nan::New("plusOne").ToLocalChecked(),
-      Nan::New<v8::FunctionTemplate>(PlusOne)->GetFunction());
+      Nan::New<v8::FunctionTemplate>(PlusOne));
 
   constructor.Reset(tpl->GetFunction());
 }
