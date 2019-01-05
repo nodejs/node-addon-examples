@@ -1,3 +1,10 @@
+Somewhere in this file, it should tell users whether NAN or NAPI is the style to use for the most recent Node.js version. See:
+https://github.com/nodejs/node-addon-examples/issues/74
+
+thx
+-alex
+
+
 Node.js Addon Examples
 =========================================
 
