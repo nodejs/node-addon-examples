@@ -1,0 +1,14 @@
+{
+  "name": "array_buffer_to_native",
+  "version": "0.0.0",
+  "description": "Fill Out a Native Array in JavaScript",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "node-addon-api": "^1.0.0"
+  },
+  "scripts": {
+    "test": "node index.js"
+  }
+}
