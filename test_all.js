@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { exec } = require('child_process')
+const { execSync } = require('child_process')
 
 fs.readdirSync("./")
   .filter(i => {
@@ -15,15 +15,10 @@ fs.readdirSync("./")
   })
   .map(tests => {
     tests.map(i => {
-      console.log(i);
-      exec('npm', {
+      console.log(`testing`, i);
+      const stdout = execSync('npm install', {
         cwd: i
-      }, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`failed with ${i} with error`, error)
-          process.exit(-1)
-        }
-        console.log(stdout.toString() + stderr.toString())
-      })
+      }
+      console.log(stdout.toString())
     })
   })
