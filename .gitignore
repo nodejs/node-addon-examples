@@ -1,5 +1,9 @@
 build/
 node_modules/
+Debug/
+Release/
+*.lock
 
 .idea/
+.vscode/
 .DS_Store

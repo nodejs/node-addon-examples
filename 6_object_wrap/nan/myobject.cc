@@ -37,7 +37,9 @@ void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     const int argc = 1;
     v8::Local<v8::Value> argv[argc] = { info[0] };
     v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
-    info.GetReturnValue().Set(cons->NewInstance(argc, argv));
+    v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
+    info.GetReturnValue().Set(
+        cons->NewInstance(context, argc, argv).ToLocalChecked());
   }
 }
 
@@ -61,5 +63,7 @@ void MyObject::Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   const int argc = 1;
   v8::Local<v8::Value> argv[argc] = { Nan::New(obj->value_ * multiple) };
 
-  info.GetReturnValue().Set(cons->NewInstance(argc, argv));
+  v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
+  info.GetReturnValue().Set(
+      cons->NewInstance(context, argc, argv).ToLocalChecked());
 }
