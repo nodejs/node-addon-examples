@@ -18,7 +18,7 @@ fs.readdirSync("./")
       console.log(`testing`, i);
       const stdout = execSync('npm install', {
         cwd: i
-      }
+      })
       console.log(stdout.toString())
     })
   })
