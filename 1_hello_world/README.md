@@ -102,7 +102,7 @@ Run `node-gyp configure` to set up the build fixtures. In the *./build/* directo
 
 Next, run `node-gyp build` to start the build process and watch your addon compile. You can use `node-gyp build` again to incrementally recompile changed source files. Alternatively you can use `node-gyp rebuild` to combine the `configure` and `build` steps in one.
 
-You should now have a compiled binary addon ready for use. Node will load it just like it loads a .js module file and include it in your running application. The binary file should be be located at *./build/Release/hello.node*.
+You should now have a compiled binary addon ready for use. Node will load it just like it loads a .js module file and include it in your running application. The binary file should be located at *./build/Release/hello.node*.
 
 ### Step 6
 
