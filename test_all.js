@@ -36,7 +36,7 @@ getAllTests().map(tests => {
       const engineOk = semver.satisfies(currentNodeVersion, range)
       if (!engineOk) {
         console.warn(
-          `${i} require Node.js ${range}, current is ${currentNodeVersion}, skipping`
+          chalk.yellow(`${i} require Node.js ${range}, current is ${currentNodeVersion}, skipping`)
         )
         return
       }
