@@ -9,4 +9,5 @@ cache:
 before_script:
   - npx envinfo
 script:
-  - node test_all.js
+  - npm install
+  - npm test

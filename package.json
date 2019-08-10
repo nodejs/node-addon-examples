@@ -1,0 +1,13 @@
+{
+  "name": "node-addon-examples",
+  "version": "1.0.0",
+  "description": "Node.js Addon Examples",
+  "main": "test_all.js",
+  "scripts": {
+    "test": "node test_all.js"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "semver": "^6.3.0"
+  }
+}
