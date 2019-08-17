@@ -2,7 +2,7 @@ This example covers handling of UTF-8 encoded strings as parameters for an exter
 
 1. Dependencies
 ```
-build-essential
+gcc
 python2
 nodejs
 node-gyp
@@ -17,7 +17,7 @@ sudo apt install build-essential python2 nodejs node-gyp
 cd node-addon-examples/1_hello_world/napi/example2/libHelloWorld/
 ./build.sh
 ```
-This will execute `build.sh` which will compile `libHelloWorld.so` within `lib/`. Afterwards, the shared object will be opied to `/usr/lib` and its header will be copied to `/usr/include`. Done that, the NAPI module will be built and `module.js` will be executed.
+This will execute `build.sh` which will compile `libHelloWorld.so` within `lib/`. Afterwards, the shared object will be copied to `/usr/lib` and its header will be copied to `/usr/include`. Done that, the NAPI module will be built and `module.js` will be executed.
 
 3. Once the previous steps were finished successfully, the output should be as follows:
 ```
