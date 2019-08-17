@@ -1,0 +1,12 @@
+{
+  "name": "helloworldlib",
+  "version": "1.0.0",
+  "description": "NAPI Test",
+  "main": "module.js",
+  "scripts": {
+    "start": "node-gyp configure build && node module.js",
+    "test": "console.log(\"Hello World!\");"
+  },
+  "author": "Steven Klein",
+  "license": "MIT"
+}
