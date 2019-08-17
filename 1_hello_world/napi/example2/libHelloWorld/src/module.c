@@ -14,7 +14,7 @@ napi_value hello_world_concat (napi_env env, napi_callback_info info) {
 
   size_t str_size;
   size_t str_size_read;
-  // Extract only argument 2 "World" (args[1])
+  
   napi_get_value_string_utf8(env, args[0], NULL, 0, &str_size);
   char * cHello;
   cHello = (char*)calloc(str_size + 1, sizeof(char));
