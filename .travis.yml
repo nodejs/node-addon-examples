@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "8"
+  - "10"
+#  - "12" enable this when fix issue on Node.js 12
+cache:
+  npm
+before_script:
+  - npx envinfo
+script:
+  - npm install
+  - npm test

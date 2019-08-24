@@ -37,7 +37,10 @@ v8::Local<v8::Object> MyObject::NewInstance(v8::Local<v8::Value> arg) {
   const unsigned argc = 1;
   v8::Local<v8::Value> argv[argc] = { arg };
   v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
-  v8::Local<v8::Object> instance = cons->NewInstance(argc, argv);
+  v8::Local<v8::Context> context =
+      v8::Isolate::GetCurrent()->GetCurrentContext();
+  v8::Local<v8::Object> instance =
+      cons->NewInstance(context, argc, argv).ToLocalChecked();
 
   return scope.Escape(instance);
 }

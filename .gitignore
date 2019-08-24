@@ -1,2 +1,11 @@
 build/
 node_modules/
+Debug/
+Release/
+*.lock
+*.log
+npm-debug.log*
+
+.idea/
+.vscode/
+.DS_Store

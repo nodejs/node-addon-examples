@@ -7,6 +7,9 @@
   "dependencies": {
     "bindings": "~1.2.1"
   },
+  "engines": {
+    "node": ">= 10.6.0"
+  },
   "scripts": {
     "test": "node index.js"
   },
