@@ -9,6 +9,7 @@ MyObject::~MyObject() {
 }
 
 void MyObject::Init(v8::Local<v8::Object> exports) {
+  v8::Local<v8::Context> context = exports->CreationContext();
   Nan::HandleScope scope;
 
   // Prepare constructor template
@@ -21,14 +22,16 @@ void MyObject::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "plusOne", PlusOne);
   Nan::SetPrototypeMethod(tpl, "multiply", Multiply);
 
-  constructor.Reset(tpl->GetFunction());
-  exports->Set(Nan::New("MyObject").ToLocalChecked(), tpl->GetFunction());
+  constructor.Reset(tpl->GetFunction(context).ToLocalChecked());
+  exports->Set(Nan::New("MyObject").ToLocalChecked(),
+      tpl->GetFunction(context).ToLocalChecked());
 }
 
 void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
   if (info.IsConstructCall()) {
     // Invoked as constructor: `new MyObject(...)`
-    double value = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
+    double value = info[0]->IsUndefined() ? 0 : info[0]->NumberValue(context).FromJust();
     MyObject* obj = new MyObject(value);
     obj->Wrap(info.This());
     info.GetReturnValue().Set(info.This());
@@ -37,7 +40,6 @@ void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     const int argc = 1;
     v8::Local<v8::Value> argv[argc] = { info[0] };
     v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
-    v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
     info.GetReturnValue().Set(
         cons->NewInstance(context, argc, argv).ToLocalChecked());
   }
@@ -55,15 +57,15 @@ void MyObject::PlusOne(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 
 void MyObject::Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
-  double multiple = info[0]->IsUndefined() ? 1 : info[0]->NumberValue();
+  double multiple = info[0]->IsUndefined() ? 1 : info[0]->NumberValue(context).FromJust();
 
   v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
 
   const int argc = 1;
   v8::Local<v8::Value> argv[argc] = { Nan::New(obj->value_ * multiple) };
 
-  v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
   info.GetReturnValue().Set(
       cons->NewInstance(context, argc, argv).ToLocalChecked());
 }

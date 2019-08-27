@@ -19,12 +19,14 @@ void MyObject::Init() {
   tpl->PrototypeTemplate()->Set(Nan::New("plusOne").ToLocalChecked(),
       Nan::New<v8::FunctionTemplate>(PlusOne));
 
-  constructor.Reset(tpl->GetFunction());
+  constructor.Reset(tpl->GetFunction(Nan::GetCurrentContext()).ToLocalChecked());
 }
 
 void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
+
   MyObject* obj = new MyObject();
-  obj->counter_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue();
+  obj->counter_ = info[0]->IsUndefined() ? 0 : info[0]->NumberValue(context).FromJust();
   obj->Wrap(info.This());
 
   info.GetReturnValue().Set(info.This());
