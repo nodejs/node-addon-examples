@@ -1,8 +1,9 @@
+#include "myobject.h"
 #include <napi.h>
 #include <uv.h>
-#include "myobject.h"
 
-MyObject::MyObject(const Napi::CallbackInfo& info) : Napi::ObjectWrap<MyObject>(info) {
+MyObject::MyObject(const Napi::CallbackInfo& info)
+    : Napi::ObjectWrap<MyObject>(info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
@@ -23,6 +24,6 @@ void MyObject::Init(Napi::Env env, Napi::Object exports) {
 }
 
 Napi::Object MyObject::NewInstance(Napi::Value arg) {
-  Napi::Object obj = constructor.New({ arg });
+  Napi::Object obj = constructor.New({arg});
   return obj;
 }

@@ -1,5 +1,5 @@
-#include "myobject.h"
 #include <assert.h>
+#include "myobject.h"
 
 napi_value CreateObject(napi_env env, napi_callback_info info) {
   napi_status status;
@@ -38,7 +38,7 @@ napi_value Add(napi_env env, napi_callback_info info) {
   return sum;
 }
 
-#define DECLARE_NAPI_METHOD(name, func)                          \
+#define DECLARE_NAPI_METHOD(name, func)                                        \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
 
 napi_value Init(napi_env env, napi_value exports) {

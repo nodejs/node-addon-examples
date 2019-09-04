@@ -1,6 +1,6 @@
+#include "myobject.h"
 #include <napi.h>
 #include <uv.h>
-#include "myobject.h"
 
 using namespace Napi;
 
@@ -9,9 +9,8 @@ Napi::FunctionReference MyObject::constructor;
 Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
-  Napi::Function func = DefineClass(env, "MyObject", {
-      InstanceMethod("plusOne", &MyObject::PlusOne)
-  });
+  Napi::Function func = DefineClass(
+      env, "MyObject", {InstanceMethod("plusOne", &MyObject::PlusOne)});
 
   constructor = Napi::Persistent(func);
   constructor.SuppressDestruct();
@@ -20,7 +19,8 @@ Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
   return exports;
 }
 
-MyObject::MyObject(const Napi::CallbackInfo& info) : Napi::ObjectWrap<MyObject>(info) {
+MyObject::MyObject(const Napi::CallbackInfo& info)
+    : Napi::ObjectWrap<MyObject>(info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
@@ -29,7 +29,7 @@ MyObject::MyObject(const Napi::CallbackInfo& info) : Napi::ObjectWrap<MyObject>(
 
 Napi::Object MyObject::NewInstance(Napi::Env env, Napi::Value arg) {
   Napi::EscapableHandleScope scope(env);
-  Napi::Object obj = constructor.New({ arg });
+  Napi::Object obj = constructor.New({arg});
   return scope.Escape(napi_value(obj)).ToObject();
 }
 

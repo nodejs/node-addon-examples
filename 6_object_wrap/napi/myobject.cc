@@ -6,26 +6,30 @@ napi_ref MyObject::constructor;
 MyObject::MyObject(double value)
     : value_(value), env_(nullptr), wrapper_(nullptr) {}
 
-MyObject::~MyObject() { napi_delete_reference(env_, wrapper_); }
+MyObject::~MyObject() {
+  napi_delete_reference(env_, wrapper_);
+}
 
-void MyObject::Destructor(napi_env env, void* nativeObject, void* /*finalize_hint*/) {
+void MyObject::Destructor(napi_env env,
+                          void* nativeObject,
+                          void* /*finalize_hint*/) {
   reinterpret_cast<MyObject*>(nativeObject)->~MyObject();
 }
 
-#define DECLARE_NAPI_METHOD(name, func)                          \
+#define DECLARE_NAPI_METHOD(name, func)                                        \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
 
 napi_value MyObject::Init(napi_env env, napi_value exports) {
   napi_status status;
   napi_property_descriptor properties[] = {
-      { "value", 0, 0, GetValue, SetValue, 0, napi_default, 0 },
+      {"value", 0, 0, GetValue, SetValue, 0, napi_default, 0},
       DECLARE_NAPI_METHOD("plusOne", PlusOne),
       DECLARE_NAPI_METHOD("multiply", Multiply),
   };
 
   napi_value cons;
-  status =
-      napi_define_class(env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 3, properties, &cons);
+  status = napi_define_class(
+      env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 3, properties, &cons);
   assert(status == napi_ok);
 
   status = napi_create_reference(env, cons, 1, &constructor);
@@ -123,7 +127,6 @@ napi_value MyObject::SetValue(napi_env env, napi_callback_info info) {
   napi_value jsthis;
   status = napi_get_cb_info(env, info, &argc, &value, &jsthis, nullptr);
   assert(status == napi_ok);
-
 
   MyObject* obj;
   status = napi_unwrap(env, jsthis, reinterpret_cast<void**>(&obj));

@@ -1,5 +1,5 @@
-#include <cstdlib>
 #include "pi_est.h"  // NOLINT(build/include)
+#include <cstdlib>
 
 /*
 Estimate the value of π by using a Monte Carlo method.
@@ -14,7 +14,7 @@ See https://en.wikipedia.org/wiki/File:Pi_30K.gif
 for a visualization of how this works.
 */
 
-inline int randall(unsigned int *p_seed) {
+inline int randall(unsigned int* p_seed) {
 // windows has thread safe rand()
 #ifdef _WIN32
   return rand();  // NOLINT(runtime/threadsafe_fn)
@@ -23,7 +23,7 @@ inline int randall(unsigned int *p_seed) {
 #endif
 }
 
-double Estimate (int points) {
+double Estimate(int points) {
   int i = points;
   int inside = 0;
   unsigned int randseed = 1;
@@ -46,8 +46,7 @@ double Estimate (int points) {
     // x & y and now values between 0 and 1
     // now do a pythagorean diagonal calculation
     // `1` represents our 1/4 circle
-    if ((x * x) + (y * y) <= 1)
-      inside++;
+    if ((x * x) + (y * y) <= 1) inside++;
   }
 
   // calculate ratio and multiply by 4 for π

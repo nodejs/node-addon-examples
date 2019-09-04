@@ -1,20 +1,18 @@
+#include "async.h"  // NOLINT(build/include)
 #include <napi.h>
 #include "pi_est.h"  // NOLINT(build/include)
-#include "async.h"  // NOLINT(build/include)
 
 class PiWorker : public Napi::AsyncWorker {
  public:
   PiWorker(Napi::Function& callback, int points)
-    : Napi::AsyncWorker(callback), points(points), estimate(0) {}
+      : Napi::AsyncWorker(callback), points(points), estimate(0) {}
   ~PiWorker() {}
 
   // Executed inside the worker-thread.
   // It is not safe to access JS engine data structure
   // here, so everything we need for input and output
   // should go on `this`.
-  void Execute () {
-    estimate = Estimate(points);
-  }
+  void Execute() { estimate = Estimate(points); }
 
   // Executed when the async work is complete
   // this function will be run inside the main event loop
