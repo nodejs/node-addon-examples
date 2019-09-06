@@ -3,13 +3,17 @@
 
 MyObject::MyObject() : env_(nullptr), wrapper_(nullptr) {}
 
-MyObject::~MyObject() { napi_delete_reference(env_, wrapper_); }
+MyObject::~MyObject() {
+  napi_delete_reference(env_, wrapper_);
+}
 
-void MyObject::Destructor(napi_env env, void* nativeObject, void* /*finalize_hint*/) {
+void MyObject::Destructor(napi_env env,
+                          void* nativeObject,
+                          void* /*finalize_hint*/) {
   reinterpret_cast<MyObject*>(nativeObject)->~MyObject();
 }
 
-#define DECLARE_NAPI_METHOD(name, func)                          \
+#define DECLARE_NAPI_METHOD(name, func)                                        \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
 
 napi_ref MyObject::constructor;
@@ -21,8 +25,8 @@ napi_status MyObject::Init(napi_env env) {
   };
 
   napi_value cons;
-  status =
-      napi_define_class(env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 1, properties, &cons);
+  status = napi_define_class(
+      env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 1, properties, &cons);
   if (status != napi_ok) return status;
 
   status = napi_create_reference(env, cons, 1, &constructor);

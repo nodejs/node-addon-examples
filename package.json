@@ -4,10 +4,12 @@
   "description": "Node.js Addon Examples",
   "main": "test_all.js",
   "scripts": {
+    "format": "clang-format -i --glob=*/**/*.{h,cpp,cc}",
     "test": "node test_all.js"
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "clang-format": "^1.2.4",
     "semver": "^6.3.0"
   }
 }

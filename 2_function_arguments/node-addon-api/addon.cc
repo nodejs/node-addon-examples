@@ -4,7 +4,8 @@ Napi::Value Add(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
   if (info.Length() < 2) {
-    Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+    Napi::TypeError::New(env, "Wrong number of arguments")
+        .ThrowAsJavaScriptException();
     return env.Null();
   }
 
@@ -21,8 +22,7 @@ Napi::Value Add(const Napi::CallbackInfo& info) {
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-  exports.Set(Napi::String::New(env, "add"),
-              Napi::Function::New(env, Add));
+  exports.Set(Napi::String::New(env, "add"), Napi::Function::New(env, Add));
   return exports;
 }
 

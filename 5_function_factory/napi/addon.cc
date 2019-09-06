@@ -15,7 +15,8 @@ napi_value CreateFunction(napi_env env, napi_callback_info info) {
   napi_status status;
 
   napi_value fn;
-  status = napi_create_function(env, "theFunction", NAPI_AUTO_LENGTH, MyFunction, nullptr, &fn);
+  status = napi_create_function(
+      env, "theFunction", NAPI_AUTO_LENGTH, MyFunction, nullptr, &fn);
   assert(status == napi_ok);
 
   return fn;
@@ -23,8 +24,8 @@ napi_value CreateFunction(napi_env env, napi_callback_info info) {
 
 napi_value Init(napi_env env, napi_value exports) {
   napi_value new_exports;
-  napi_status status =
-      napi_create_function(env, "", NAPI_AUTO_LENGTH, CreateFunction, nullptr, &new_exports);
+  napi_status status = napi_create_function(
+      env, "", NAPI_AUTO_LENGTH, CreateFunction, nullptr, &new_exports);
   assert(status == napi_ok);
   return new_exports;
 }

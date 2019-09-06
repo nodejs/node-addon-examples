@@ -5,11 +5,12 @@ Napi::FunctionReference MyObject::constructor;
 Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
-  Napi::Function func = DefineClass(env, "MyObject", {
-    InstanceMethod("plusOne", &MyObject::PlusOne),
-    InstanceMethod("value", &MyObject::GetValue),
-    InstanceMethod("multiply", &MyObject::Multiply)
-  });
+  Napi::Function func =
+      DefineClass(env,
+                  "MyObject",
+                  {InstanceMethod("plusOne", &MyObject::PlusOne),
+                   InstanceMethod("value", &MyObject::GetValue),
+                   InstanceMethod("multiply", &MyObject::Multiply)});
 
   constructor = Napi::Persistent(func);
   constructor.SuppressDestruct();
@@ -18,7 +19,8 @@ Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
   return exports;
 }
 
-MyObject::MyObject(const Napi::CallbackInfo& info) : Napi::ObjectWrap<MyObject>(info)  {
+MyObject::MyObject(const Napi::CallbackInfo& info)
+    : Napi::ObjectWrap<MyObject>(info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
@@ -52,7 +54,8 @@ Napi::Value MyObject::Multiply(const Napi::CallbackInfo& info) {
     multiple = info[0].As<Napi::Number>();
   }
 
-  Napi::Object obj = constructor.New({ Napi::Number::New(info.Env(), this->value_ * multiple.DoubleValue()) });
+  Napi::Object obj = constructor.New(
+      {Napi::Number::New(info.Env(), this->value_ * multiple.DoubleValue())});
 
   return obj;
 }

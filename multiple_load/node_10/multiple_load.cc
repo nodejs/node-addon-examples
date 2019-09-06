@@ -1,5 +1,5 @@
-#include <node.h>
 #include <math.h>
+#include <node.h>
 
 using namespace v8;
 
@@ -41,11 +41,11 @@ class AddonData {
   // call from JavaScript.
   double value;
 
-  explicit AddonData(Isolate* isolate, Local<Object> exports):
-      // The payload is initialized here. The rest of the constructor is
-      // boilerplate that ensures that the instance of this addon data is
-      // destroyed along with the instance of this addon (`exports`).
-      value(0.0) {
+  explicit AddonData(Isolate* isolate, Local<Object> exports)
+      :  // The payload is initialized here. The rest of the constructor is
+         // boilerplate that ensures that the instance of this addon data is
+         // destroyed along with the instance of this addon (`exports`).
+        value(0.0) {
     exports_persistent.Reset(isolate, exports);
     exports_persistent.SetWeak(this, DeleteMe, WeakCallbackType::kParameter);
   }
@@ -54,9 +54,7 @@ class AddonData {
 
   // The persistent reference must be reset before the instance of this class is
   // destroyed, otherwise memory will leak on the V8 side.
-  ~AddonData() {
-    exports_persistent.Reset();
-  }
+  ~AddonData() { exports_persistent.Reset(); }
 
   // This static function will be called when the addon instance is unloaded. It
   // merely destroys the per-addon-instance data.
@@ -73,8 +71,8 @@ void Increment(const FunctionCallbackInfo<Value>& info) {
   AddonData* addon_data =
       static_cast<AddonData*>(info.Data().As<External>()->Value());
 
-  info.GetReturnValue()
-      .Set(Number::New(info.GetIsolate(), addon_data->GetNewValue(1.0)));
+  info.GetReturnValue().Set(
+      Number::New(info.GetIsolate(), addon_data->GetNewValue(1.0)));
 }
 
 // Function called from JavaScript to decrement the value stored in this addon.
@@ -83,8 +81,8 @@ void Decrement(const FunctionCallbackInfo<Value>& info) {
   AddonData* addon_data =
       static_cast<AddonData*>(info.Data().As<External>()->Value());
 
-  info.GetReturnValue()
-      .Set(Number::New(info.GetIsolate(), addon_data->GetNewValue(-1.0)));
+  info.GetReturnValue().Set(
+      Number::New(info.GetIsolate(), addon_data->GetNewValue(-1.0)));
 }
 
 // Initialize the addon in such a way that it may be initialized multiple times
@@ -103,15 +101,21 @@ NODE_MODULE_INIT(/*exports, module, context*/) {
 
   // Export the functions we wish to make available to JavaScript.
 
-  exports->Set(context,
-      String::NewFromUtf8(isolate, "increment", NewStringType::kNormal)
-          .ToLocalChecked(),
-      FunctionTemplate::New(isolate, Increment, addon_data)
-          ->GetFunction(context).ToLocalChecked()).FromJust();
+  exports
+      ->Set(context,
+            String::NewFromUtf8(isolate, "increment", NewStringType::kNormal)
+                .ToLocalChecked(),
+            FunctionTemplate::New(isolate, Increment, addon_data)
+                ->GetFunction(context)
+                .ToLocalChecked())
+      .FromJust();
 
-  exports->Set(context,
-      String::NewFromUtf8(isolate, "decrement", NewStringType::kNormal)
-          .ToLocalChecked(),
-      FunctionTemplate::New(isolate, Decrement, addon_data)
-          ->GetFunction(context).ToLocalChecked()).FromJust();
+  exports
+      ->Set(context,
+            String::NewFromUtf8(isolate, "decrement", NewStringType::kNormal)
+                .ToLocalChecked(),
+            FunctionTemplate::New(isolate, Decrement, addon_data)
+                ->GetFunction(context)
+                .ToLocalChecked())
+      .FromJust();
 }

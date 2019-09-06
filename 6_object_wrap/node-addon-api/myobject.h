@@ -16,7 +16,6 @@ class MyObject : public Napi::ObjectWrap<MyObject> {
   Napi::Value Multiply(const Napi::CallbackInfo& info);
 
   double value_;
-
 };
 
 #endif
