@@ -5,6 +5,8 @@ node_js:
   - "12"
 cache:
   npm
+before_install:
+  - npm install -g cmake-js
 before_script:
   - npx envinfo
 script:
