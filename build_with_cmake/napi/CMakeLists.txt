@@ -10,4 +10,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 
 # Define NAPI_VERSION
-add_definitions(-DNAPI_VERSION=2)
+add_definitions(-DNAPI_VERSION=3)
