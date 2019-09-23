@@ -1,0 +1,15 @@
+{
+  "name": "build-node-addon-api-with-cmake",
+  "version": "0.0.0",
+  "description": "Build N-API native addon with CMake and node-addon-api C++ wrapper.",
+  "main": "hello.js",
+  "private": true,
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "node-addon-api": "^1.0.0"
+  },
+  "scripts": {
+    "install": "cmake-js compile",
+    "test": "node hello.js"
+  }
+}
