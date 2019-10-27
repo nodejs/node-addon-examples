@@ -23,12 +23,14 @@ void InitAll(v8::Local<v8::Object> exports) {
 
   MyObject::Init();
 
-  exports->Set(Nan::New("createObject").ToLocalChecked(),
+  exports->Set(context,
+               Nan::New("createObject").ToLocalChecked(),
                Nan::New<v8::FunctionTemplate>(CreateObject)
                    ->GetFunction(context)
                    .ToLocalChecked());
 
-  exports->Set(Nan::New("add").ToLocalChecked(),
+  exports->Set(context,
+               Nan::New("add").ToLocalChecked(),
                Nan::New<v8::FunctionTemplate>(Add)
                    ->GetFunction(context)
                    .ToLocalChecked());
