@@ -12,7 +12,8 @@ void InitAll(v8::Local<v8::Object> exports, v8::Local<v8::Object> module) {
 
   MyObject::Init();
 
-  module->Set(Nan::New("exports").ToLocalChecked(),
+  module->Set(context,
+              Nan::New("exports").ToLocalChecked(),
               Nan::New<v8::FunctionTemplate>(CreateObject)
                   ->GetFunction(context)
                   .ToLocalChecked());
