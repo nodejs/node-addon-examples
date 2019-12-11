@@ -28,6 +28,7 @@ MyObject::MyObject(const Napi::CallbackInfo& info)
 
   if (length <= 0 || !info[0].IsNumber()) {
     Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+    return;
   }
 
   Napi::Number value = info[0].As<Napi::Number>();
