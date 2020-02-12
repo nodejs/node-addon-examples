@@ -1,0 +1,17 @@
+{
+  "name": "async_work_promise",
+  "version": "0.0.0",
+  "description": "Calling into JS from the thread pool",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "bindings": "~1.2.1"
+  },
+  "engines": {
+    "node": ">= 10.6.0"
+  },
+  "scripts": {
+    "test": "node index.js"
+  },
+  "gypfile": true
+}
