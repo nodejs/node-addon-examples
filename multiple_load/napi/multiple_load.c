@@ -1,7 +1,16 @@
-#include <assert.h>
+#include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <node_api.h>
+
+#define CHECK(expr) \
+  { \
+    if ((expr) == 0) { \
+      fprintf(stderr, "%s:%d: failed assertion `%s'\n", __FILE__, __LINE__, #expr); \
+      fflush(stderr); \
+      abort(); \
+    } \
+  }
 
 // Structure containing information needed for as long as the addon exists. It
 // replaces the use of global static data with per-addon-instance data by
@@ -48,7 +57,7 @@ static void DeleteAddonData(napi_env env, void* data, void* hint) {
 static AddonData* CreateAddonData(napi_env env, napi_value exports) {
   AddonData* result = malloc(sizeof(*result));
   result->value = 0.0;
-  assert(napi_wrap(env,
+  CHECK(napi_wrap(env,
                    exports,
                    result,
                    DeleteAddonData,
@@ -62,7 +71,7 @@ static AddonData* CreateAddonData(napi_env env, napi_value exports) {
 static napi_value Increment(napi_env env, napi_callback_info info) {
   // Retrieve the per-addon-instance data.
   AddonData* addon_data = NULL;
-  assert(napi_get_cb_info(env,
+  CHECK(napi_get_cb_info(env,
                           info,
                           NULL,
                           NULL,
@@ -72,7 +81,7 @@ static napi_value Increment(napi_env env, napi_callback_info info) {
   // Increment the per-addon-instance value and create a new JavaScript integer
   // from it.
   napi_value result;
-  assert(napi_create_int32(env,
+  CHECK(napi_create_int32(env,
                            ModifyAddonData(addon_data, 1.0),
                            &result) == napi_ok);
 
@@ -85,7 +94,7 @@ static napi_value Increment(napi_env env, napi_callback_info info) {
 static napi_value Decrement(napi_env env, napi_callback_info info) {
   // Retrieve the per-addon-instance data.
   AddonData* addon_data = NULL;
-  assert(napi_get_cb_info(env,
+  CHECK(napi_get_cb_info(env,
                           info,
                           NULL,
                           NULL,
@@ -95,7 +104,7 @@ static napi_value Decrement(napi_env env, napi_callback_info info) {
   // Decrement the per-addon-instance value and create a new JavaScript integer
   // from it.
   napi_value result;
-  assert(napi_create_int32(env,
+  CHECK(napi_create_int32(env,
                            ModifyAddonData(addon_data, -1.0),
                            &result) == napi_ok);
 
@@ -125,7 +134,7 @@ NAPI_MODULE_INIT(/*env, exports*/) {
   };
 
   // Expose the two bindings declared above to JavaScript.
-  assert(napi_define_properties(env,
+  CHECK(napi_define_properties(env,
                                 exports,
                                 sizeof(bindings) / sizeof(bindings[0]),
                                 bindings) == napi_ok);
