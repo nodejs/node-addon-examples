@@ -1,9 +1,18 @@
-#include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <uv.h>
 #define NAPI_EXPERIMENTAL
 #include <node_api.h>
+
+#define CHECK(expr) \
+  { \
+    if ((expr) == 0) { \
+      fprintf(stderr, "%s:%d: failed assertion `%s'\n", __FILE__, __LINE__, #expr); \
+      fflush(stderr); \
+      abort(); \
+    } \
+  }
 
 #define REPORT_EVERY 1000
 
@@ -54,16 +63,16 @@ static void CallJs(napi_env env, napi_value js_cb, void* context, void* data) {
     napi_value undefined, js_thread_item;
     // Retrieve the JavaScript `undefined` value. This will serve as the `this`
     // value for the function call.
-    assert(napi_get_undefined(env, &undefined) == napi_ok);
+    CHECK(napi_get_undefined(env, &undefined) == napi_ok);
 
     // Retrieve the constructor for the JavaScript class from which the item
     // holding the native data will be constructed.
-    assert(napi_get_reference_value(env,
+    CHECK(napi_get_reference_value(env,
                                     addon_data->thread_item_constructor,
                                     &constructor) == napi_ok);
 
     // Construct a new instance of the JavaScript class to hold the native item.
-    assert(napi_new_instance(env,
+    CHECK(napi_new_instance(env,
                              constructor,
                              0,
                              NULL,
@@ -74,11 +83,11 @@ static void CallJs(napi_env env, napi_value js_cb, void* context, void* data) {
     // object back to us via `RegisterReturnValue`, which will allow the
     // eventual deallocation of the native data. That's why we do not provide a
     // finalizer here.
-    assert(napi_wrap(env, js_thread_item, data, NULL, NULL, NULL) == napi_ok);
+    CHECK(napi_wrap(env, js_thread_item, data, NULL, NULL, NULL) == napi_ok);
 
     // Call the JavaScript function with the item as wrapped into an instance of
     // the JavaScript `ThreadItem` class and the prime.
-    assert(napi_call_function(env,
+    CHECK(napi_call_function(env,
                               undefined,
                               js_cb,
                               1,
@@ -94,7 +103,7 @@ static void CallJs(napi_env env, napi_value js_cb, void* context, void* data) {
 static void ThreadFinished(napi_env env, void* data, void* context) {
   (void) context;
   AddonData* addon_data = (AddonData*)data;
-  assert(uv_thread_join(&(addon_data->the_thread)) == 0);
+  CHECK(uv_thread_join(&(addon_data->the_thread)) == 0);
   addon_data->tsfn = NULL;
 }
 
@@ -140,7 +149,7 @@ static void PrimeThread(void* data) {
       first = current;
 
       // Pass the new item into JavaScript.
-      assert(napi_call_threadsafe_function(addon_data->tsfn,
+      CHECK(napi_call_threadsafe_function(addon_data->tsfn,
                                            first,
                                            napi_tsfn_blocking) == napi_ok);
     }
@@ -190,7 +199,7 @@ static void PrimeThread(void* data) {
 
   // Release the thread-safe function. This causes it to be cleaned up in the
   // background.
-  assert(napi_release_threadsafe_function(addon_data->tsfn,
+  CHECK(napi_release_threadsafe_function(addon_data->tsfn,
                                           napi_tsfn_release) == napi_ok);
 }
 
@@ -203,7 +212,7 @@ static napi_value StartThread(napi_env env, napi_callback_info info) {
 
   // The binding accepts one parameter - the JavaScript callback function to
   // call.
-  assert(napi_get_cb_info(env,
+  CHECK(napi_get_cb_info(env,
                           info,
                           &argc,
                           &js_cb,
@@ -211,12 +220,12 @@ static napi_value StartThread(napi_env env, napi_callback_info info) {
                           (void*)&addon_data) == napi_ok);
 
   // We do not create a second thread if one is already running.
-  assert(addon_data->tsfn == NULL && "Work already in progress");
+  CHECK(addon_data->tsfn == NULL && "Work already in progress");
 
   addon_data->js_accepts = true;
 
   // This string describes the asynchronous work.
-  assert(napi_create_string_utf8(env,
+  CHECK(napi_create_string_utf8(env,
                                  "Thread-safe Function Round Trip Example",
                                  NAPI_AUTO_LENGTH,
                                  &work_name) == napi_ok);
@@ -225,7 +234,7 @@ static napi_value StartThread(napi_env env, napi_callback_info info) {
   // an initial thread count of 1. The secondary thread will release the
   // thread-safe function, decreasing its thread count to 0, thereby setting off
   // the process of cleaning up the thread-safe function.
-  assert(napi_create_threadsafe_function(env,
+  CHECK(napi_create_threadsafe_function(env,
                                          js_cb,
                                          NULL,
                                          work_name,
@@ -239,7 +248,7 @@ static napi_value StartThread(napi_env env, napi_callback_info info) {
 
   // Create the thread that will produce primes and that will call into
   // JavaScript using the thread-safe function.
-  assert(uv_thread_create(&(addon_data->the_thread), PrimeThread, addon_data) == 0);
+  CHECK(uv_thread_create(&(addon_data->the_thread), PrimeThread, addon_data) == 0);
 
   return NULL;
 }
@@ -248,10 +257,10 @@ static bool
 is_thread_item (napi_env env, napi_ref constructor_ref, napi_value value) {
   bool validate;
   napi_value constructor;
-  assert(napi_get_reference_value(env,
+  CHECK(napi_get_reference_value(env,
                                   constructor_ref,
                                   &constructor) == napi_ok);
-  assert(napi_instanceof(env, value, constructor, &validate) == napi_ok);
+  CHECK(napi_instanceof(env, value, constructor, &validate) == napi_ok);
   return validate;
 }
 
@@ -270,7 +279,7 @@ static napi_value RegisterReturnValue(napi_env env, napi_callback_info info) {
   ThreadItem* item;
 
   // Retrieve the parameters with which this function was called.
-  assert(napi_get_cb_info(env,
+  CHECK(napi_get_cb_info(env,
                           info,
                           &argc,
                           argv,
@@ -286,18 +295,18 @@ static napi_value RegisterReturnValue(napi_env env, napi_callback_info info) {
     return NULL;
   }
 
-  assert(argc == 2 && "Exactly two arguments were received");
+  CHECK(argc == 2 && "Exactly two arguments were received");
 
   // Make sure the first parameter is an instance of the `ThreadItem` class.
   // This type check ensures that there *is* a pointer stored inside the
   // JavaScript object, and that the pointer is to a `ThreadItem` structure.
-  assert(is_thread_item(env, addon_data->thread_item_constructor, argv[0]));
+  CHECK(is_thread_item(env, addon_data->thread_item_constructor, argv[0]));
 
   // Retrieve the native data from the item.
-  assert(napi_unwrap(env, argv[0], (void**)&item) == napi_ok);
+  CHECK(napi_unwrap(env, argv[0], (void**)&item) == napi_ok);
 
   // Retrieve the desired return value.
-  assert(napi_get_value_bool(env, argv[1], &return_value) == napi_ok);
+  CHECK(napi_get_value_bool(env, argv[1], &return_value) == napi_ok);
 
   // Set `js_accepts` to false in case the JavaScript callback returned false.
   if (addon_data->js_accepts) {
@@ -325,18 +334,18 @@ static napi_value ThreadItemConstructor(napi_env env, napi_callback_info info) {
 static napi_value GetPrime(napi_env env, napi_callback_info info) {
   napi_value jsthis, prime_property;
   AddonData* ad;
-  assert(napi_ok == napi_get_cb_info(env, info, 0, 0, &jsthis, (void*)&ad));
-  assert(is_thread_item(env, ad->thread_item_constructor, jsthis));
+  CHECK(napi_ok == napi_get_cb_info(env, info, 0, 0, &jsthis, (void*)&ad));
+  CHECK(is_thread_item(env, ad->thread_item_constructor, jsthis));
   ThreadItem* item;
-  assert(napi_ok == napi_unwrap(env, jsthis, (void**)&item));
-  assert(napi_ok == napi_create_int32(env, item->the_prime, &prime_property));
+  CHECK(napi_ok == napi_unwrap(env, jsthis, (void**)&item));
+  CHECK(napi_ok == napi_create_int32(env, item->the_prime, &prime_property));
   return prime_property;
 }
 
 static void addon_is_unloading(napi_env env, void* data, void* hint) {
   AddonData* addon_data = (AddonData*)data;
   uv_mutex_destroy(&(addon_data->check_status_mutex));
-  assert(napi_delete_reference(env,
+  CHECK(napi_delete_reference(env,
                                addon_data->thread_item_constructor) == napi_ok);
   free(data);
 }
@@ -356,7 +365,7 @@ static void addon_is_unloading(napi_env env, void* data, void* hint) {
 
   // Attach the addon data to the exports object to ensure that they are
   // destroyed together.
-  assert(napi_wrap(env,
+  CHECK(napi_wrap(env,
                    exports,
                    addon_data,
                    addon_is_unloading,
@@ -365,13 +374,13 @@ static void addon_is_unloading(napi_env env, void* data, void* hint) {
 
   // Initialize the various members of the `AddonData` associated with this
   // addon instance.
-  assert(uv_mutex_init(&(addon_data->check_status_mutex)) == 0);
+  CHECK(uv_mutex_init(&(addon_data->check_status_mutex)) == 0);
 
   napi_value thread_item_class;
   napi_property_descriptor thread_item_properties[] = {
     { "prime", 0, 0, GetPrime, 0, 0, napi_enumerable, addon_data }
   };
-  assert(napi_define_class(env,
+  CHECK(napi_define_class(env,
                            "ThreadItem",
                            NAPI_AUTO_LENGTH,
                            ThreadItemConstructor,
@@ -379,7 +388,7 @@ static void addon_is_unloading(napi_env env, void* data, void* hint) {
                            1,
                            thread_item_properties,
                            &thread_item_class) == napi_ok);
-  assert(napi_create_reference(env,
+  CHECK(napi_create_reference(env,
                                thread_item_class,
                                1,
                                &(addon_data->thread_item_constructor)) ==
@@ -408,7 +417,7 @@ static void addon_is_unloading(napi_env env, void* data, void* hint) {
       addon_data
     }
   };
-  assert(napi_define_properties(env,
+  CHECK(napi_define_properties(env,
                                 exports,
                                 sizeof(export_properties) /
                                     sizeof(export_properties[0]),
