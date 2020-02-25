@@ -100,7 +100,7 @@ static napi_value StartWork(napi_env env, napi_callback_info info) {
                                  NAPI_AUTO_LENGTH,
                                  &work_name) == napi_ok);
 
-  // Create a deferred promise which we will resolve at the complete  of the work.
+  // Create a deferred promise which we will resolve at the completion of the work.
   CHECK(napi_create_promise(env,
                              &(addon_data->deferred),
                              &promise) == napi_ok);
