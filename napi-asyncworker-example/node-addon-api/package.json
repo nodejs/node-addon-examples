@@ -1,0 +1,23 @@
+{
+  "name": "napi-asyncworker-example",
+  "description": "An example project showing how to use the Node.js N-API AsyncWorker class",
+  "version": "1.0.0",
+  "main": "test/Test.js",
+  "dependencies": {
+    "node-addon-api": "^1.1.0"
+  },
+  "scripts": {
+    "test": "node --napi-modules ./test/Test.js"
+  },
+  "gypfile": true,
+  "keywords": [
+    "node",
+    "napi",
+    "n-api",
+    "async",
+    "asyncworker",
+    "example"
+  ],
+  "author": "Jim Schlight",
+  "license": "MIT"
+}

@@ -1,0 +1,16 @@
+{
+  "main": "lib/binding.js",
+  "private": true,
+  "dependencies": {
+    "node-addon-api": "^1.1.0"
+  },
+  "scripts": {
+    "test": "node --napi-modules ./test/test_binding.js"
+  },
+  "gypfile": true,
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "A first project.",
+  "author": "Your name goes here",
+  "license": "ISC"
+}
