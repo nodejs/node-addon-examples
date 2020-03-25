@@ -6,13 +6,13 @@ name: Node.js CI
 on: [push, pull_request]
 
 jobs:
-  linux-test:
-
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.operating-system }}     
 
     strategy:
       matrix:
         node-version: [10.x, 12.x, 13.x]
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -24,51 +24,8 @@ jobs:
     - run: npm install
     - name: Environment Information
       run: npx envinfo
-    - name: Run Linux Test
+    - name: Run Test
       run: npm test
       env:
         CI: true       
-  windows_test:
 
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 13.x]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install -g cmake-js@5.3.2
-    - run: npm install
-    - name: Environment Information
-      run: npx envinfo
-    - name: Run Windows Test
-      run: npm test
-      env:
-        CI: true
-  mac_test:
-
-    runs-on: macos-latest
-
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 13.x]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install -g cmake-js@5.3.2
-    - run: npm install
-    - name: Environment Information
-      run: npx envinfo
-    - name: Run Mac Test
-      run: npm test
-      env:
-        CI: true
