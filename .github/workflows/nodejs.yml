@@ -22,8 +22,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install -g cmake-js@5.3.2
     - run: npm install
-    - run: npx envinfo
-    - run: npm test
+    - name: Environment Information
+      run: npx envinfo
+    - name: Run Linux Test
+      run: npm test
       env:
         CI: true       
   windows_test:
@@ -42,8 +44,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install -g cmake-js@5.3.2
     - run: npm install
-    - run: npx envinfo
-    - run: npm test
+    - name: Environment Information
+      run: npx envinfo
+    - name: Run Windows Test
+      run: npm test
       env:
         CI: true
   mac_test:
@@ -62,7 +66,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install -g cmake-js@5.3.2
     - run: npm install
-    - run: npx envinfo
-    - run: npm test
+    - name: Environment Information
+      run: npx envinfo
+    - name: Run Mac Test
+      run: npm test
       env:
         CI: true
