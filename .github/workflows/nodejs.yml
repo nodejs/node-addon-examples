@@ -25,7 +25,5 @@ jobs:
     - name: Environment Information
       run: npx envinfo
     - name: Run Test
-      run: npm test
-      env:
-        CI: true       
+      run: npm test  
 
