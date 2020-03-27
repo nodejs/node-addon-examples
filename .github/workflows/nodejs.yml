@@ -1,13 +1,14 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Node.js CI
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   test:
-    runs-on: ${{ matrix.operating-system }}     
+    runs-on: ${{ matrix.operating-system }}
 
     strategy:
       matrix:
@@ -15,15 +16,31 @@ jobs:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install -g cmake-js@5.3.2
-    - run: npm install
-    - name: Environment Information
-      run: npx envinfo
-    - name: Run Test
-      run: npm test  
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install -g cmake-js@5.3.2
+      - run: npm install
+      - name: Environment Information
+        run: npx envinfo
+      - name: Run Test
+        run: npm test
 
+  nightly-daily-test:
+    runs-on: ubuntu-latest
+    container: node
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm i -g n && n nightly
+      - run: node -p process.versions
+      - name: Environment Information
+        run: npx envinfo
+      - run: npm install -g cmake-js@5.3.2
+      - run: npm install
+      - name: Environment Information
+        run: npx envinfo
+      - name: Run Test
+        continue-on-error: true
+        run: npm test
