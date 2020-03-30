@@ -1,0 +1,14 @@
+{
+  "name": "function-reference-demo",
+  "version": "0.0.0",
+  "description": "Tutorial example showing the use of function references.",
+  "main": "index.js",
+  "gypfile": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "node-addon-api": "*",
+    "bindings": "*"
+  }
+}

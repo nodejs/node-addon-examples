@@ -1,0 +1,16 @@
+{
+  "main": "lib/binding.js",
+  "private": true,
+  "dependencies": {
+    "node-addon-api": "^1.1.0"
+  },
+  "scripts": {
+    "test": "node --napi-modules ./test/test_binding.js"
+  },
+  "gypfile": true,
+  "name": "object-wrap-demo",
+  "version": "1.0.0",
+  "description": "An object wrapper demo",
+  "author": "Your name goes here",
+  "license": "ISC"
+}
