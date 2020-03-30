@@ -1,15 +1,15 @@
 {
-  "name": "async_work",
+  "name": "tsfn-counting",
   "version": "0.0.0",
-  "description": "Node.js Addons Example #9",
+  "description": "Thread-safe Function Example",
   "main": "addon.js",
   "private": true,
   "gypfile": true,
-  "scripts": {
-    "test": "node addon.js"
-  },
   "dependencies": {
     "node-addon-api": "*",
     "bindings": "*"
+  },
+  "engines": {
+    "node": ">= 10.16.0"
   }
 }

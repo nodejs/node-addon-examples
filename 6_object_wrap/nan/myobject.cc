@@ -21,7 +21,8 @@ void MyObject::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "multiply", Multiply);
 
   constructor.Reset(tpl->GetFunction(context).ToLocalChecked());
-  exports->Set(Nan::New("MyObject").ToLocalChecked(),
+  exports->Set(context,
+               Nan::New("MyObject").ToLocalChecked(),
                tpl->GetFunction(context).ToLocalChecked());
 }
 
