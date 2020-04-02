@@ -8,8 +8,8 @@
     "test": "node test_all.js"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
-    "clang-format": "^1.2.4",
-    "semver": "^6.3.0"
+    "chalk": "^3.0.0",
+    "clang-format": "^1.4.0",
+    "semver": "^7.1.3"
   }
 }
