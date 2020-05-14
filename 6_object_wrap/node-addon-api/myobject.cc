@@ -1,14 +1,6 @@
 #include "myobject.h"
 
-class AddonData {
-public:
-  AddonData(Napi::Function func) {
-    MyObjectConstructor = Napi::Persistent(func);
-    MyObjectConstructor.SuppressDestruct();
-  }
-
-  Napi::FunctionReference MyObjectConstructor;
-};
+Napi::FunctionReference MyObject::constructor;
 
 Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
@@ -20,7 +12,8 @@ Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
                    InstanceMethod("value", &MyObject::GetValue),
                    InstanceMethod("multiply", &MyObject::Multiply)});
 
-  env.SetInstanceData(new AddonData(func));
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
 
   exports.Set("MyObject", func);
   return exports;
@@ -62,7 +55,7 @@ Napi::Value MyObject::Multiply(const Napi::CallbackInfo& info) {
     multiple = info[0].As<Napi::Number>();
   }
 
-  Napi::Object obj = info.Env().GetInstanceData<AddonData>()->MyObjectConstructor.New(
+  Napi::Object obj = constructor.New(
       {Napi::Number::New(info.Env(), this->value_ * multiple.DoubleValue())});
 
   return obj;

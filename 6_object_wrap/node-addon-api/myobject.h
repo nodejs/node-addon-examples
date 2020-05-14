@@ -9,6 +9,8 @@ class MyObject : public Napi::ObjectWrap<MyObject> {
   MyObject(const Napi::CallbackInfo& info);
 
  private:
+  static Napi::FunctionReference constructor;
+
   Napi::Value GetValue(const Napi::CallbackInfo& info);
   Napi::Value PlusOne(const Napi::CallbackInfo& info);
   Napi::Value Multiply(const Napi::CallbackInfo& info);
