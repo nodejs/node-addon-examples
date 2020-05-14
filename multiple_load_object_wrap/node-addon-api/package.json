@@ -1,0 +1,15 @@
+{
+  "name": "object_wrap",
+  "version": "0.0.0",
+  "description": "Multiple load example of ObjectWrap",
+  "main": "addon.js",
+  "private": true,
+  "gypfile": true,
+  "engines": {
+    "node": ">= 14.0.0"
+  },
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "node-addon-api": "^3.0.0"
+  }
+}
