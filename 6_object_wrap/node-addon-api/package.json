@@ -5,9 +5,6 @@
   "main": "addon.js",
   "private": true,
   "gypfile": true,
-  "engines": {
-    "node": ">= 14.0.0"
-  },
   "dependencies": {
     "bindings": "~1.2.1",
     "node-addon-api": "^3.0.0"
