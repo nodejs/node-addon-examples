@@ -4,16 +4,15 @@
 
 using namespace Napi;
 
-Napi::FunctionReference MyObject::constructor;
-
 Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(
       env, "MyObject", {InstanceMethod("plusOne", &MyObject::PlusOne)});
 
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
+  Napi::FunctionReference* constructor = new Napi::FunctionReference();
+  *constructor = Napi::Persistent(func);
+  env.SetInstanceData(constructor);
 
   exports.Set("MyObject", func);
   return exports;
@@ -29,7 +28,7 @@ MyObject::MyObject(const Napi::CallbackInfo& info)
 
 Napi::Object MyObject::NewInstance(Napi::Env env, Napi::Value arg) {
   Napi::EscapableHandleScope scope(env);
-  Napi::Object obj = constructor.New({arg});
+  Napi::Object obj = env.GetInstanceData<Napi::FunctionReference>()->New({arg});
   return scope.Escape(napi_value(obj)).ToObject();
 }
 
