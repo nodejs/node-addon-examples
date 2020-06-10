@@ -10,7 +10,6 @@ class MyObject : public Napi::ObjectWrap<MyObject> {
   MyObject(const Napi::CallbackInfo& info);
 
  private:
-  static Napi::FunctionReference constructor;
   Napi::Value PlusOne(const Napi::CallbackInfo& info);
   double counter_;
 };

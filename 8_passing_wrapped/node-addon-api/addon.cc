@@ -4,7 +4,7 @@
 using namespace Napi;
 
 Napi::Object CreateObject(const Napi::CallbackInfo& info) {
-  return MyObject::NewInstance(info[0]);
+  return MyObject::NewInstance(info.Env(), info[0]);
 }
 
 Napi::Number Add(const Napi::CallbackInfo& info) {

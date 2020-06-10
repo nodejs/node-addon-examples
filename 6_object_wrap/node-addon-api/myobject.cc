@@ -1,7 +1,5 @@
 #include "myobject.h"
 
-Napi::FunctionReference MyObject::constructor;
-
 Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
   Napi::HandleScope scope(env);
 
@@ -12,8 +10,9 @@ Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
                    InstanceMethod("value", &MyObject::GetValue),
                    InstanceMethod("multiply", &MyObject::Multiply)});
 
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
+  Napi::FunctionReference* constructor = new Napi::FunctionReference();
+  *constructor = Napi::Persistent(func);
+  env.SetInstanceData(constructor);
 
   exports.Set("MyObject", func);
   return exports;
@@ -55,7 +54,7 @@ Napi::Value MyObject::Multiply(const Napi::CallbackInfo& info) {
     multiple = info[0].As<Napi::Number>();
   }
 
-  Napi::Object obj = constructor.New(
+  Napi::Object obj = info.Env().GetInstanceData<Napi::FunctionReference>()->New(
       {Napi::Number::New(info.Env(), this->value_ * multiple.DoubleValue())});
 
   return obj;
