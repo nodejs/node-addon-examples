@@ -17,7 +17,8 @@ class MyObject {
   static napi_value SetValue(napi_env env, napi_callback_info info);
   static napi_value PlusOne(napi_env env, napi_callback_info info);
   static napi_value Multiply(napi_env env, napi_callback_info info);
-  static napi_ref constructor;
+  static inline napi_value Constructor(napi_env env);
+
   double value_;
   napi_env env_;
   napi_ref wrapper_;

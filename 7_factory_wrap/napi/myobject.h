@@ -15,7 +15,7 @@ class MyObject {
   MyObject();
   ~MyObject();
 
-  static napi_ref constructor;
+  static inline napi_value Constructor(napi_env env);
   static napi_value New(napi_env env, napi_callback_info info);
   static napi_value PlusOne(napi_env env, napi_callback_info info);
   double counter_;

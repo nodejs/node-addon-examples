@@ -1,8 +1,6 @@
 #include "myobject.h"
 #include <assert.h>
 
-napi_ref MyObject::constructor;
-
 MyObject::MyObject(double value)
     : value_(value), env_(nullptr), wrapper_(nullptr) {}
 
@@ -32,12 +30,44 @@ napi_value MyObject::Init(napi_env env, napi_value exports) {
       env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 3, properties, &cons);
   assert(status == napi_ok);
 
-  status = napi_create_reference(env, cons, 1, &constructor);
+  // We will need the constructor `cons` later during the life cycle of the
+  // addon, so we store a persistent reference to it as the instance data for
+  // our addon. This will enable us to use `napi_get_instance_data` at any
+  // point during the life cycle of our addon to retrieve it. We cannot simply
+  // store it as a global static variable, because that will render our addon
+  // unable to support Node.js worker threads and multiple contexts on a single
+  // thread.
+  //
+  // The finalizer we pass as a lambda will be called when our addon is unloaded
+  // and is responsible for releasing the persistent reference and freeing the
+  // heap memory where we stored the persistent reference.
+  napi_ref* constructor = new napi_ref;
+  status = napi_create_reference(env, cons, 1, constructor);
+  assert(status == napi_ok);
+  status = napi_set_instance_data(env, constructor,
+      [](napi_env env, void* data, void* hint) {
+        napi_ref* constructor = static_cast<napi_ref*>(data);
+        napi_status status = napi_delete_reference(env, *constructor);
+        assert(status == napi_ok);
+        delete constructor;
+      }, nullptr);
   assert(status == napi_ok);
 
   status = napi_set_named_property(env, exports, "MyObject", cons);
   assert(status == napi_ok);
   return exports;
+}
+
+napi_value MyObject::Constructor(napi_env env) {
+  void* instance_data = nullptr;
+  napi_status status = napi_get_instance_data(env, &instance_data);
+  assert(status == napi_ok);
+  napi_ref* constructor = static_cast<napi_ref*>(instance_data);
+
+  napi_value cons;
+  status = napi_get_reference_value(env, *constructor, &cons);
+  assert(status == napi_ok);
+  return cons;
 }
 
 napi_value MyObject::New(napi_env env, napi_callback_info info) {
@@ -89,12 +119,8 @@ napi_value MyObject::New(napi_env env, napi_callback_info info) {
     const size_t argc = 1;
     napi_value argv[argc] = {args[0]};
 
-    napi_value cons;
-    status = napi_get_reference_value(env, constructor, &cons);
-    assert(status == napi_ok);
-
     napi_value instance;
-    status = napi_new_instance(env, cons, argc, argv, &instance);
+    status = napi_new_instance(env, Constructor(env), argc, argv, &instance);
     assert(status == napi_ok);
 
     return instance;
@@ -181,17 +207,13 @@ napi_value MyObject::Multiply(napi_env env, napi_callback_info info) {
   status = napi_unwrap(env, jsthis, reinterpret_cast<void**>(&obj));
   assert(status == napi_ok);
 
-  napi_value cons;
-  status = napi_get_reference_value(env, constructor, &cons);
-  assert(status == napi_ok);
-
   const int kArgCount = 1;
   napi_value argv[kArgCount];
   status = napi_create_double(env, obj->value_ * multiple, argv);
   assert(status == napi_ok);
 
   napi_value instance;
-  status = napi_new_instance(env, cons, kArgCount, argv, &instance);
+  status = napi_new_instance(env, Constructor(env), kArgCount, argv, &instance);
   assert(status == napi_ok);
 
   return instance;
