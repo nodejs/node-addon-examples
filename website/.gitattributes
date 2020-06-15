@@ -1,0 +1,65 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# These files are text and should be normalized
+*.bat text eol=crlf
+*.coffee text
+*.css text
+*.htm text
+*.html text
+*.inc text
+*.ini text
+*.js text
+*.json text
+*.jsx text
+*.less text
+*.sass text
+*.scss text
+*.sh text eol=lf
+*.sql text
+*.ts text
+*.tsx text
+*.xml text
+*.xhtml text
+
+# These files are binary and should be left untouched
+# (binary is a macro for -text -diff)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+*.gz binary
+*.zip binary
+*.7z binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+
+# Custom for Visual Studio
+*.cs     diff=csharp
+*.sln    merge=union
+*.csproj merge=union
+*.vbproj merge=union
+*.fsproj merge=union
+*.dbproj merge=union
+
+# Standard to msysgit
+*.doc    diff=astextplain
+*.DOC    diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.pdf  diff=astextplain
+*.PDF    diff=astextplain
+*.rtf    diff=astextplain
+*.RTF    diff=astextplain
