@@ -4,7 +4,6 @@
 Napi::FunctionReference NativeAddon::constructor;
 
 Napi::Object NativeAddon::Init(Napi::Env env, Napi::Object exports) {
-  Napi::HandleScope scope(env);
   
   Napi::Function func = DefineClass(env, "NativeAddon", {
     InstanceMethod("tryCallByStoredReference", &NativeAddon::TryCallByStoredReference),
