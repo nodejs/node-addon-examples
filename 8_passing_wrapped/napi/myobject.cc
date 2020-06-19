@@ -13,8 +13,6 @@ void MyObject::Destructor(napi_env env,
   reinterpret_cast<MyObject*>(nativeObject)->~MyObject();
 }
 
-napi_ref MyObject::constructor;
-
 napi_status MyObject::Init(napi_env env) {
   napi_status status;
 
@@ -23,8 +21,28 @@ napi_status MyObject::Init(napi_env env) {
       env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 0, nullptr, &cons);
   if (status != napi_ok) return status;
 
-  status = napi_create_reference(env, cons, 1, &constructor);
-  if (status != napi_ok) return status;
+  // We will need the constructor `cons` later during the life cycle of the
+  // application, so we store a persistent reference to it as the instance data
+  // for our addon. This will enable us to use `napi_get_instance_data` at any
+  // point during the life cycle of our addon to retrieve it. We cannot simply
+  // store it as a global static variable, because that will render our addon
+  // unable to support Node.js worker threads and multiple contexts on a single
+  // thread.
+  //
+  // The finalizer we pass as a lambda will be called when our addon is unloaded
+  // and is responsible for releasing the persistent reference and freeing the
+  // heap memory where we stored the persistent reference.
+  napi_ref* constructor = new napi_ref;
+  status = napi_create_reference(env, cons, 1, constructor);
+  assert(status == napi_ok);
+  status = napi_set_instance_data(env, constructor,
+      [](napi_env env, void* data, void* hint) {
+        napi_ref* constructor = static_cast<napi_ref*>(data);
+        napi_status status = napi_delete_reference(env, *constructor);
+        assert(status == napi_ok);
+        delete constructor;
+      }, nullptr);
+  assert(status == napi_ok);
 
   return napi_ok;
 }
@@ -63,6 +81,18 @@ napi_value MyObject::New(napi_env env, napi_callback_info info) {
   return jsthis;
 }
 
+napi_value MyObject::Constructor(napi_env env) {
+  void* instance_data = nullptr;
+  napi_status status = napi_get_instance_data(env, &instance_data);
+  assert(status == napi_ok);
+  napi_ref* constructor = static_cast<napi_ref*>(instance_data);
+
+  napi_value cons;
+  status = napi_get_reference_value(env, *constructor, &cons);
+  assert(status == napi_ok);
+  return cons;
+}
+
 napi_status MyObject::NewInstance(napi_env env,
                                   napi_value arg,
                                   napi_value* instance) {
@@ -71,11 +101,7 @@ napi_status MyObject::NewInstance(napi_env env,
   const int argc = 1;
   napi_value argv[argc] = {arg};
 
-  napi_value cons;
-  status = napi_get_reference_value(env, constructor, &cons);
-  if (status != napi_ok) return status;
-
-  status = napi_new_instance(env, cons, argc, argv, instance);
+  status = napi_new_instance(env, Constructor(env), argc, argv, instance);
   if (status != napi_ok) return status;
 
   return napi_ok;
