@@ -118,7 +118,9 @@ const reboot = css`
   }
 
   blockquote {
-    margin: 0 0 1rem;
+    margin:0.75rem 0;
+    padding:0.4rem 0 0.4rem 1.5rem;  
+    border-left:2px solid #888;
   }
 
   dfn {

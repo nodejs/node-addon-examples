@@ -47,7 +47,7 @@ const code = css`
     border-radius: 0.3em;
     background: none;
     color: ${colors.blue05};
-    font-size: ${paragraphSizes[400].fontSize}px;
+    /* font-size: ${paragraphSizes[400].fontSize}px; */
     line-height: ${paragraphSizes[400].lineHeight}px;
   }
 
