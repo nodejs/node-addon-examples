@@ -4,7 +4,7 @@ const { execSync } = require('child_process')
 const chalk = require('chalk')
 const semver = require('semver')
 
-const excludeFolder = ['node_modules']
+const excludeFolder = ['node_modules', 'website']
 
 function getAllTests() {
   return fs
