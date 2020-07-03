@@ -13,6 +13,7 @@ module.exports = {
       email: ''
     }
   },
+  pathPrefix: '/node-addon-examples',
   plugins: [
     {
       // keep as first gatsby-source-filesystem plugin for gatsby image support
