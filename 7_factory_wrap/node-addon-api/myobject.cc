@@ -5,7 +5,6 @@
 using namespace Napi;
 
 Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
-  Napi::HandleScope scope(env);
 
   Napi::Function func = DefineClass(
       env, "MyObject", {InstanceMethod("plusOne", &MyObject::PlusOne)});
@@ -20,8 +19,6 @@ Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
 
 MyObject::MyObject(const Napi::CallbackInfo& info)
     : Napi::ObjectWrap<MyObject>(info) {
-  Napi::Env env = info.Env();
-  Napi::HandleScope scope(env);
 
   this->counter_ = info[0].As<Napi::Number>().DoubleValue();
 };
