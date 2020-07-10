@@ -1,6 +1,8 @@
 ---
 id: build-tools.cmake-js
 title: CMake.js
+prev: build-tools.node-gyp
+next: build-tools.node-pre-gyp
 ---
 
 [CMake.js](https://github.com/cmake-js/cmake-js) is good build tool alternative to [node-gyp](node-gyp.html). CMake.js is based on the [CMake](https://cmake.org) tool which must be installed.
@@ -94,7 +96,7 @@ target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 When building a native module based on N-API, it is important to decalre the miniumen N-API version against which your module is designed to work. For CMake.js, this is accomplished by adding a line like this to the `CMakeLists.txt` file:
 
 ```
-# define NPI_VERSION
+# define NAPI_VERSION
 add_definitions(-DNAPI_VERSION=3)
 ```
 

@@ -1,6 +1,7 @@
 ---
 id: about.uses
 title: Uses for N-API
+prev: about.what
 ---
 
 ## An existing C/C++ library

@@ -1,6 +1,7 @@
 ---
 id: build-tools.node-gyp
 title: node-gyp
+next: build-tools.cmake-js
 ---
 
 Historically, [node-gyp](https://github.com/nodejs/node-gyp) has been the build tool of choice for the Node ecosystem. The tool comes bundled with Node and is nearly universally used to build Node native modules. Most of the examples on this site use node-gyp to build the binaries. 

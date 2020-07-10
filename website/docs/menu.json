@@ -1,19 +1,19 @@
 [
   {
     "id": "getting-started",
-    "label": "Getting Started",
+    "label": "About N-API",
     "href": "/about/what",
     "external": false
   },
   {
     "id": "n-api",
-    "label": "N-API",
+    "label": "N-API Documentation",
     "href": "https://nodejs.org/api/n-api.html#n_api_n_api",
     "external": true
   },
   {
     "id": "node-addon-api",
-    "label": "node-addon-api",
+    "label": "node-addon-api Module",
     "href": "https://github.com/nodejs/node-addon-api",
     "external": true
   },

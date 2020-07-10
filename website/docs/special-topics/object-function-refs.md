@@ -1,6 +1,7 @@
 ---
 id: special-topics.object-function-refs
 title: Object and function references
+next: special-topics.asyncworker
 ---
 
 ## Background

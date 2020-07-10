@@ -1,6 +1,8 @@
 ---
 id: build-tools.node-pre-gyp
 title: node-pre-gyp
+prev: build-tools.cmake-js
+next: build-tools.prebuild
 ---
 
 ## Introduction 

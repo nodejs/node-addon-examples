@@ -1,6 +1,7 @@
 ---
 id: about.what
 title: What is N-API?
+next: about.uses
 ---
 
 ## Node.js

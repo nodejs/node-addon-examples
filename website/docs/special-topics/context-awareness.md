@@ -1,6 +1,7 @@
 ---
 id: special-topics.context-awareness
 title: Context awareness
+prev: special-topics.thread-safe-functions
 ---
 
 ## Background

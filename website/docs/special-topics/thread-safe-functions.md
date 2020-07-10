@@ -1,6 +1,8 @@
 ---
 id: special-topics.thread-safe-functions
 title: Thread-safe functions
+prev: special-topics.asyncworker
+next: special-topics.context-awareness
 ---
 
 JavaScript functions can normally only be called from a native addon's main thread. If an addon creates additional threads, then node-addon-api functions that require a `Napi::Env`, `Napi::Value`, or `Napi::Reference` must not be called from those threads.

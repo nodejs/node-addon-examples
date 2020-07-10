@@ -1,6 +1,8 @@
 ---
 id: getting-started.objectwrap
 title: Object wrap
+prev: getting-started.first
+next: getting-started.migration
 ---
 
 This tutorial is an alternative to [A first project](./first.html) that generates a more complex project. Instead of generating a simple function binding, this project demonstrates how to create a JavaScript object from a C++ object. 

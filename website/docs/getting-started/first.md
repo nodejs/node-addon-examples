@@ -1,6 +1,8 @@
 ---
 id: getting-started.first
 title: A first project
+prev: getting-started.tools
+next: getting-started.objectwrap
 ---
 
 Before you start, make sure you've got all the necessary [prerequisites](prerequisites.html) and [tools](tools.html) installed.

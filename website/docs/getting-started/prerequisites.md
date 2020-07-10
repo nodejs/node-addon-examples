@@ -1,6 +1,7 @@
 ---
 id: getting-started.prerequisites
 title: Prerequisites
+next: getting-started.tools
 ---
 
 ##  C/C++ and JavaScript 

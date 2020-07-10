@@ -3,7 +3,7 @@ id: getting-started.helloworld
 title: Hello, world!
 ---
 
-2018-11-06 This file was created in anticipation of NodeConf EU 2018 when it was not clear whether `generator-napi-module` was going to be updated in time for the N-API workshop at the conference. It turns out that `generator-napi-module` did land in time, so this file has never been used and is not included in the `navigation.yaml` file. 
+**2018-11-06** This file was created in anticipation of NodeConf EU 2018 when it was not clear whether `generator-napi-module` was going to be updated in time for the N-API workshop at the conference. It turns out that `generator-napi-module` did land in time, so this file has never been used and is not included in the `toc.json` file. 
 
 # Hello, world!
 

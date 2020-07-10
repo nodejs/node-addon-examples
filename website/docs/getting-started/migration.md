@@ -1,6 +1,7 @@
 ---
 id: getting-started.migration
 title: Migration tutorial
+prev: getting-started.objectwrap
 ---
 
 The objective of this tutorial is to give you a good idea of the steps necessary and the tools available to migrate an existing [NAN](https://github.com/nodejs/nan) Node native add-on module to [N-API](https://nodejs.org/api/n-api.html) using the [node-addon-api ](https://github.com/nodejs/node-addon-api) package. 

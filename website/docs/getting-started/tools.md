@@ -1,6 +1,8 @@
 ---
 id: getting-started.tools
 title: The tools you’ll need
+prev: getting-started.prerequisites
+next: getting-started.first
 ---
 
 ## Node

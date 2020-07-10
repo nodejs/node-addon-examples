@@ -1,6 +1,7 @@
 ---
 id: build-tools.prebuild
 title: prebuild
+prev: build-tools.node-pre-gyp
 ---
 
 ## Introduction 

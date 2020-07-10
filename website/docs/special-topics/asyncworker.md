@@ -1,6 +1,8 @@
 ---
 id: special-topics.asyncworker
 title: AsyncWorker
+prev: special-topics.object-function-refs
+next: special-topics.thread-safe-functions
 ---
 
 ## Introduction 
