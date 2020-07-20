@@ -1,0 +1,97 @@
+[
+  {
+    "title": "About N-API",
+    "items": [
+      {
+        "id": "about.what",
+        "slug": "/about/what",
+        "title": "What is N-API?"
+      },
+      {
+        "id": "about.uses",
+        "slug": "/about/uses",
+        "title": "Uses for N-API"
+      }
+    ]
+  },
+  {
+    "title": "Getting Started",
+    "items": [
+      {
+        "id": "getting-started.prerequisites",
+        "slug": "/getting-started/prerequisites",
+        "title": "Prerequisites"
+      },
+      {
+        "id": "getting-started.tools",
+        "slug": "/getting-started/tools",
+        "title": "The tools you'll need"
+      },
+      {
+        "id": "getting-started.first",
+        "slug": "/getting-started/first",
+        "title": "A first project"
+      },
+      {
+        "id": "getting-started.objectwrap",
+        "slug": "/getting-started/objectwrap",
+        "title": "Object wrap"
+      },
+      {
+        "id": "getting-started.migration",
+        "slug": "/getting-started/migration",
+        "title": "Migration tutorial"
+      }
+    ]
+  },
+  {
+    "title": "Build Tools",
+    "items": [
+      {
+        "id": "build-tools.node-gyp",
+        "slug": "/build-tools/node-gyp",
+        "title": "node-gyp"
+      },
+      {
+        "id": "build-tools.cmake-js",
+        "slug": "/build-tools/cmake-js",
+        "title": "CMake.js"
+      },
+      {
+        "id": "build-tools.node-pre-gyp",
+        "slug": "/build-tools/node-pre-gyp",
+        "title": "node-pre-gyp"
+      },
+      {
+        "id": "build-tools.prebuild",
+        "slug": "/build-tools/prebuild",
+        "title": "prebuild"
+      }
+    ]
+  },
+  {
+    "title": "Special Topics",
+    "items": [
+      {
+        "id": "special-topics.object-function-refs",
+        "slug": "/special-topics/object-function-refs",
+        "title": "Object & function refs"
+      },
+      {
+        "id": "special-topics.asyncworker",
+        "slug": "/special-topics/asyncworker",
+        "title": "AsyncWorker"
+      },
+      {
+        "id": "special-topics.thread-safe-functions",
+        "slug": "/special-topics/thread-safe-functions",
+        "title": "Thread-safe functions"
+      },
+      {
+        "id": "special-topics.context-awareness",
+        "slug": "/special-topics/context-awareness",
+        "title": "Context awareness"
+      }
+    ]
+  }
+]

@@ -1,0 +1,71 @@
+# The N-API Resource
+
+This directory contains the Markdown and supporting files that comprise the N-API Resource website published at the following URL by GitHub Pages:
+
+https://nodejs.github.io/node-addon-examples/
+
+The website is genereated by [Gatsby](https://www.gatsbyjs.org) and published to this repository's `gh-pages` branch.
+
+## Objective
+
+The basic objective of this site is to publish additional useful information concerning the N-API technology that extends beyond the basic documentation.
+
+Ideally, pages published to this site should reference a working demo module that is also stored in this same repository. Features configured into the Gatsby project make embedding example source code fairly straightforward. 
+
+## Contributing
+
+Submissions are gratefully accepted. Simply fork the [node-addon-examples](https://github.com/nodejs/node-addon-examples) repository containing this directory, make your changes, and submit a PR. 
+
+All of the site's content is located in the `docs` directory. Besides the Markdown files, there is also the `toc.json` file that needs to be updated when pages are added or removed.
+
+### Frontmatter
+
+Each of the Markdown files includes front matter that Gatsby uses when formatting the site.
+
+| Tag     | Description                                                  |
+| ------- | ------------------------------------------------------------ |
+| `id`    | A unique identifying string for this page.                   |
+| `title` | The title of the page as shown at the top of the page itself. |
+| `prev`  | The `id` of the page to be shown as the Previous link at the bottom of the page. |
+| `next`  | The `id` of the page to be shown as the Next link at the bottom of the page. |
+
+The `prev` and `next` links can be omitted for the first and last pages in the set, respectively. 
+
+### Gatsby Basics
+
+This project assumes that Gatsby is installed globally. 
+
+```
+npm install -g gatsby-cli
+```
+
+Be sure to set `website` as the current working directory before working on the website. For example:
+
+```
+cd website
+```
+
+These commands are useful while working on the site:
+
+| Command          | Description                                                  |
+| ---------------- | ------------------------------------------------------------ |
+| `gatsby develop` | Start a hot-reloading preview site at `http://localhost:8000`. |
+| `gatsby build`   | Perform an optimized production build into the `public` folder. |
+| `gatsby serve`   | Start a local HTML server using the results from `gatsby build`. |
+
+### Embedding Source Code Samples
+
+For this project, Gatsby is configured to have the ability to copy example source code into the generated web pages. The advantage of this approach is that the web pages can be easliy regenerated whenever the source code files change. 
+
+Here's the pattern to follow for embedding example source code:
+
+```
+[**package.json**](https://github.com/nodejs/node-addon-examples/blob/master/object-wrap-demo/node-addon-api/package.json)
+
+`embed:object-wrap-demo/node-addon-api/package.json`
+```
+
+> This snippet is taken from `website/docs/getting-started/objectwrap.md`
+
+The path in the `embed` tag is relative to the main `node-addon-examples` directory, not the `website` directory. 
+
