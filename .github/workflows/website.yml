@@ -1,0 +1,26 @@
+name: Build and Deploy the Website
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy-website:
+    runs-on: ubuntu-latest
+    container: node
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - run: npx envinfo
+      - name: Build and Deploy
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          USER: gatsby-deploy-bot <support+actions@github.com>
+        working-directory: ./website
+        run: |
+          npm install
+          npx gatsby build --prefix-paths
+          npx gh-pages -d public -r https://git:${TOKEN}@github.com/${REPO}.git -u "${USER}"
