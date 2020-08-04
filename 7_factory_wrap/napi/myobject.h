@@ -20,7 +20,6 @@ class MyObject {
   static napi_value PlusOne(napi_env env, napi_callback_info info);
   double counter_;
   napi_env env_;
-  napi_ref wrapper_;
 };
 
 #endif  // TEST_ADDONS_NAPI_7_FACTORY_WRAP_MYOBJECT_H_

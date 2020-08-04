@@ -21,7 +21,6 @@ class MyObject {
 
   double value_;
   napi_env env_;
-  napi_ref wrapper_;
 };
 
 #endif  // TEST_ADDONS_NAPI_6_OBJECT_WRAP_MYOBJECT_H_

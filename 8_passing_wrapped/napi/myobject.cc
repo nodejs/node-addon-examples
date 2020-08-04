@@ -1,11 +1,7 @@
 #include "myobject.h"
 #include <assert.h>
 
-MyObject::MyObject() : env_(nullptr), wrapper_(nullptr) {}
-
-MyObject::~MyObject() {
-  napi_delete_reference(env_, wrapper_);
-}
+MyObject::MyObject() : env_(nullptr) {}
 
 void MyObject::Destructor(napi_env env,
                           void* nativeObject,
@@ -75,7 +71,7 @@ napi_value MyObject::New(napi_env env, napi_callback_info info) {
                      reinterpret_cast<void*>(obj),
                      MyObject::Destructor,
                      nullptr,  // finalize_hint
-                     &obj->wrapper_);
+                     nullptr);
   assert(status == napi_ok);
 
   return jsthis;
