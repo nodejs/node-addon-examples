@@ -10,7 +10,6 @@ class MyObject {
 
  private:
   explicit MyObject(double value_ = 0);
-  ~MyObject();
 
   static napi_value New(napi_env env, napi_callback_info info);
   static napi_value GetValue(napi_env env, napi_callback_info info);
