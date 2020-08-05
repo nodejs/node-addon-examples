@@ -6,7 +6,7 @@ MyObject::MyObject() : env_(nullptr) {}
 void MyObject::Destructor(napi_env env,
                           void* nativeObject,
                           void* /*finalize_hint*/) {
-  reinterpret_cast<MyObject*>(nativeObject)->~MyObject();
+  delete reinterpret_cast<MyObject*>(nativeObject);
 }
 
 #define DECLARE_NAPI_METHOD(name, func)                                        \
