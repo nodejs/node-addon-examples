@@ -16,7 +16,7 @@ completeness and historical context. They are not maintained.
 
 The [N-API Resource](http://nodejs.github.io/node-addon-examples/) offers an 
 excellent orientation and tips for developers just getting started with N-API 
-and node-addon-api.
+and `node-addon-api`.
 
 ## Usage
 
