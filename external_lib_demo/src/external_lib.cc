@@ -2,7 +2,7 @@
 
 using namespace Napi;
 
-ObjectWrapDemo::ObjectWrapDemo(const Napi::CallbackInfo& info) : ObjectWrap(info) {
+ExternalLib::ExternalLib(const Napi::CallbackInfo& info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
 
     if (info.Length() < 1) {
@@ -20,7 +20,7 @@ ObjectWrapDemo::ObjectWrapDemo(const Napi::CallbackInfo& info) : ObjectWrap(info
     this->_greeterName = info[0].As<Napi::String>().Utf8Value();
 }
 
-Napi::Value ObjectWrapDemo::Greet(const Napi::CallbackInfo& info) {
+Napi::Value ExternalLib::Greet(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
     if (info.Length() < 1) {
@@ -43,15 +43,15 @@ Napi::Value ObjectWrapDemo::Greet(const Napi::CallbackInfo& info) {
     return Napi::String::New(env, this->_greeterName);
 }
 
-Napi::Function ObjectWrapDemo::GetClass(Napi::Env env) {
-    return DefineClass(env, "ObjectWrapDemo", {
-        ObjectWrapDemo::InstanceMethod("greet", &ObjectWrapDemo::Greet),
+Napi::Function ExternalLib::GetClass(Napi::Env env) {
+    return DefineClass(env, "ExternalLib", {
+        ExternalLib::InstanceMethod("greet", &ExternalLib::Greet),
     });
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    Napi::String name = Napi::String::New(env, "ObjectWrapDemo");
-    exports.Set(name, ObjectWrapDemo::GetClass(env));
+    Napi::String name = Napi::String::New(env, "ExternalLib");
+    exports.Set(name, ExternalLib::GetClass(env));
     return exports;
 }
 

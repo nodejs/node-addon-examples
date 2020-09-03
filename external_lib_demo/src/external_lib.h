@@ -2,10 +2,10 @@
 
 #include <napi.h>
 
-class ObjectWrapDemo : public Napi::ObjectWrap<ObjectWrapDemo>
+class ExternalLib : public Napi::ObjectWrap<ExternalLib>
 {
 public:
-    ObjectWrapDemo(const Napi::CallbackInfo&);
+    ExternalLib(const Napi::CallbackInfo&);
     Napi::Value Greet(const Napi::CallbackInfo&);
 
     static Napi::Function GetClass(Napi::Env);
