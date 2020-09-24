@@ -1,6 +1,5 @@
 Node.js Addon Examples
 =========================================
-[![Build Status](https://travis-ci.com/nodejs/node-addon-examples.svg?branch=master)](https://travis-ci.com/nodejs/node-addon-examples)
 
 **A repository of [Node.js Addons](https://nodejs.org/api/addons.html#addons_c_addons) examples.**
 
