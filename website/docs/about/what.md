@@ -10,13 +10,13 @@ next: about.uses
 
 ## Node Modules
 
-Node encourages modular software development by supporting [Modules](https://nodejs.org/api/modules.html#modules_modules). Modules are essentially a colection of files and directories that conform to specific requirements. Some background information about creating Node modules can be found [here](https://docs.npmjs.com/creating-node-js-modules).
+Node encourages modular software development by supporting [Modules](https://nodejs.org/api/modules.html#modules_modules). Modules are essentially a collection of files and directories that conform to specific requirements. Some background information about creating Node modules can be found [here](https://docs.npmjs.com/creating-node-js-modules).
 
 One of the real benefits of adopting Node is the comprehensive ecosystem of Node modules available to developers. The largest collection of Node modules is available from [npm](https://www.npmjs.com). The `npm` command line tool is installed along with Node. 
 
 ## Node Native Modules
 
-Besides modules written in JavaScript, Node also provides technology to enable the deveopment of Node modules written primarily in C and C++. This permits existing C and C++ libraries to be compiled into Node *native* modules that are virtually indistinguishable from those written entirely in JavaScript. 
+Besides modules written in JavaScript, Node also provides technology to enable the development of Node modules written primarily in C and C++. This permits existing C and C++ libraries to be compiled into Node *native* modules that are virtually indistinguishable from those written entirely in JavaScript. 
 
 N-API is the technology that enables the development of Node native modules. 
 

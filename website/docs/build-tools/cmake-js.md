@@ -10,7 +10,7 @@ next: build-tools.node-pre-gyp
 ### Pros
 
 - Uses the CMake tool which is widely-adopted in the open source community.
-- Ideal for exisiting C/C++ libraries already based on CMake.
+- Ideal for existing C/C++ libraries already based on CMake.
 
 ### Cons
 
@@ -44,7 +44,7 @@ cmake-js --version
 
 Your `package.json` file needs to have a couple of entires for your native module to work with CMake.js. 
 
-Since your native module needs to be compiled using CMake.js on installation, the `scripts` propery of your `package.json` file needs an `install` entry to make this happen:
+Since your native module needs to be compiled using CMake.js on installation, the `scripts` property of your `package.json` file needs an `install` entry to make this happen:
 
 ```json
   "scripts": {
@@ -93,14 +93,14 @@ target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 
 ### NAPI_VERSION
 
-When building a native module based on N-API, it is important to decalre the miniumen N-API version against which your module is designed to work. For CMake.js, this is accomplished by adding a line like this to the `CMakeLists.txt` file:
+When building a native module based on N-API, it is important to declare the minimum N-API version against which your module is designed to work. For CMake.js, this is accomplished by adding a line like this to the `CMakeLists.txt` file:
 
 ```
 # define NAPI_VERSION
 add_definitions(-DNAPI_VERSION=3)
 ```
 
-> In the absence of other requirments, N-API version 3 is a good choice as this is the N-API version active when N-API left experimental status. 
+> In the absence of other requirements, N-API version 3 is a good choice as this is the N-API version active when N-API left experimental status. 
 
 ### node-addon-api
 
