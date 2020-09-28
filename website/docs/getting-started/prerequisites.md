@@ -8,7 +8,7 @@ next: getting-started.tools
 
 The purpose of N-API is to enable you to use your existing or newly written C/C++ code from JavaScript. This assumes at least a passing familiarity with both JavaScript and C/C++. The level of familiarity necessary is dependent upon the complexity of your project and your involvement with the JavaScript and the C/C++. 
 
-For your own projects, it will be necessary to have an understadning of the C/C++ code you plan to integrate as well as what objectives you hope to achieve with your project on the JavaScript side of things. 
+For your own projects, it will be necessary to have an understanding of the C/C++ code you plan to integrate as well as what objectives you hope to achieve with your project on the JavaScript side of things. 
 
 ## Command line tools
 

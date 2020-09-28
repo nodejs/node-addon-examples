@@ -80,7 +80,7 @@ At this point you have a completely functional N-API module project. The project
 ```
 .
 ├── binding.gyp                         Used by gyp to compile the C code
-├── build                               The intermdiary and final build products
+├── build                               The intermediary and final build products
 │   └── < contents not shown here >
 ├── lib                                 The N-API code that accesses the C/C++ binary
 │   └── binding.js

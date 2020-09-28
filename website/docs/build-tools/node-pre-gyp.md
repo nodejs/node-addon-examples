@@ -7,7 +7,7 @@ next: build-tools.prebuild
 
 ## Introduction 
 
-One of the limitations of implementing native add-on modules is that at some point they need to be compiled and linked. In the absense of a downloadable binary, each user of a native add-on will need to compile and link the module. This requires each user to have the necessary C/C++ build tools installed. 
+One of the limitations of implementing native add-on modules is that at some point they need to be compiled and linked. In the absence of a downloadable binary, each user of a native add-on will need to compile and link the module. This requires each user to have the necessary C/C++ build tools installed. 
 
 An alternative is for the native add-on maintainer to pre-build binaries for supported platforms and architectures and to upload these binaries to a location where users can download them.
 
