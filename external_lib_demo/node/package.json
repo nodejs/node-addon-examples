@@ -10,6 +10,6 @@
   },
   "gypfile": true,
   "name": "external-lib-demo",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "An external lib demo"
 }
