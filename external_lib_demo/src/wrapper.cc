@@ -1,4 +1,6 @@
-#include "external_lib.h"
+#include "wrapper.h"
+
+using namespace Napi;
 
 ExternalLib::ExternalLib(const Napi::CallbackInfo& info) : ObjectWrap(info) {
     Napi::Env env = info.Env();

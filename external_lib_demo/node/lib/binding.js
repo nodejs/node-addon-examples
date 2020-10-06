@@ -1,11 +1,11 @@
-const addon = require('../build/Release/external-lib-node')
+const externalLib = require('../build/Release/external-lib-node')
 
 function ExternalLib (name) {
   this.greet = function (str) {
-    return _addonInstance.greet(str)
+    return _instance.greet(str)
   }
 
-  const _addonInstance = new addon.ExternalLib(name)
+  const _instance = new externalLib.ExternalLib(name)
 }
 
 module.exports = ExternalLib

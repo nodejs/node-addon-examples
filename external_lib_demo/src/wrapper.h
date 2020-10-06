@@ -1,5 +1,7 @@
 #pragma once
 
+#include <napi.h>
+
 class ExternalLib : public Napi::ObjectWrap<ExternalLib>
 {
 public:
