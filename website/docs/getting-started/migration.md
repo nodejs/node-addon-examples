@@ -10,7 +10,7 @@ This tutorial uses the conversion tool supplied with N-API to give you a head st
 
 To keep things somewhat constrained, this tutorial uses [node-microtime](https://github.com/wadey/node-microtime) which is a simple NAN-based native add-on. This add-on makes system calls to determine the current time to microsecond resolution if supported by the operating system. 
 
-Before you start, make sure you've got all the necessary [prerequisites](prerequisites.html) and [tools](tools.html) installed.
+Before you start, make sure you've got all the necessary [prerequisites](prerequisites) and [tools](tools) installed.
 
 > N-API has been in public release and active development starting with Node 8.0.0. Since then, it's undergone a number of refinements. This tutorial has been tested with Node 10.1.0 and is known to fail with older versions of Node. You can determine the version of Node you're running with the command `node -v`.
 
@@ -177,4 +177,4 @@ There are number of good resources to help you better understand N-API as you mi
 
 [node-addon-api Test Code](https://github.com/nodejs/node-addon-api/tree/master/test)
 
-Each of these resources is maintained by the N-API Team.  
+Each of these resources is maintained by the N-API Team.

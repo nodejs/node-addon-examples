@@ -12,4 +12,4 @@ For your own projects, it will be necessary to have an understanding of the C/C+
 
 ## Command line tools
 
-Many of the tools used to develop N-API modules are run from the command line. So at least a passing familiarity and confidence with your command line tool is essential. IDEs, as described [here](tools.html#Other-tools) can help. But they also rely in the command line. 
+Many of the tools used to develop N-API modules are run from the command line. So at least a passing familiarity and confidence with your command line tool is essential. IDEs, as described [here](tools#other-tools) can help. But they also rely in the command line.

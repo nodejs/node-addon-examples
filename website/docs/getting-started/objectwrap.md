@@ -5,9 +5,9 @@ prev: getting-started.first
 next: getting-started.migration
 ---
 
-This tutorial is an alternative to [A first project](./first.html) that generates a more complex project. Instead of generating a simple function binding, this project demonstrates how to create a JavaScript object from a C++ object. 
+This tutorial is an alternative to [A first project](first) that generates a more complex project. Instead of generating a simple function binding, this project demonstrates how to create a JavaScript object from a C++ object.
 
-Before you start, make sure you've got all the necessary [prerequisites](prerequisites.html) and [tools](tools.html) installed.
+Before you start, make sure you've got all the necessary [prerequisites](prerequisites) and [tools](tools) installed.
 
 As you select where to begin, you should be aware that N-API operates at two levels which we can think of as the "C level" and the "C++ level". 
 
