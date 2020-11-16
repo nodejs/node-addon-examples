@@ -1,0 +1,17 @@
+{
+  "name": "typescript_with_addon",
+  "version": "0.0.0",
+  "description": "TypeScript calling Javascript calling C++ calling C with building with CMake and node-addon-api C++ wrapper.",
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "node-addon-api": "^3.0.2"
+  },
+  "scripts": {
+    "install": "npx cmake-js compile",
+    "test": "ts-node index.ts"
+  },
+  "devDependencies": {
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
