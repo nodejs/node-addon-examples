@@ -1,10 +1,10 @@
 #include <nan.h>
 
-void MyFunction(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+void MyFunction(const Nan::FunctionCallbackInfo<v8::Value> &info) {
   info.GetReturnValue().Set(Nan::New("hello world").ToLocalChecked());
 }
 
-void CreateFunction(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+void CreateFunction(const Nan::FunctionCallbackInfo<v8::Value> &info) {
   v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
   v8::Local<v8::FunctionTemplate> tpl =
       Nan::New<v8::FunctionTemplate>(MyFunction);

@@ -18,9 +18,9 @@ void MyObject::Init() {
       tpl->GetFunction(Nan::GetCurrentContext()).ToLocalChecked());
 }
 
-void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value> &info) {
   v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
-  MyObject* obj = new MyObject();
+  MyObject *obj = new MyObject();
   obj->val_ =
       info[0]->IsUndefined() ? 0 : info[0]->NumberValue(context).FromJust();
   obj->Wrap(info.This());

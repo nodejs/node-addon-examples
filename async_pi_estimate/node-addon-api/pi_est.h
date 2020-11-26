@@ -3,4 +3,4 @@
 
 double Estimate(int points);
 
-#endif  // EXAMPLES_ASYNC_PI_ESTIMATE_PI_EST_H_
+#endif // EXAMPLES_ASYNC_PI_ESTIMATE_PI_EST_H_

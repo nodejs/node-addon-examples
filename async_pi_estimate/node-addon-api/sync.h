@@ -3,6 +3,6 @@
 
 #include <napi.h>
 
-Napi::Value CalculateSync(const Napi::CallbackInfo& info);
+Napi::Value CalculateSync(const Napi::CallbackInfo &info);
 
-#endif  // EXAMPLES_ASYNC_PI_ESTIMATE_SYNC_H_
+#endif // EXAMPLES_ASYNC_PI_ESTIMATE_SYNC_H_

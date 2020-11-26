@@ -8,7 +8,7 @@ extern "C" {
 int cPart(int);
 
 #ifdef __cplusplus
-}  // extern "C"
+} // extern "C"
 #endif
 
 #endif

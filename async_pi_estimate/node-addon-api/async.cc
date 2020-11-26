@@ -1,10 +1,10 @@
 #include "async.h"  // NOLINT(build/include)
+#include "pi_est.h" // NOLINT(build/include)
 #include <napi.h>
-#include "pi_est.h"  // NOLINT(build/include)
 
 class PiWorker : public Napi::AsyncWorker {
- public:
-  PiWorker(Napi::Function& callback, int points)
+public:
+  PiWorker(Napi::Function &callback, int points)
       : Napi::AsyncWorker(callback), points(points), estimate(0) {}
   ~PiWorker() {}
 
@@ -21,16 +21,16 @@ class PiWorker : public Napi::AsyncWorker {
     Callback().Call({Env().Undefined(), Napi::Number::New(Env(), estimate)});
   }
 
- private:
+private:
   int points;
   double estimate;
 };
 
 // Asynchronous access to the `Estimate()` function
-Napi::Value CalculateAsync(const Napi::CallbackInfo& info) {
+Napi::Value CalculateAsync(const Napi::CallbackInfo &info) {
   int points = info[0].As<Napi::Number>().Uint32Value();
   Napi::Function callback = info[1].As<Napi::Function>();
-  PiWorker* piWorker = new PiWorker(callback, points);
+  PiWorker *piWorker = new PiWorker(callback, points);
   piWorker->Queue();
   return info.Env().Undefined();
 }

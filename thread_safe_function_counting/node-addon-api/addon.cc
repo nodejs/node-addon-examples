@@ -42,16 +42,16 @@ Napi::Value CreateTSFN(const Napi::CallbackInfo &info) {
   auto testData = new TsfnContext(env);
 
   // Create a new ThreadSafeFunction.
-  testData->tsfn =
-      Napi::ThreadSafeFunction::New(env,                    // Environment
-                              info[0].As<Napi::Function>(), // JS function from caller
-                              "TSFN",                 // Resource name
-                              0,        // Max queue size (0 = unlimited).
-                              1,        // Initial thread count
-                              testData, // Context,
-                              FinalizerCallback, // Finalizer
-                              (void *)nullptr    // Finalizer data
-      );
+  testData->tsfn = Napi::ThreadSafeFunction::New(
+      env,                          // Environment
+      info[0].As<Napi::Function>(), // JS function from caller
+      "TSFN",                       // Resource name
+      0,                            // Max queue size (0 = unlimited).
+      1,                            // Initial thread count
+      testData,                     // Context,
+      FinalizerCallback,            // Finalizer
+      (void *)nullptr               // Finalizer data
+  );
   testData->nativeThread = std::thread(threadEntry, testData);
 
   // Return the deferred's Promise. This Promise is resolved in the thread-safe
@@ -76,7 +76,9 @@ void threadEntry(TsfnContext *context) {
         context->tsfn.BlockingCall(&context->ints[index], callback);
 
     if (status != napi_ok) {
-      Napi::Error::Fatal("ThreadEntry", "Napi::ThreadSafeNapi::Function.BlockingCall() failed");
+      Napi::Error::Fatal(
+          "ThreadEntry",
+          "Napi::ThreadSafeNapi::Function.BlockingCall() failed");
     }
     // Sleep for some time.
     std::this_thread::sleep_for(std::chrono::milliseconds(200));

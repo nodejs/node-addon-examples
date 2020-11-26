@@ -1,7 +1,7 @@
-#include <napi.h>
 #include "myobject.h"
+#include <napi.h>
 
-Napi::Object CreateObject(const Napi::CallbackInfo& info) {
+Napi::Object CreateObject(const Napi::CallbackInfo &info) {
   return MyObject::NewInstance(info.Env(), info[0]);
 }
 
