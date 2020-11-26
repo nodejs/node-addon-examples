@@ -1,5 +1,6 @@
 #include "pi_est.h"  // NOLINT(build/include)
 #include <cstdlib>
+#include <random>
 
 /*
 Estimate the value of π by using a Monte Carlo method.
@@ -29,6 +30,11 @@ double Estimate(int points) {
   unsigned int randseed = 1;
 
 #ifdef _WIN32
+  std::random_device rd;   // proposed changes : non-deterministic generator
+  std::mt19937 gen(rd());  // proposed changes : to seed mersenne twister.
+  std::uniform_int_distribution<> dist(0, RAND_MAX); // proposed changes : distribute results between 1 and 6 inclusive.
+  randseed = dist(gen); // proposed changes :  thread-independent seed generated here
+  
   srand(randseed);
 #endif
 
