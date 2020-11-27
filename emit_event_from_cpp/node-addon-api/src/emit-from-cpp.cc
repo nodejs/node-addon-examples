@@ -4,7 +4,7 @@
 #include <iostream>
 #include <thread>
 
-Napi::Value CallEmit(const Napi::CallbackInfo &info) {
+Napi::Value CallEmit(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   Napi::Function emit = info[0].As<Napi::Function>();
   emit.Call({Napi::String::New(env, "start")});

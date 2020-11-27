@@ -3,14 +3,13 @@
 using namespace Napi;
 
 class SimpleAsyncWorker : public AsyncWorker {
-
-public:
-  SimpleAsyncWorker(Function &callback, int runTime);
+ public:
+  SimpleAsyncWorker(Function& callback, int runTime);
   virtual ~SimpleAsyncWorker(){};
 
   void Execute();
   void OnOK();
 
-private:
+ private:
   int runTime;
 };

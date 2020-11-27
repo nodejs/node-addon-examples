@@ -4,11 +4,11 @@
 #include <node_api.h>
 
 class MyObject {
-public:
+ public:
   static napi_value Init(napi_env env, napi_value exports);
-  static void Destructor(napi_env env, void *nativeObject, void *finalize_hint);
+  static void Destructor(napi_env env, void* nativeObject, void* finalize_hint);
 
-private:
+ private:
   explicit MyObject(double value_ = 0);
   ~MyObject();
 
@@ -24,4 +24,4 @@ private:
   napi_ref wrapper_;
 };
 
-#endif // TEST_ADDONS_NAPI_6_OBJECT_WRAP_MYOBJECT_H_
+#endif  // TEST_ADDONS_NAPI_6_OBJECT_WRAP_MYOBJECT_H_

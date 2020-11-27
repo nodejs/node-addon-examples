@@ -1,5 +1,5 @@
-#include "myobject.h"
 #include <napi.h>
+#include "myobject.h"
 
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
   return MyObject::Init(env, exports);

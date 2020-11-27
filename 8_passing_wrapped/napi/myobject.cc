@@ -3,21 +3,23 @@
 
 MyObject::MyObject() : env_(nullptr), wrapper_(nullptr) {}
 
-MyObject::~MyObject() { napi_delete_reference(env_, wrapper_); }
+MyObject::~MyObject() {
+  napi_delete_reference(env_, wrapper_);
+}
 
-void MyObject::Destructor(napi_env env, void *nativeObject,
-                          void * /*finalize_hint*/) {
-  reinterpret_cast<MyObject *>(nativeObject)->~MyObject();
+void MyObject::Destructor(napi_env env,
+                          void* nativeObject,
+                          void* /*finalize_hint*/) {
+  reinterpret_cast<MyObject*>(nativeObject)->~MyObject();
 }
 
 napi_status MyObject::Init(napi_env env) {
   napi_status status;
 
   napi_value cons;
-  status = napi_define_class(env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 0,
-                             nullptr, &cons);
-  if (status != napi_ok)
-    return status;
+  status = napi_define_class(
+      env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 0, nullptr, &cons);
+  if (status != napi_ok) return status;
 
   // We will need the constructor `cons` later during the life cycle of the
   // application, so we store a persistent reference to it as the instance data
@@ -30,13 +32,14 @@ napi_status MyObject::Init(napi_env env) {
   // The finalizer we pass as a lambda will be called when our addon is unloaded
   // and is responsible for releasing the persistent reference and freeing the
   // heap memory where we stored the persistent reference.
-  napi_ref *constructor = new napi_ref;
+  napi_ref* constructor = new napi_ref;
   status = napi_create_reference(env, cons, 1, constructor);
   assert(status == napi_ok);
   status = napi_set_instance_data(
-      env, constructor,
-      [](napi_env env, void *data, void *hint) {
-        napi_ref *constructor = static_cast<napi_ref *>(data);
+      env,
+      constructor,
+      [](napi_env env, void* data, void* hint) {
+        napi_ref* constructor = static_cast<napi_ref*>(data);
         napi_status status = napi_delete_reference(env, *constructor);
         assert(status == napi_ok);
         delete constructor;
@@ -56,7 +59,7 @@ napi_value MyObject::New(napi_env env, napi_callback_info info) {
   status = napi_get_cb_info(env, info, &argc, args, &jsthis, nullptr);
   assert(status == napi_ok);
 
-  MyObject *obj = new MyObject();
+  MyObject* obj = new MyObject();
 
   napi_valuetype valuetype;
   status = napi_typeof(env, args[0], &valuetype);
@@ -70,9 +73,11 @@ napi_value MyObject::New(napi_env env, napi_callback_info info) {
   }
 
   obj->env_ = env;
-  status = napi_wrap(env, jsthis, reinterpret_cast<void *>(obj),
+  status = napi_wrap(env,
+                     jsthis,
+                     reinterpret_cast<void*>(obj),
                      MyObject::Destructor,
-                     nullptr, // finalize_hint
+                     nullptr,  // finalize_hint
                      &obj->wrapper_);
   assert(status == napi_ok);
 
@@ -80,10 +85,10 @@ napi_value MyObject::New(napi_env env, napi_callback_info info) {
 }
 
 napi_value MyObject::Constructor(napi_env env) {
-  void *instance_data = nullptr;
+  void* instance_data = nullptr;
   napi_status status = napi_get_instance_data(env, &instance_data);
   assert(status == napi_ok);
-  napi_ref *constructor = static_cast<napi_ref *>(instance_data);
+  napi_ref* constructor = static_cast<napi_ref*>(instance_data);
 
   napi_value cons;
   status = napi_get_reference_value(env, *constructor, &cons);
@@ -91,16 +96,16 @@ napi_value MyObject::Constructor(napi_env env) {
   return cons;
 }
 
-napi_status MyObject::NewInstance(napi_env env, napi_value arg,
-                                  napi_value *instance) {
+napi_status MyObject::NewInstance(napi_env env,
+                                  napi_value arg,
+                                  napi_value* instance) {
   napi_status status;
 
   const int argc = 1;
   napi_value argv[argc] = {arg};
 
   status = napi_new_instance(env, Constructor(env), argc, argv, instance);
-  if (status != napi_ok)
-    return status;
+  if (status != napi_ok) return status;
 
   return napi_ok;
 }

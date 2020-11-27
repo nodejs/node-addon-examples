@@ -1,6 +1,6 @@
 #include "async.h"  // NOLINT(build/include)
-#include "pi_est.h" // NOLINT(build/include)
 #include <nan.h>
+#include "pi_est.h"  // NOLINT(build/include)
 
 using Nan::AsyncQueueWorker;
 using Nan::AsyncWorker;
@@ -15,8 +15,8 @@ using v8::Number;
 using v8::Value;
 
 class PiWorker : public AsyncWorker {
-public:
-  PiWorker(Callback *callback, int points)
+ public:
+  PiWorker(Callback* callback, int points)
       : AsyncWorker(callback), points(points), estimate(0) {}
   ~PiWorker() {}
 
@@ -37,7 +37,7 @@ public:
     callback->Call(2, argv, async_resource);
   }
 
-private:
+ private:
   int points;
   double estimate;
 };
@@ -45,7 +45,7 @@ private:
 // Asynchronous access to the `Estimate()` function
 NAN_METHOD(CalculateAsync) {
   int points = To<int>(info[0]).FromJust();
-  Callback *callback = new Callback(To<Function>(info[1]).ToLocalChecked());
+  Callback* callback = new Callback(To<Function>(info[1]).ToLocalChecked());
 
   AsyncQueueWorker(new PiWorker(callback, points));
 }

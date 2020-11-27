@@ -1,6 +1,6 @@
 #include <napi.h>
 
-static Napi::String Method(const Napi::CallbackInfo &info) {
+static Napi::String Method(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   return Napi::String::New(env, "Hello, world!");
 }

@@ -10,7 +10,7 @@ using namespace v8;
 // binding the addon provides. Thus, the data stored in an instance of this
 // class is available to each binding, just as global static data would be.
 class AddonData {
-public:
+ public:
   // This is the actual, useful work performed: increment or decrement the value
   // stored per addon instance after passing it through a CPU-consuming but
   // otherwise useless calculation. Round the result to the nearest integer.
@@ -30,21 +30,21 @@ public:
   // into a v8::External. The isolate and the exports are necessary, because we
   // want the instance of this class to be destroyed along with the exports
   // object when the addon is eventually unloaded.
-  static Local<Value> New(Isolate *isolate, Local<Object> exports) {
+  static Local<Value> New(Isolate* isolate, Local<Object> exports) {
     return External::New(isolate, new AddonData(isolate, exports));
   }
 
-private:
+ private:
   // This is the actual, useful payload carried by an instance of this class.
   // A double value is kept around for as long as an instance of this addon is
   // loaded, and is incremented or decremented whenever the addon receives a
   // call from JavaScript.
   double value;
 
-  explicit AddonData(Isolate *isolate, Local<Object> exports)
-      : // The payload is initialized here. The rest of the constructor is
-        // boilerplate that ensures that the instance of this addon data is
-        // destroyed along with the instance of this addon (`exports`).
+  explicit AddonData(Isolate* isolate, Local<Object> exports)
+      :  // The payload is initialized here. The rest of the constructor is
+         // boilerplate that ensures that the instance of this addon data is
+         // destroyed along with the instance of this addon (`exports`).
         value(0.0) {
     exports_persistent.Reset(isolate, exports);
     exports_persistent.SetWeak(this, DeleteMe, WeakCallbackType::kParameter);
@@ -58,7 +58,7 @@ private:
 
   // This static function will be called when the addon instance is unloaded. It
   // merely destroys the per-addon-instance data.
-  static void DeleteMe(const WeakCallbackInfo<AddonData> &info) {
+  static void DeleteMe(const WeakCallbackInfo<AddonData>& info) {
     delete info.GetParameter();
   }
 
@@ -66,20 +66,20 @@ private:
 };
 
 // Function called from JavaScript to increment the value stored in this addon.
-void Increment(const FunctionCallbackInfo<Value> &info) {
+void Increment(const FunctionCallbackInfo<Value>& info) {
   // Retrieve the per-addon-instance data.
-  AddonData *addon_data =
-      static_cast<AddonData *>(info.Data().As<External>()->Value());
+  AddonData* addon_data =
+      static_cast<AddonData*>(info.Data().As<External>()->Value());
 
   info.GetReturnValue().Set(
       Number::New(info.GetIsolate(), addon_data->GetNewValue(1.0)));
 }
 
 // Function called from JavaScript to decrement the value stored in this addon.
-void Decrement(const FunctionCallbackInfo<Value> &info) {
+void Decrement(const FunctionCallbackInfo<Value>& info) {
   // Retrieve the per-addon-instance data.
-  AddonData *addon_data =
-      static_cast<AddonData *>(info.Data().As<External>()->Value());
+  AddonData* addon_data =
+      static_cast<AddonData*>(info.Data().As<External>()->Value());
 
   info.GetReturnValue().Set(
       Number::New(info.GetIsolate(), addon_data->GetNewValue(-1.0)));
@@ -92,7 +92,7 @@ void Decrement(const FunctionCallbackInfo<Value> &info) {
 // new properties on the `exports` object, or define the property named
 // "exports" on the `module` object.
 NODE_MODULE_INIT(/*exports, module, context*/) {
-  Isolate *isolate = context->GetIsolate();
+  Isolate* isolate = context->GetIsolate();
 
   // Create a new instance of the addon data that will be associated with this
   // instance of the addon, and that will be freed along with this instance of

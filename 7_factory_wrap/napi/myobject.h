@@ -4,13 +4,14 @@
 #include <node_api.h>
 
 class MyObject {
-public:
+ public:
   static napi_status Init(napi_env env);
-  static void Destructor(napi_env env, void *nativeObject, void *finalize_hint);
-  static napi_status NewInstance(napi_env env, napi_value arg,
-                                 napi_value *instance);
+  static void Destructor(napi_env env, void* nativeObject, void* finalize_hint);
+  static napi_status NewInstance(napi_env env,
+                                 napi_value arg,
+                                 napi_value* instance);
 
-private:
+ private:
   MyObject();
   ~MyObject();
 
@@ -22,4 +23,4 @@ private:
   napi_ref wrapper_;
 };
 
-#endif // TEST_ADDONS_NAPI_7_FACTORY_WRAP_MYOBJECT_H_
+#endif  // TEST_ADDONS_NAPI_7_FACTORY_WRAP_MYOBJECT_H_

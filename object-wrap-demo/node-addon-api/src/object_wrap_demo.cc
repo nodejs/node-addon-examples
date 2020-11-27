@@ -2,7 +2,7 @@
 
 using namespace Napi;
 
-ObjectWrapDemo::ObjectWrapDemo(const Napi::CallbackInfo &info)
+ObjectWrapDemo::ObjectWrapDemo(const Napi::CallbackInfo& info)
     : ObjectWrap(info) {
   Napi::Env env = info.Env();
 
@@ -21,7 +21,7 @@ ObjectWrapDemo::ObjectWrapDemo(const Napi::CallbackInfo &info)
   this->_greeterName = info[0].As<Napi::String>().Utf8Value();
 }
 
-Napi::Value ObjectWrapDemo::Greet(const Napi::CallbackInfo &info) {
+Napi::Value ObjectWrapDemo::Greet(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
   if (info.Length() < 1) {
@@ -46,7 +46,8 @@ Napi::Value ObjectWrapDemo::Greet(const Napi::CallbackInfo &info) {
 
 Napi::Function ObjectWrapDemo::GetClass(Napi::Env env) {
   return DefineClass(
-      env, "ObjectWrapDemo",
+      env,
+      "ObjectWrapDemo",
       {
           ObjectWrapDemo::InstanceMethod("greet", &ObjectWrapDemo::Greet),
       });

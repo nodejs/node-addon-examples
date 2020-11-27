@@ -1,15 +1,13 @@
-#include "napi.h"
 #include <chrono>
 #include <thread>
+#include "napi.h"
 
 constexpr size_t ARRAY_LENGTH = 10;
 
 // Data structure representing our thread-safe function context.
 struct TsfnContext {
-
   TsfnContext(Napi::Env env) : deferred(Napi::Promise::Deferred::New(env)) {
-    for (size_t i = 0; i < ARRAY_LENGTH; ++i)
-      ints[i] = i;
+    for (size_t i = 0; i < ARRAY_LENGTH; ++i) ints[i] = i;
   };
 
   // Native Promise returned to JavaScript
@@ -26,16 +24,16 @@ struct TsfnContext {
 
 // The thread entry point. This takes as its arguments the specific
 // threadsafe-function context created inside the main thread.
-void threadEntry(TsfnContext *context);
+void threadEntry(TsfnContext* context);
 
 // The thread-safe function finalizer callback. This callback executes
 // at destruction of thread-safe function, taking as arguments the finalizer
 // data and threadsafe-function context.
-void FinalizerCallback(Napi::Env env, void *finalizeData, TsfnContext *context);
+void FinalizerCallback(Napi::Env env, void* finalizeData, TsfnContext* context);
 
 // Exported JavaScript function. Creates the thread-safe function and native
 // thread. Promise is resolved in the thread-safe function's finalizer.
-Napi::Value CreateTSFN(const Napi::CallbackInfo &info) {
+Napi::Value CreateTSFN(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
   // Construct context data
@@ -43,14 +41,14 @@ Napi::Value CreateTSFN(const Napi::CallbackInfo &info) {
 
   // Create a new ThreadSafeFunction.
   testData->tsfn = Napi::ThreadSafeFunction::New(
-      env,                          // Environment
-      info[0].As<Napi::Function>(), // JS function from caller
-      "TSFN",                       // Resource name
-      0,                            // Max queue size (0 = unlimited).
-      1,                            // Initial thread count
-      testData,                     // Context,
-      FinalizerCallback,            // Finalizer
-      (void *)nullptr               // Finalizer data
+      env,                           // Environment
+      info[0].As<Napi::Function>(),  // JS function from caller
+      "TSFN",                        // Resource name
+      0,                             // Max queue size (0 = unlimited).
+      1,                             // Initial thread count
+      testData,                      // Context,
+      FinalizerCallback,             // Finalizer
+      (void*)nullptr                 // Finalizer data
   );
   testData->nativeThread = std::thread(threadEntry, testData);
 
@@ -61,12 +59,11 @@ Napi::Value CreateTSFN(const Napi::CallbackInfo &info) {
 
 // The thread entry point. This takes as its arguments the specific
 // threadsafe-function context created inside the main thread.
-void threadEntry(TsfnContext *context) {
-
+void threadEntry(TsfnContext* context) {
   // This callback transforms the native addon data (int *data) to JavaScript
   // values. It also receives the treadsafe-function's registered callback, and
   // may choose to call it.
-  auto callback = [](Napi::Env env, Napi::Function jsCallback, int *data) {
+  auto callback = [](Napi::Env env, Napi::Function jsCallback, int* data) {
     jsCallback.Call({Napi::Number::New(env, *data)});
   };
 
@@ -89,8 +86,9 @@ void threadEntry(TsfnContext *context) {
   context->tsfn.Release();
 }
 
-void FinalizerCallback(Napi::Env env, void *finalizeData,
-                       TsfnContext *context) {
+void FinalizerCallback(Napi::Env env,
+                       void* finalizeData,
+                       TsfnContext* context) {
   // Join the thread
   context->nativeThread.join();
 

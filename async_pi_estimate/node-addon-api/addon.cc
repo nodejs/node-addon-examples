@@ -1,6 +1,6 @@
-#include "async.h" // NOLINT(build/include)
-#include "sync.h"  // NOLINT(build/include)
 #include <napi.h>
+#include "async.h"  // NOLINT(build/include)
+#include "sync.h"   // NOLINT(build/include)
 
 // Expose synchronous and asynchronous access to our
 // Estimate() function

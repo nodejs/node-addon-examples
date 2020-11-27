@@ -1,11 +1,11 @@
 #include <napi.h>
 
-Napi::String MyFunction(const Napi::CallbackInfo &info) {
+Napi::String MyFunction(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   return Napi::String::New(env, "hello world");
 }
 
-Napi::Function CreateFunction(const Napi::CallbackInfo &info) {
+Napi::Function CreateFunction(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   Napi::Function fn = Napi::Function::New(env, MyFunction, "theFunction");
   return fn;

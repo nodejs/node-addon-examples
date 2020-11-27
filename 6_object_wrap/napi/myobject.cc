@@ -4,11 +4,14 @@
 MyObject::MyObject(double value)
     : value_(value), env_(nullptr), wrapper_(nullptr) {}
 
-MyObject::~MyObject() { napi_delete_reference(env_, wrapper_); }
+MyObject::~MyObject() {
+  napi_delete_reference(env_, wrapper_);
+}
 
-void MyObject::Destructor(napi_env env, void *nativeObject,
-                          void * /*finalize_hint*/) {
-  reinterpret_cast<MyObject *>(nativeObject)->~MyObject();
+void MyObject::Destructor(napi_env env,
+                          void* nativeObject,
+                          void* /*finalize_hint*/) {
+  reinterpret_cast<MyObject*>(nativeObject)->~MyObject();
 }
 
 #define DECLARE_NAPI_METHOD(name, func)                                        \
@@ -23,8 +26,8 @@ napi_value MyObject::Init(napi_env env, napi_value exports) {
   };
 
   napi_value cons;
-  status = napi_define_class(env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 3,
-                             properties, &cons);
+  status = napi_define_class(
+      env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 3, properties, &cons);
   assert(status == napi_ok);
 
   // We will need the constructor `cons` later during the life cycle of the
@@ -38,13 +41,14 @@ napi_value MyObject::Init(napi_env env, napi_value exports) {
   // The finalizer we pass as a lambda will be called when our addon is unloaded
   // and is responsible for releasing the persistent reference and freeing the
   // heap memory where we stored the persistent reference.
-  napi_ref *constructor = new napi_ref;
+  napi_ref* constructor = new napi_ref;
   status = napi_create_reference(env, cons, 1, constructor);
   assert(status == napi_ok);
   status = napi_set_instance_data(
-      env, constructor,
-      [](napi_env env, void *data, void *hint) {
-        napi_ref *constructor = static_cast<napi_ref *>(data);
+      env,
+      constructor,
+      [](napi_env env, void* data, void* hint) {
+        napi_ref* constructor = static_cast<napi_ref*>(data);
         napi_status status = napi_delete_reference(env, *constructor);
         assert(status == napi_ok);
         delete constructor;
@@ -58,10 +62,10 @@ napi_value MyObject::Init(napi_env env, napi_value exports) {
 }
 
 napi_value MyObject::Constructor(napi_env env) {
-  void *instance_data = nullptr;
+  void* instance_data = nullptr;
   napi_status status = napi_get_instance_data(env, &instance_data);
   assert(status == napi_ok);
-  napi_ref *constructor = static_cast<napi_ref *>(instance_data);
+  napi_ref* constructor = static_cast<napi_ref*>(instance_data);
 
   napi_value cons;
   status = napi_get_reference_value(env, *constructor, &cons);
@@ -96,12 +100,14 @@ napi_value MyObject::New(napi_env env, napi_callback_info info) {
       assert(status == napi_ok);
     }
 
-    MyObject *obj = new MyObject(value);
+    MyObject* obj = new MyObject(value);
 
     obj->env_ = env;
-    status = napi_wrap(env, jsthis, reinterpret_cast<void *>(obj),
+    status = napi_wrap(env,
+                       jsthis,
+                       reinterpret_cast<void*>(obj),
                        MyObject::Destructor,
-                       nullptr, // finalize_hint
+                       nullptr,  // finalize_hint
                        &obj->wrapper_);
     assert(status == napi_ok);
 
@@ -131,8 +137,8 @@ napi_value MyObject::GetValue(napi_env env, napi_callback_info info) {
   status = napi_get_cb_info(env, info, nullptr, nullptr, &jsthis, nullptr);
   assert(status == napi_ok);
 
-  MyObject *obj;
-  status = napi_unwrap(env, jsthis, reinterpret_cast<void **>(&obj));
+  MyObject* obj;
+  status = napi_unwrap(env, jsthis, reinterpret_cast<void**>(&obj));
   assert(status == napi_ok);
 
   napi_value num;
@@ -151,8 +157,8 @@ napi_value MyObject::SetValue(napi_env env, napi_callback_info info) {
   status = napi_get_cb_info(env, info, &argc, &value, &jsthis, nullptr);
   assert(status == napi_ok);
 
-  MyObject *obj;
-  status = napi_unwrap(env, jsthis, reinterpret_cast<void **>(&obj));
+  MyObject* obj;
+  status = napi_unwrap(env, jsthis, reinterpret_cast<void**>(&obj));
   assert(status == napi_ok);
 
   status = napi_get_value_double(env, value, &obj->value_);
@@ -168,8 +174,8 @@ napi_value MyObject::PlusOne(napi_env env, napi_callback_info info) {
   status = napi_get_cb_info(env, info, nullptr, nullptr, &jsthis, nullptr);
   assert(status == napi_ok);
 
-  MyObject *obj;
-  status = napi_unwrap(env, jsthis, reinterpret_cast<void **>(&obj));
+  MyObject* obj;
+  status = napi_unwrap(env, jsthis, reinterpret_cast<void**>(&obj));
   assert(status == napi_ok);
 
   obj->value_ += 1;
@@ -200,8 +206,8 @@ napi_value MyObject::Multiply(napi_env env, napi_callback_info info) {
     assert(status == napi_ok);
   }
 
-  MyObject *obj;
-  status = napi_unwrap(env, jsthis, reinterpret_cast<void **>(&obj));
+  MyObject* obj;
+  status = napi_unwrap(env, jsthis, reinterpret_cast<void**>(&obj));
   assert(status == napi_ok);
 
   const int kArgCount = 1;

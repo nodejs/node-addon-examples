@@ -1,6 +1,6 @@
 #include <napi.h>
 
-Napi::Value Add(const Napi::CallbackInfo &info) {
+Napi::Value Add(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
   if (info.Length() < 2) {
