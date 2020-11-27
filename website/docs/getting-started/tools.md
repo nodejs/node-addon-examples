@@ -97,4 +97,4 @@ You'll need your favorite shell program which typically comes pre-installed on m
 
 And you'll need your favorite code editor. 
 
-There are also powerful IDEs (Integrated Development Environments) that are popular in the developer community. Among these are [Visual Studio Code](https://code.visualstudio.com) and [WebStorm](https://www.jetbrains.com/webstorm/). Depending upon your level of involvement with this work, these tools can quickly pay for themselves in increased productivity. 
+There are also powerful IDEs (Integrated Development Environments) that are popular in the developer community. Among these are [Visual Studio Code](https://code.visualstudio.com) and [WebStorm](https://www.jetbrains.com/webstorm/). Depending upon your level of involvement with this work, these tools can quickly pay for themselves in increased productivity.

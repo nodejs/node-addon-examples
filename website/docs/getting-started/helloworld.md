@@ -9,7 +9,7 @@ title: Hello, world!
 
 This tutorial will walk you through the process of creating a simple N-API module from scratch. It requires no dependencies beyond Node and npm itself. 
 
-Before you start, make sure you've got all the necessary [prerequisites](prerequisites.html) and [tools](tools.html) installed.
+Before you start, make sure you've got all the necessary [prerequisites](prerequisites) and [tools](tools) installed.
 
 As you select where to begin, you should be aware that N-API operates at two levels which we can think of as the "C level" and the "C++ level". 
 
