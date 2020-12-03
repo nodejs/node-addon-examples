@@ -141,7 +141,7 @@ The `object_wrap_demo.cc` file defines a C++ object called `ObjectWrapDemo` with
 
 The code also defines a `ObjectWrapDemo::Greet` method that takes a single JavaScript string as the argument. The method prints two strings to stdout and returns a JavaScript string containing the value originally passed to the constructor. 
 
-The `ObjectWrapDemo::GetClass` static method returns a class definition that N-API uses in order know how to call the methods implemented by the C++ class.
+The `ObjectWrapDemo::GetClass` static method returns a class definition that N-API uses in order to know how to call the methods implemented by the C++ class.
 
 The `Init` function declares the "exports" of the module. These are analogous to the exports declared by traditional JavaScript modules. This module exports the `ObjectWrapDemo` class as declared by the `ObjectWrapDemo::GetClass` static method.
 
