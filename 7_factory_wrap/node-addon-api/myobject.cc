@@ -5,7 +5,6 @@
 using namespace Napi;
 
 Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
-
   Napi::Function func = DefineClass(
       env, "MyObject", {InstanceMethod("plusOne", &MyObject::PlusOne)});
 
@@ -19,7 +18,6 @@ Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
 
 MyObject::MyObject(const Napi::CallbackInfo& info)
     : Napi::ObjectWrap<MyObject>(info) {
-
   this->counter_ = info[0].As<Napi::Number>().DoubleValue();
 };
 

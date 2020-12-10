@@ -1,0 +1,15 @@
+name: clang-format
+
+on: [push, pull_request]
+
+jobs:
+  check-clang-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - name: check clang-format
+        run: |
+          git config clangFormat.binary node_modules/.bin/clang-format
+          git config clangFormat.style file
+          npx check-clang-format

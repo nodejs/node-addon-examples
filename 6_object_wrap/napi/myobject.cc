@@ -44,13 +44,16 @@ napi_value MyObject::Init(napi_env env, napi_value exports) {
   napi_ref* constructor = new napi_ref;
   status = napi_create_reference(env, cons, 1, constructor);
   assert(status == napi_ok);
-  status = napi_set_instance_data(env, constructor,
+  status = napi_set_instance_data(
+      env,
+      constructor,
       [](napi_env env, void* data, void* hint) {
         napi_ref* constructor = static_cast<napi_ref*>(data);
         napi_status status = napi_delete_reference(env, *constructor);
         assert(status == napi_ok);
         delete constructor;
-      }, nullptr);
+      },
+      nullptr);
   assert(status == napi_ok);
 
   status = napi_set_named_property(env, exports, "MyObject", cons);
