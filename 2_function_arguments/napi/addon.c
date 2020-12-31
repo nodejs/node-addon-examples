@@ -1,17 +1,17 @@
 #include <assert.h>
 #include <node_api.h>
 #include <stdio.h>
-napi_value Add(napi_env env, napi_callback_info info) {
+static napi_value Add(napi_env env, napi_callback_info info) {
   napi_status status;
 
   size_t argc = 2;
   napi_value args[2];
-  status = napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+  status = napi_get_cb_info(env, info, &argc, args, NULL, NULL);
   assert(status == napi_ok);
 
   if (argc < 2) {
-    napi_throw_type_error(env, nullptr, "Wrong number of arguments");
-    return nullptr;
+    napi_throw_type_error(env, NULL, "Wrong number of arguments");
+    return NULL;
   }
 
   napi_valuetype valuetype0;
@@ -23,8 +23,8 @@ napi_value Add(napi_env env, napi_callback_info info) {
   assert(status == napi_ok);
 
   if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, nullptr, "Wrong arguments");
-    return nullptr;
+    napi_throw_type_error(env, NULL, "Wrong arguments");
+    return NULL;
   }
 
   double value0;

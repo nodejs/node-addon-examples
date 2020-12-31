@@ -1,12 +1,12 @@
 #include <assert.h>
 #include <node_api.h>
 
-napi_value RunCallback(napi_env env, const napi_callback_info info) {
+static napi_value RunCallback(napi_env env, const napi_callback_info info) {
   napi_status status;
 
   size_t argc = 1;
   napi_value args[1];
-  status = napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+  status = napi_get_cb_info(env, info, &argc, args, NULL, NULL);
   assert(status == napi_ok);
 
   napi_value cb = args[0];
@@ -23,13 +23,13 @@ napi_value RunCallback(napi_env env, const napi_callback_info info) {
   status = napi_call_function(env, global, cb, 1, argv, &result);
   assert(status == napi_ok);
 
-  return nullptr;
+  return NULL;
 }
 
-napi_value Init(napi_env env, napi_value exports) {
+static napi_value Init(napi_env env, napi_value exports) {
   napi_value new_exports;
   napi_status status = napi_create_function(
-      env, "", NAPI_AUTO_LENGTH, RunCallback, nullptr, &new_exports);
+      env, "", NAPI_AUTO_LENGTH, RunCallback, NULL, &new_exports);
   assert(status == napi_ok);
   return new_exports;
 }
