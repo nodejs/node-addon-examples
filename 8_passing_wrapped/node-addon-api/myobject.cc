@@ -12,7 +12,8 @@ void MyObject::Init(Napi::Env env, Napi::Object exports) {
 
   Napi::FunctionReference* constructor = new Napi::FunctionReference();
   *constructor = Napi::Persistent(func);
-  env.SetInstanceData(constructor);
+  env.SetInstanceData(constructor); //NOTE: this assumes only 1 class is exported
+                                    //for multiple exported classes, need a struct or other mechanism
 
   exports.Set("MyObject", func);
 }
