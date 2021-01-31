@@ -22,10 +22,13 @@ As a first step, clone the [node-microtime](https://github.com/wadey/node-microt
 git clone https://github.com/wadey/node-microtime.git
 ```
 
-Before we make our modifications, it's a good idea to first build and test `node-microtime` to help verify that the necessary development tools have been correctly installed and configured. 
+Before we make our modifications, it's a good idea to first build and test `node-microtime` to help verify that the necessary development tools have been correctly installed and configured.
+
+> Since `node-microtime` has already migrated to `node-addon-api`, you have to move to tag `v2.1.9` in order to follow the tutorial.
 
 ```bash
 cd node-microtime
+git checkout tags/v2.1.9
 npm install
 npm test
 ```
