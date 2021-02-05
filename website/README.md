@@ -60,7 +60,7 @@ For this project, Gatsby is configured to have the ability to copy example sourc
 Here's the pattern to follow for embedding example source code:
 
 ```
-[**package.json**](https://github.com/nodejs/node-addon-examples/blob/master/object-wrap-demo/node-addon-api/package.json)
+[**package.json**](https://github.com/nodejs/node-addon-examples/blob/HEAD/object-wrap-demo/node-addon-api/package.json)
 
 `embed:object-wrap-demo/node-addon-api/package.json`
 ```

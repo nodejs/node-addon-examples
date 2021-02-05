@@ -81,7 +81,7 @@ const base = css`
     }
   }
 
-  /* https://github.com/reach/reach-ui/blob/master/packages/skip-nav/styles.css */
+  /* https://github.com/reach/reach-ui/blob/HEAD/packages/skip-nav/styles.css */
   [data-reach-skip-link] {
     border: 0;
     clip: rect(0 0 0 0);

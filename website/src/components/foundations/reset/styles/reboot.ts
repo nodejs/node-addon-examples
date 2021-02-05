@@ -5,8 +5,8 @@ const reboot = css`
    * Bootstrap Reboot v4.1.2 (https://getbootstrap.com/)
    * Copyright 2011-2018 The Bootstrap Authors
    * Copyright 2011-2018 Twitter, Inc.
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-   * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md)
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/HEAD/LICENSE)
+   * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/HEAD/LICENSE.md)
    */
   *,
   *::before,
