@@ -1,8 +1,8 @@
 {
   "name": "napi-resource",
-  "description": "Tutorials and more for Node.js N-API.",
+  "description": "Tutorials and more for the Node.js Node-API.",
   "version": "1.0.0",
-  "author": "The N-API Team",
+  "author": "The Node-API Team",
   "keywords": [
     "node",
     "nodejs",

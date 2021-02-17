@@ -2,13 +2,13 @@
 
 module.exports = {
   siteMetadata: {
-    title: 'The N-API Resource',
-    sidebarTitle: 'N-API Resource',
-    description: 'Tutorials and more for Node.js N-API.',
+    title: 'The Node-API Resource',
+    sidebarTitle: 'Node-API Resource',
+    description: 'Tutorials and more for Node.js Node-API.',
     siteUrl: 'https://github.com/nodejs/node-addon-examples',
     keywords: 'node nodejs n-api napi tutorials native-addon',
     author: {
-      name: 'The N-API Team',
+      name: 'The Node-API Team',
       url: 'https://github.com/nodejs/node-addon-examples',
       email: ''
     }

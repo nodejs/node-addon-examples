@@ -146,7 +146,7 @@ static napi_value StartThread(napi_env env, napi_callback_info info) {
 
   // Create a string to describe this asynchronous operation.
   status = napi_create_string_utf8(env,
-                                 "N-API Thread-safe Call from Async Work Item",
+                                 "Node-API Thread-safe Call from Async Work Item",
                                  NAPI_AUTO_LENGTH,
                                  &work_name);
   assert(status == napi_ok);
