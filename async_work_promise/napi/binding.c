@@ -96,7 +96,7 @@ static napi_value StartWork(napi_env env, napi_callback_info info) {
 
   // Create a string to describe this asynchronous operation.
   CHECK(napi_create_string_utf8(env,
-                                 "N-API Deferred Promise from Async Work Item",
+                                 "Node-API Deferred Promise from Async Work Item",
                                  NAPI_AUTO_LENGTH,
                                  &work_name) == napi_ok);
 
