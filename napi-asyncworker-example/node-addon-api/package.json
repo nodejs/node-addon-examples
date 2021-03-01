@@ -1,6 +1,6 @@
 {
   "name": "napi-asyncworker-example",
-  "description": "An example project showing how to use the Node.js N-API AsyncWorker class",
+  "description": "An example project showing how to use the Node.js Node-API AsyncWorker class",
   "version": "1.0.0",
   "main": "test/Test.js",
   "dependencies": {

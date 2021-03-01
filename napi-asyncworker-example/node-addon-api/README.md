@@ -1,8 +1,8 @@
-# N-API AsyncWorker Example
+# Node-API AsyncWorker Example
 
-This is an example project showing how to use the Node.js N-API AsyncWorker class
+This is an example project showing how to use the Node.js Node-API AsyncWorker class
 
-A tutorial describing this project can be found at the [N-API Resource](https://napi.inspiredware.com/special-topics/asyncworker.html).
+A tutorial describing this project can be found at the [Node-API Resource](https://napi.inspiredware.com/special-topics/asyncworker.html).
 
 To build and run this program on your system, clone it to your computer and run these two commands inside your clone:
 
