@@ -7,7 +7,7 @@ Implementations of examples are named either after Node.js versions (`node_0.10`
 `node_0.12`, etc), or Node.js addon implementation APIs:
 
 - [`nan`](https://github.com/nodejs/nan): C++-based abstraction between Node and direct V8 APIs.
-- [`Node-API`](https://nodejs.org/api/n-api.html): C-based API guaranteeing [ABI stability](https://nodejs.org/en/docs/guides/abi-stability/) across different node versions as well as JavaScript engines.
+- [`Node-API`](https://nodejs.org/api/n-api.html): C-based API guaranteeing [ABI stability](https://nodejs.org/en/docs/guides/abi-stability/) across different node versions as well as JavaScript engines. (Node-API was previously known as N-API.)
 - [`node-addon-api`](https://github.com/nodejs/node-addon-api): header-only C++ wrapper classes which simplify the use of the C-based Node-API.
 
 Implementations against unsupported versions of Node.js are provided for
