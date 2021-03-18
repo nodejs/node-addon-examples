@@ -1,13 +1,13 @@
 [
   {
     "id": "getting-started",
-    "label": "About N-API",
+    "label": "About Node-API",
     "href": "/about/what",
     "external": false
   },
   {
     "id": "n-api",
-    "label": "N-API Documentation",
+    "label": "Node-API Documentation",
     "href": "https://nodejs.org/api/n-api.html#n_api_n_api",
     "external": true
   },

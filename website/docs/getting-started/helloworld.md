@@ -3,23 +3,23 @@ id: getting-started.helloworld
 title: Hello, world!
 ---
 
-**2018-11-06** This file was created in anticipation of NodeConf EU 2018 when it was not clear whether `generator-napi-module` was going to be updated in time for the N-API workshop at the conference. It turns out that `generator-napi-module` did land in time, so this file has never been used and is not included in the `toc.json` file. 
+**2018-11-06** This file was created in anticipation of NodeConf EU 2018 when it was not clear whether `generator-napi-module` was going to be updated in time for the Node-API workshop at the conference. It turns out that `generator-napi-module` did land in time, so this file has never been used and is not included in the `toc.json` file. 
 
 # Hello, world!
 
-This tutorial will walk you through the process of creating a simple N-API module from scratch. It requires no dependencies beyond Node and npm itself. 
+This tutorial will walk you through the process of creating a simple Node-API module from scratch. It requires no dependencies beyond Node and npm itself. 
 
 Before you start, make sure you've got all the necessary [prerequisites](prerequisites) and [tools](tools) installed.
 
-As you select where to begin, you should be aware that N-API operates at two levels which we can think of as the "C level" and the "C++ level". 
+As you select where to begin, you should be aware that Node-API operates at two levels which we can think of as the "C level" and the "C++ level". 
 
 The "C level" code is built entirely into Node itself and is very well documented on the [Node documentation pages](https://nodejs.org/api/n-api.html). If you need low-level access to the intricacies of Node, this is the tool for you. 
 
-Alternatively, there is the [node-addon-api](https://github.com/nodejs/node-addon-api) package which adds a C++ wrapper to the N-API code built into Node. This package makes working with N-API much easier as it implements a very nice object model and abstracts away much of the detailed coding that would otherwise be required, while retaining the N-API promise of ABI stability and forward compatibility.
+Alternatively, there is the [node-addon-api](https://github.com/nodejs/node-addon-api) package which adds a C++ wrapper to the Node-API code built into Node. This package makes working with Node-API much easier as it implements a very nice object model and abstracts away much of the detailed coding that would otherwise be required, while retaining the Node-API promise of ABI stability and forward compatibility.
 
 This tutorial uses `node-addon-api`.
 
-> N-API has been in public release and active development starting with Node 8.0.0. Since then, it's undergone a number of refinements. This tutorial has been tested with Node 8.9.4 and 9.5.0 and is known to fail with older versions of Node. You can determine the version of Node you're running with the command `node -v`.
+> Node-API has been in public release and active development starting with Node 8.0.0. Since then, it's undergone a number of refinements. This tutorial has been tested with Node 8.9.4 and 9.5.0 and is known to fail with older versions of Node. You can determine the version of Node you're running with the command `node -v`.
 
 ## Creating a project
 
@@ -41,7 +41,7 @@ Here are the prompts you'll see and some suggested responses:
 ```
 package name: (hello-world) 
 version: (1.0.0) 
-description: A simple N-API example
+description: A simple Node-API example
 entry point: (index.js) hello-world.js
 test command: 
 git repository: 
@@ -54,7 +54,7 @@ At this point your project directory should contain a simple `package.json` file
 
 ## package.json
 
-This project uses the [node-addon-api](https://github.com/nodejs/node-addon-api) package which adds a really nice C++ wrapper to the N-API code built into Node. This dependency needs to be added to the `package.json` file:
+This project uses the [node-addon-api](https://github.com/nodejs/node-addon-api) package which adds a really nice C++ wrapper to the Node-API code built into Node. This dependency needs to be added to the `package.json` file:
 
 ```json
 "dependencies": {

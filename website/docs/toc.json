@@ -1,16 +1,16 @@
 [
   {
-    "title": "About N-API",
+    "title": "About Node-API",
     "items": [
       {
         "id": "about.what",
         "slug": "/about/what",
-        "title": "What is N-API?"
+        "title": "What is Node-API?"
       },
       {
         "id": "about.uses",
         "slug": "/about/uses",
-        "title": "Uses for N-API"
+        "title": "Uses for Node-API"
       }
     ]
   },

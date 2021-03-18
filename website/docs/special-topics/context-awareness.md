@@ -10,7 +10,7 @@ Node.js has historically run as a single-threaded process. This all changed with
 
 The Worker Thread model specifies that each Worker runs completely independently of each other and communicate to the parent Worker using a MessagePort object supplied by the parent. This makes the Worker Threads essentially isolated from one another. The same is true for your native add-on. 
 
-Each Worker Thread operates within its own environment which is also referred to as a context. The context is available to each N-API function as an [`napi_env`](https://nodejs.org/api/n-api.html#n_api_napi_env) value.
+Each Worker Thread operates within its own environment which is also referred to as a context. The context is available to each Node-API function as an [`napi_env`](https://nodejs.org/api/n-api.html#n_api_napi_env) value.
 
 ## Multiple loading and unloading
 
@@ -24,7 +24,7 @@ The next sections describe two different techniques you can use to allocate and 
 
 > Note that the feature described here is currently experimental in Node 12.8.0 and later. 
 
-N-API gives you the ability to associate a single piece of memory your native-add allocates with the context under which it is running. This technique is called "instance data" and is useful when your native add-on allocates a single piece of data when its loaded. 
+Node-API gives you the ability to associate a single piece of memory your native-add allocates with the context under which it is running. This technique is called "instance data" and is useful when your native add-on allocates a single piece of data when its loaded. 
 
 The `napi_set_instance_data` allows your native add-on to associate a single piece of allocated memory with the context under which you native add-on is loaded. The `napi_get_instance_data` can then be called anywhere in you native add-on to retrieve the location of the memory that was allocated. 
 
@@ -215,7 +215,7 @@ if (isMainThread) {
 
 ## Cleanup hooks
 
-> Note that the feature described here is currently available in N-API version 3 and later. 
+> Note that the feature described here is currently available in Node-API version 3 and later. 
 
 Your native add-on can receive one or more notifications from the Node.js runtime engine when the context in which your native-add-on has been running is being destroyed. This gives your native add-on the opportunity to release any allocated memory before the context is destroyed by the Node.js runtime engine.
 

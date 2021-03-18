@@ -9,7 +9,7 @@ JavaScript functions can normally only be called from a native addon's main thre
 
 When an addon has additional threads and JavaScript functions need to be invoked based on the processing completed by those threads, those threads must communicate with the addon's main thread so that the main thread can invoke the JavaScript function on their behalf. The thread-safe function APIs provide an easy way to do this.
 
-A thread-safe function is created on the main thread via [ThreadSafeFunction::New](https://github.com/nodejs/node-addon-api/blob/master/doc/threadsafe_function.md#new):
+A thread-safe function is created on the main thread via [ThreadSafeFunction::New](https://github.com/nodejs/node-addon-api/blob/main/doc/threadsafe_function.md#new):
 
 ```cpp
 New(napi_env env,
@@ -32,7 +32,7 @@ A thread-safe function encapsulates:
 
 ## Calling the Thread-Safe Function
 
-Threads may call into JavaScript via [`[Non]BlockingCall`](https://github.com/nodejs/node-addon-api/blob/master/doc/threadsafe_function.md#blockingcall--nonblockingcall). This will add an entry to the underlying thread-safe function's queue, to be handled asynchronously on the main thread during its processing of the event loop.
+Threads may call into JavaScript via [`[Non]BlockingCall`](https://github.com/nodejs/node-addon-api/blob/main/doc/threadsafe_function.md#blockingcall--nonblockingcall). This will add an entry to the underlying thread-safe function's queue, to be handled asynchronously on the main thread during its processing of the event loop.
 
 ## Thread Management
 
@@ -59,19 +59,19 @@ This example node-addon-api module creates exposes a single function that create
 
 ### binding.gyp
 
-[**binding.gyp**](https://github.com/nodejs/node-addon-examples/blob/master/thread_safe_function_counting/node-addon-api/binding.gyp)
+[**binding.gyp**](https://github.com/nodejs/node-addon-examples/blob/main/thread_safe_function_counting/node-addon-api/binding.gyp)
 
 `embed:thread_safe_function_counting/node-addon-api/binding.gyp`
 
 ### addon.cc
 
-[**addon.cc**](https://github.com/nodejs/node-addon-examples/blob/master/thread_safe_function_counting/node-addon-api/addon.cc)
+[**addon.cc**](https://github.com/nodejs/node-addon-examples/blob/main/thread_safe_function_counting/node-addon-api/addon.cc)
 
 `embed:thread_safe_function_counting/node-addon-api/addon.cc`
 
 ### addon.js
 
-[**addon.js**](https://github.com/nodejs/node-addon-examples/blob/master/thread_safe_function_counting/node-addon-api/addon.js)
+[**addon.js**](https://github.com/nodejs/node-addon-examples/blob/main/thread_safe_function_counting/node-addon-api/addon.js)
 
 `embed:thread_safe_function_counting/node-addon-api/addon.js`
 
