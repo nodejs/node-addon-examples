@@ -43,14 +43,15 @@ Be sure to set `website` as the current working directory before working on the 
 
 ```
 cd website
+npm install
 ```
 
 These commands are useful while working on the site:
 
-| Command          | Description                                                  |
-| ---------------- | ------------------------------------------------------------ |
-| `gatsby develop` | Start a hot-reloading preview site at `http://localhost:8000`. |
-| `gatsby build`   | Perform an optimized production build into the `public` folder. |
+| Command          | Description                                                      |
+| ---------------- | ---------------------------------------------------------------- |
+| `gatsby develop` | Start a hot-reloading preview site at `http://localhost:8000`.   |
+| `gatsby build`   | Perform an optimized production build into the `public` folder.  |
 | `gatsby serve`   | Start a local HTML server using the results from `gatsby build`. |
 
 ### Embedding Source Code Samples

@@ -12,11 +12,11 @@ An alternative is for the native add-on maintainer to pre-build binaries for sup
 
 This is the specific solution offered by [prebuild](https://github.com/prebuild/prebuild#prebuild). 
 
-> Note that N-API support was added to prebuild in version 8.1.0.
+> Note that Node-API support was added to prebuild in version 8.1.0.
 
-> [node-pre-gyp](node-pre-gyp.html) is an alternative tool that addresses this same issue.
+> [node-pre-gyp](node-pre-gyp) is an alternative tool that addresses this same issue.
 
-This page describes the modifications required to an N-API add-on module in order for it to support prebuild.
+This page describes the modifications required to an Node-API add-on module in order for it to support prebuild.
 
 ## prebuild and prebuild-install
 
@@ -99,15 +99,15 @@ Here are some suggested `scripts` entries to get started:
   }
 ```
 
-For the `prebuild` and `prebuild-install` commands, the `--runtime` argument must be `napi` to request N-API builds. When requesting N-API builds, the module's `package.json` file _must_ include a `binary` property as described next. And the `binding.gyp`  `CMakeLists.txt` file _must_ include a define for `NAPI_VERSION` as described below.
+For the `prebuild` and `prebuild-install` commands, the `--runtime` argument must be `napi` to request Node-API builds. When requesting Node-API builds, the module's `package.json` file _must_ include a `binary` property as described next. And the `binding.gyp`  `CMakeLists.txt` file _must_ include a define for `NAPI_VERSION` as described below.
 
-One or more `--target` arguments may be specified to request builds for specific N-API versions. N-API versions are positive integer values. Alternatively, `--all` may be used to request builds for all N-API versions supported by the module. 
+One or more `--target` arguments may be specified to request builds for specific Node-API versions. Node-API versions are positive integer values. Alternatively, `--all` may be used to request builds for all Node-API versions supported by the module. 
 
 In the absence of both `--target` and `--all` arguments, `prebuild` will build the most current version of the module supported by the Node instance performing the build. 
 
 ### The `binary` property
 
-Native modules that are designed to work with [N-API](https://nodejs.org/api/n-api.html) must explicitly declare the N-API version(s) against which they can build. This is accomplished by including a `binary` property on the module's `package.json` file. For example:
+Native modules that are designed to work with [Node-API](https://nodejs.org/api/n-api.html) must explicitly declare the Node-API version(s) against which they can build. This is accomplished by including a `binary` property on the module's `package.json` file. For example:
 
 ```json
 "binary": {
@@ -115,19 +115,19 @@ Native modules that are designed to work with [N-API](https://nodejs.org/api/n-a
 }
 ```
 
-In the absence of a need to compile against a specific N-API version, the value `3` is a good choice as this is the N-API version that was supported when N-API left experimental status. 
+In the absence of a need to compile against a specific Node-API version, the value `3` is a good choice as this is the Node-API version that was supported when Node-API left experimental status. 
 
-Modules that are built against a specific N-API version will continue to operate indefinitely, even as later versions of N-API are introduced.
+Modules that are built against a specific Node-API version will continue to operate indefinitely, even as later versions of Node-API are introduced.
 
 ## NAPI_VERSION
 
-The N-API header files supplied with Node use the `NAPI_VERSION` preprocessor value supplied by the user to configure each build to the specific N-API version for which the native addon is being built. In addition, the module's C/C++ code can use this value to conditionally compile code based on the N-API version it is being compiled against.
+The Node-API header files supplied with Node use the `NAPI_VERSION` preprocessor value supplied by the user to configure each build to the specific Node-API version for which the native addon is being built. In addition, the module's C/C++ code can use this value to conditionally compile code based on the Node-API version it is being compiled against.
 
 `prebuild` supports two build backends: [`node-gyp`](https://github.com/nodejs/node-gyp) and [`cmake-js`](https://github.com/cmake-js/cmake-js). The `NAPI_VERSION` value is configured differently for each backend. 
 
 ### node-gyp
 
-The following code must be included in the `binding.gyp` file of modules targeting N-API:
+The following code must be included in the `binding.gyp` file of modules targeting Node-API:
 
 ```json
 "defines": [
@@ -137,7 +137,7 @@ The following code must be included in the `binding.gyp` file of modules targeti
 
 ### cmake-js
 
-The following line must be included in the `CMakeLists.txt` file of modules targeting N-API:
+The following line must be included in the `CMakeLists.txt` file of modules targeting Node-API:
 
 ```cmake
 add_compile_definitions(NAPI_VERSION=${napi_build_version})
@@ -171,7 +171,7 @@ You've declared `prebuild-install` as a dependency. The `install` script in your
     "install": "prebuild-install --runtime napi || node-gyp rebuild"
 ```
 
-When a user installs your native add-on, the `prebuild-install` tool first looks to see if it can locate a suitable pre-built binary on GitHub for the user's specific N-API version, architecture, and platform. If the binary is found, `prebuild-install` downloads, unpacks, and installs the binaries in the correct location. 
+When a user installs your native add-on, the `prebuild-install` tool first looks to see if it can locate a suitable pre-built binary on GitHub for the user's specific Node-API version, architecture, and platform. If the binary is found, `prebuild-install` downloads, unpacks, and installs the binaries in the correct location. 
 
 If the binary is not found, the `install` script falls back to whatever is specified after the `||`. In this case, a `node-gyp rebuild` is triggered which will attempt to build the binary on the user's machine.
 
