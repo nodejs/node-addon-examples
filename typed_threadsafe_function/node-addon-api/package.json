@@ -6,10 +6,12 @@
   "private": true,
   "dependencies": {
     "bindings": "~1.2.1",
+    "cmake-js": "^6.1.0",
     "node-addon-api": "^3.0.0"
   },
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "install": "cmake-js compile"
   },
   "gypfile": true
 }
