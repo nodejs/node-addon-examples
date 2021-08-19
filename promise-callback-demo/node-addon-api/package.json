@@ -5,9 +5,8 @@
   "dependencies": {
     "node-addon-api": "^4.0.0"
   },
-  "gypfile": true,
   "scripts": {
-    "install": "node test"
+    "install": "node-gyp rebuild && node test"
   },
   "engines": {
     "node": ">= 10.16.0"
