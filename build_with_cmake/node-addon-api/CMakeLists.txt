@@ -18,5 +18,5 @@ string(REGEX REPLACE "[\r\n\"]" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
 
-# define NPI_VERSION
+# define NAPI_VERSION
 add_definitions(-DNAPI_VERSION=3)
