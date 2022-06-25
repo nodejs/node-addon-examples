@@ -114,9 +114,9 @@ Node-API uses a different technique for defining the `exports` object.
 The code:
 
 ```cpp
-Napi::Export(target, "now", Now);
-Napi::Export(target, "nowDouble", NowDouble);
-Napi::Export(target, "nowStruct", NowStruct);
+Nan::Export(target, "now", Now);
+Nan::Export(target, "nowDouble", NowDouble);
+Nan::Export(target, "nowStruct", NowStruct);
 ```
 
 Needs to be replaced with:
