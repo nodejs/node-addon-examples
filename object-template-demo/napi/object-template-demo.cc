@@ -1,5 +1,5 @@
 #include <memory>
-#include <string>
+#include <cstring>
 #include "proxy-template.h"
 
 struct InstanceData {
@@ -11,7 +11,7 @@ class NamedInterceptor {
   char buf[256];
 
  public:
-  NamedInterceptor() { strncpy(this->buf, "foo", sizeof(this->buf)); }
+  NamedInterceptor() { std::strncpy(this->buf, "foo", sizeof(this->buf)); }
   static napi_value Init(napi_env env, napi_value exports);
   static napi_value Constructor(napi_env env);
   static napi_value NewInstance(napi_env env);
@@ -186,7 +186,7 @@ napi_status NamedInterceptor::PropertySetter(napi_env env,
   if (keyStr == "prop") {
     std::string valueStr;
     CHECK_NAPI(ToUtf8String(env, value, &valueStr));
-    strncpy(interceptor->buf, valueStr.data(), sizeof(interceptor->buf));
+    std::strncpy(interceptor->buf, valueStr.data(), sizeof(interceptor->buf));
     *result = true;
   } else {
     *result = false;
@@ -200,7 +200,7 @@ napi_status NamedInterceptor::PropertyDeleter(napi_env env,
                                               bool* result) {
   NamedInterceptor* interceptor{};
   CHECK_NAPI(napi_unwrap(env, target, reinterpret_cast<void**>(&interceptor)));
-  strncpy(interceptor->buf, "goober", sizeof(interceptor->buf));
+  std::strncpy(interceptor->buf, "goober", sizeof(interceptor->buf));
   *result = true;
   return napi_ok;
 }
