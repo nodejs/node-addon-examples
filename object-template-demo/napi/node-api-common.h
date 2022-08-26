@@ -34,11 +34,6 @@
 #define NODE_API_ASSERT(env, assertion, message)                               \
   NODE_API_ASSERT_BASE(env, assertion, message, NULL)
 
-// // Returns empty on failed assertion.
-// // This is meant to be used inside functions with void return type.
-// #define NODE_API_ASSERT_RETURN_VOID(env, assertion, message)             \
-//   NODE_API_ASSERT_BASE(env, assertion, message, NODE_API_RETVAL_NOTHING)
-
 #define NODE_API_CALL_BASE(env, the_call, ret_val)                             \
   do {                                                                         \
     if ((the_call) != napi_ok) {                                               \
