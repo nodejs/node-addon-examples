@@ -12,16 +12,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.18.0, 14.x, 16.x]
-        operating-system: [ubuntu-latest, windows-2019, macos-latest]
+        node-version: [14.x, 16.x, 18.x]
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install -g cmake-js@5.3.2
+      - run: npm install -g cmake-js@6.3.2
       - run: npm install
       - name: Environment Information
         run: npx envinfo
@@ -32,12 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     container: node
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: npm i -g n && n nightly
       - run: node -p process.versions
       - name: Environment Information
         run: npx envinfo
-      - run: npm install -g cmake-js@5.3.2
+      - run: npm install -g cmake-js@6.3.2
       - run: npm install
       - name: Environment Information
         run: npx envinfo
