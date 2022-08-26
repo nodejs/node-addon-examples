@@ -1,0 +1,14 @@
+{
+  "name": "object_template_demo",
+  "version": "0.0.0",
+  "description": "Intercept named property access using Proxy",
+  "main": "index.js",
+  "private": true,
+  "gypfile": true,
+  "scripts": {
+    "test": "node index.js"
+  },
+  "dependencies": {
+    "bindings": "~1.5.0"
+  }
+}
