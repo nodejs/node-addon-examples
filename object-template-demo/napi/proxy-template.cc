@@ -117,7 +117,7 @@ napi_status ProxyHandlerBuilder::Apply(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], args[1], args[2], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return Apply(env, CreateTrapCallback<3>(), &callInfo);
 }
 
@@ -143,7 +143,7 @@ napi_status ProxyHandlerBuilder::Apply(
             span<napi_value>(argVector.data(), argVector.size()),
             result);
       },
-      trap};
+      reinterpret_cast<void*>(trap)};
   return Apply(env, CreateTrapCallback<3>(), &callInfo);
 }
 
@@ -177,7 +177,7 @@ napi_status ProxyHandlerBuilder::Construct(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], args[1], args[2], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return Construct(env, CreateTrapCallback<3>(), &callInfo);
 }
 
@@ -203,7 +203,7 @@ napi_status ProxyHandlerBuilder::Construct(
             args[2],
             result);
       },
-      trap};
+      reinterpret_cast<void*>(trap)};
   return Construct(env, CreateTrapCallback<3>(), &callInfo);
 }
 
@@ -237,7 +237,7 @@ napi_status ProxyHandlerBuilder::DefineProperty(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], args[1], args[2], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return DefineProperty(env, CreateTrapCallback<3>(), &callInfo);
 }
 
@@ -259,7 +259,7 @@ napi_status ProxyHandlerBuilder::DefineProperty(
             env, args[0], args[1], args[2], &boolResult));
         return napi_get_boolean(env, boolResult, result);
       },
-      trap};
+      reinterpret_cast<void*>(trap)};
   return DefineProperty(env, CreateTrapCallback<3>(), &callInfo);
 }
 
@@ -290,7 +290,7 @@ napi_status ProxyHandlerBuilder::DeleteProperty(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], args[1], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return DeleteProperty(env, CreateTrapCallback<2>(), &callInfo);
 }
 
@@ -309,7 +309,7 @@ napi_status ProxyHandlerBuilder::DeleteProperty(
                                  return napi_get_boolean(
                                      env, boolResult, result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return DeleteProperty(env, CreateTrapCallback<2>(), &callInfo);
 }
 
@@ -341,7 +341,7 @@ napi_status ProxyHandlerBuilder::Get(napi_env env,
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], args[1], args[2], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return Get(env, CreateTrapCallback<3>(), &callInfo);
 }
 
@@ -376,7 +376,7 @@ napi_status ProxyHandlerBuilder::GetOwnPropertyDescriptor(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], args[1], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return GetOwnPropertyDescriptor(env, CreateTrapCallback<2>(), &callInfo);
 }
 
@@ -406,7 +406,7 @@ napi_status ProxyHandlerBuilder::GetPrototypeOf(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return GetPrototypeOf(env, CreateTrapCallback<1>(), &callInfo);
 }
 
@@ -437,7 +437,7 @@ napi_status ProxyHandlerBuilder::Has(napi_env env,
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], args[1], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return Has(env, CreateTrapCallback<2>(), &callInfo);
 }
 
@@ -457,7 +457,7 @@ napi_status ProxyHandlerBuilder::Has(napi_env env,
                                  return napi_get_boolean(
                                      env, boolResult, result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return Has(env, CreateTrapCallback<2>(), &callInfo);
 }
 
@@ -487,7 +487,7 @@ napi_status ProxyHandlerBuilder::IsExtensible(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return IsExtensible(env, CreateTrapCallback<1>(), &callInfo);
 }
 
@@ -504,7 +504,7 @@ napi_status ProxyHandlerBuilder::IsExtensible(
         CHECK_NAPI(reinterpret_cast<TrapType>(trap)(env, args[0], &boolResult));
         return napi_get_boolean(env, boolResult, result);
       },
-      trap};
+      reinterpret_cast<void*>(trap)};
   return IsExtensible(env, CreateTrapCallback<1>(), &callInfo);
 }
 
@@ -534,7 +534,7 @@ napi_status ProxyHandlerBuilder::OwnKeys(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return OwnKeys(env, CreateTrapCallback<1>(), &callInfo);
 }
 
@@ -568,7 +568,7 @@ napi_status ProxyHandlerBuilder::PreventExtensions(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return PreventExtensions(env, CreateTrapCallback<1>(), &callInfo);
 }
 
@@ -585,7 +585,7 @@ napi_status ProxyHandlerBuilder::PreventExtensions(
         CHECK_NAPI(reinterpret_cast<TrapType>(trap)(env, args[0], &boolResult));
         return napi_get_boolean(env, boolResult, result);
       },
-      trap};
+      reinterpret_cast<void*>(trap)};
   return PreventExtensions(env, CreateTrapCallback<1>(), &callInfo);
 }
 
@@ -619,7 +619,7 @@ napi_status ProxyHandlerBuilder::Set(napi_env env,
         return reinterpret_cast<TrapType>(trap)(
             env, args[0], args[1], args[2], args[3], result);
       },
-      trap};
+      reinterpret_cast<void*>(trap)};
   return Set(env, CreateTrapCallback<4>(), &callInfo);
 }
 
@@ -641,7 +641,7 @@ napi_status ProxyHandlerBuilder::Set(napi_env env,
             env, args[0], args[1], args[2], args[3], &boolResult));
         return napi_get_boolean(env, boolResult, result);
       },
-      trap};
+      reinterpret_cast<void*>(trap)};
   return Set(env, CreateTrapCallback<4>(), &callInfo);
 }
 
@@ -674,7 +674,7 @@ napi_status ProxyHandlerBuilder::SetPrototypeOf(
                                  return reinterpret_cast<TrapType>(trap)(
                                      env, args[0], args[1], result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return SetPrototypeOf(env, CreateTrapCallback<2>(), &callInfo);
 }
 
@@ -693,7 +693,7 @@ napi_status ProxyHandlerBuilder::SetPrototypeOf(
                                  return napi_get_boolean(
                                      env, boolResult, result);
                                },
-                               trap};
+                               reinterpret_cast<void*>(trap)};
   return SetPrototypeOf(env, CreateTrapCallback<2>(), &callInfo);
 }
 

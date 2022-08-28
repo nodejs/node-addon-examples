@@ -1,5 +1,6 @@
 #include <memory>
 #include <cstring>
+#include <string>
 #include "proxy-template.h"
 
 struct InstanceData {
