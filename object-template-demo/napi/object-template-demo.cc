@@ -25,13 +25,13 @@ class NamedInterceptor {
   static napi_status PropertyGetter(napi_env env,
                                     napi_value target,
                                     napi_value key,
-                                    napi_value reciever,
+                                    napi_value receiver,
                                     napi_value* result);
   static napi_status PropertySetter(napi_env env,
                                     napi_value target,
                                     napi_value key,
                                     napi_value value,
-                                    napi_value reciever,
+                                    napi_value receiver,
                                     bool* result);
   static napi_status PropertyDeleter(napi_env env,
                                      napi_value target,
@@ -160,7 +160,7 @@ napi_status NamedInterceptor::ToUtf8String(napi_env env,
 napi_status NamedInterceptor::PropertyGetter(napi_env env,
                                              napi_value target,
                                              napi_value key,
-                                             napi_value reciever,
+                                             napi_value receiver,
                                              napi_value* result) {
   NamedInterceptor* interceptor{};
   CHECK_NAPI(napi_unwrap(env, target, reinterpret_cast<void**>(&interceptor)));
@@ -178,7 +178,7 @@ napi_status NamedInterceptor::PropertySetter(napi_env env,
                                              napi_value target,
                                              napi_value key,
                                              napi_value value,
-                                             napi_value reciever,
+                                             napi_value receiver,
                                              bool* result) {
   NamedInterceptor* interceptor{};
   CHECK_NAPI(napi_unwrap(env, target, reinterpret_cast<void**>(&interceptor)));
