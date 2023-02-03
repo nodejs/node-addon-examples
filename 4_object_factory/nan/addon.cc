@@ -11,7 +11,8 @@ void CreateObject(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 
 void Init(v8::Local<v8::Object> exports, v8::Local<v8::Object> module) {
-  v8::Local<v8::Context> context = exports->CreationContext();
+  v8::Local<v8::Context> context =
+      exports->GetCreationContext().ToLocalChecked();
   module->Set(context,
               Nan::New("exports").ToLocalChecked(),
               Nan::New<v8::FunctionTemplate>(CreateObject)
