@@ -1,0 +1,15 @@
+{
+  "name": "call-js-from-async-worker-execute",
+  "version": "0.0.0",
+  "description": "Node.js Addons - calls JS from AsyncWorker::Execute",
+  "main": "index.js",
+  "private": true,
+  "gypfile": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "node-addon-api": "*",
+    "bindings": "*"
+  }
+}
