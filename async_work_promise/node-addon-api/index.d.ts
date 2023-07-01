@@ -1,1 +1,0 @@
-export function doHeavyMath(num1: number, num2: number): Promise<number>;

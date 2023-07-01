@@ -1,3 +1,3 @@
 const bindings = require("bindings")("addon");
 
-module.exports = exports = bindings;
+bindings.doHeavyMath(2, 1).then(console.log);
