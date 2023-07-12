@@ -1,0 +1,15 @@
+{
+  "name": "async_worker_promise",
+  "version": "0.0.0",
+  "description": "AsyncWorker example that returns a Promise",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ."
+  },
+  "author": "Matthew Keil (matthewkeil)",
+  "gypfile": true,
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "node-addon-api": "^7.0.0"
+  }
+}
