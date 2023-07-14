@@ -27,6 +27,7 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           USER: gatsby-deploy-bot <support+actions@github.com>
+          NODE_OPTIONS: --openssl-legacy-provider
         working-directory: ./website
         run: |
           npm install
