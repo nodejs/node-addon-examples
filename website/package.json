@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.8",
-    "@types/history": "^4.7.2",
+    "@types/history": "^5.0.0",
     "@types/node": "^12.0.10",
     "@types/reach__router": "^1.2.4",
     "@types/react": "^16.8.22",
