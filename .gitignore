@@ -1,4 +1,5 @@
 build/
+build_with_cmake/
 node_modules/
 Debug/
 Release/

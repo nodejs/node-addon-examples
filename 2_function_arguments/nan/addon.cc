@@ -21,7 +21,8 @@ void Add(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 
 void Init(v8::Local<v8::Object> exports) {
-  v8::Local<v8::Context> context = exports->CreationContext();
+  v8::Local<v8::Context> context =
+      exports->GetCreationContext().ToLocalChecked();
   exports->Set(context,
                Nan::New("add").ToLocalChecked(),
                Nan::New<v8::FunctionTemplate>(Add)

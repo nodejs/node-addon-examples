@@ -6,7 +6,8 @@ void CreateObject(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 
 void InitAll(v8::Local<v8::Object> exports, v8::Local<v8::Object> module) {
-  v8::Local<v8::Context> context = exports->CreationContext();
+  v8::Local<v8::Context> context =
+      exports->GetCreationContext().ToLocalChecked();
 
   Nan::HandleScope scope;
 
