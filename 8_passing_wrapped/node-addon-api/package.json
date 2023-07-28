@@ -9,7 +9,7 @@
     "node": "~10 >=10.20 || >=12.17"
   },
   "dependencies": {
-    "bindings": "~1.2.1",
+    "bindings": "~1.5.0",
     "node-addon-api": "^3.0.0"
   }
 }
