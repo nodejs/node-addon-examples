@@ -7,7 +7,7 @@
   "dependencies": {
     "bindings": "^1.5.0",
     "cmake-js": "^6.3.0",
-    "node-addon-api": "^5.0.0"
+    "node-addon-api": "^7.0.0"
   },
   "scripts": {
     "test": "node index.js",
