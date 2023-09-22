@@ -3,7 +3,7 @@
   "main": "test/index.js",
   "private": true,
   "dependencies": {
-    "node-addon-api": "^4.0.0"
+    "node-addon-api": "^7.0.0"
   },
   "scripts": {
     "install": "node-gyp rebuild && node test"
