@@ -6,7 +6,7 @@
   "private": true,
   "dependencies": {
     "bindings": "~1.2.1",
-    "cmake-js": "^6.1.0",
+    "cmake-js": "^7.2.1",
     "node-addon-api": "^4.0.0"
   },
   "scripts": {
