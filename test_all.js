@@ -1,49 +1,49 @@
-const fs = require('fs')
-const path = require('path')
-const { execSync } = require('child_process')
-const chalk = require('chalk')
-const semver = require('semver')
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+const chalk = require("chalk");
+const semver = require("semver");
 
-const excludeFolder = ['node_modules', 'website']
+const excludeFolder = ["node_modules", "website"];
 
-function getAllTests() {
-  return fs
-    .readdirSync('./')
-    .filter(i => {
-      return (
-        !i.startsWith('.') &&
-        fs.statSync(i).isDirectory() &&
-        !excludeFolder.includes(i)
-      )
-    })
-    .map(i => {
-      const p = path.join(__dirname, i)
-      const tests = fs
-        .readdirSync(p)
-        .filter(j => fs.statSync(path.join(p, j)).isDirectory())
-        .map(j => path.join(p, j))
-      return tests
-    })
+function getAllTests(pathToCheck) {
+  const directoriesToTest = [];
+  for (const fd of fs.readdirSync(pathToCheck)) {
+    if (excludeFolder.includes(fd)) {
+      continue;
+    }
+    const absPath = path.join(pathToCheck, fd);
+    if (fs.statSync(absPath).isDirectory()) {
+      directoriesToTest.push(...getAllTests(absPath));
+    }
+
+    if (fs.existsSync(path.join(absPath, "package.json"))) {
+      directoriesToTest.push(absPath);
+    }
+  }
+  return directoriesToTest;
 }
 
-getAllTests().map(tests => {
-  tests.map(i => {
-    console.log(chalk.green(`testing: ${i}`))
-    const p = require(path.join(i, 'package.json'))
-    if (p.engines && p.engines.node) {
-      const currentNodeVersion = process.versions.node
-      const range = p.engines.node
-      const engineOk = semver.satisfies(currentNodeVersion, range)
-      if (!engineOk) {
-        console.warn(
-          chalk.yellow(`${i} require Node.js ${range}, current is ${currentNodeVersion}, skipping`)
+for (directoryToTest of getAllTests(__dirname)) {
+  console.log(chalk.green(`testing: ${directoryToTest}`));
+  const pkgJson = require(path.join(directoryToTest, "package.json"));
+  if (pkgJson.engines && pkgJson.engines.node) {
+    const currentNodeVersion = process.versions.node;
+    const range = pkgJson.engines.node;
+    const engineOk = semver.satisfies(currentNodeVersion, range);
+    if (!engineOk) {
+      console.warn(
+        chalk.yellow(
+          `${directoryToTest} require Node.js ${range}, current is ${currentNodeVersion}, skipping`
         )
-        return
-      }
+      );
+      continue;
     }
-    const stdout = execSync('npm install', {
-      cwd: i
-    })
-    console.log(stdout.toString())
-  })
-})
+  }
+  let stdout = execSync("npm install", { cwd: directoryToTest });
+  console.log(stdout.toString());
+  if ("test" in pkgJson.scripts) {
+    stdout = execSync("npm test", { cwd: directoryToTest });
+    console.log(stdout.toString());
+  }
+}
