@@ -4,22 +4,18 @@ const { execSync } = require("child_process");
 const chalk = require("chalk");
 const semver = require("semver");
 
-const excludeFolder = ["node_modules", "website"];
 const examplesFolder = path.join(__dirname, "src");
 
 function getAllExamples(pathToCheck) {
   const directoriesToTest = [];
   for (const fd of fs.readdirSync(pathToCheck)) {
-    if (excludeFolder.includes(fd)) {
-      continue;
-    }
     const absPath = path.join(pathToCheck, fd);
-    if (fs.statSync(absPath).isDirectory()) {
-      directoriesToTest.push(...getAllExamples(absPath));
-    }
-
     if (fs.existsSync(path.join(absPath, "package.json"))) {
       directoriesToTest.push(absPath);
+      continue;
+    }
+    if (fs.statSync(absPath).isDirectory()) {
+      directoriesToTest.push(...getAllExamples(absPath));
     }
   }
   return directoriesToTest;
