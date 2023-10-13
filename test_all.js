@@ -42,7 +42,7 @@ for (directoryToTest of getAllTests(__dirname)) {
   }
   let stdout = execSync("npm install", { cwd: directoryToTest });
   console.log(stdout.toString());
-  if ("test" in pkgJson.scripts) {
+  if ("scripts" in pkgJson && "test" in pkgJson.scripts) {
     stdout = execSync("npm test", { cwd: directoryToTest });
     console.log(stdout.toString());
   }
