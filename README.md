@@ -32,9 +32,11 @@ src/
 ├── 1-getting-started/
 │   ├── example1/
 │   │   ├── nan/
-│   │   │   └── files for nan version of example1
+│   │   │   └── nan version of example1
 │   │   ├── node-addon-api
+│   │   │   └── node-addon-api version of example1
 │   │   └── napi
+│   │       └── napi version of example1
 │   └── example2/
 ├── 2-js-to-native-conversion/
 ├── 3-context-awareness/
