@@ -94,8 +94,9 @@ static Napi::Value CreateByteArray(const Napi::CallbackInfo& info) {
   // unique_ptr ownership.
   nativeArray.release();
 
-  Napi::Uint8Array byteArray = Napi::Uint8Array::New(info.Env(), arrayLength, arrayBuffer, 0);
-  
+  Napi::Uint8Array byteArray =
+      Napi::Uint8Array::New(info.Env(), arrayLength, arrayBuffer, 0);
+
   return byteArray;
 }
 

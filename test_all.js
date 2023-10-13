@@ -5,6 +5,7 @@ const chalk = require("chalk");
 const semver = require("semver");
 
 const excludeFolder = ["node_modules", "website"];
+const examplesFolder = path.join(__dirname, "src");
 
 function getAllExamples(pathToCheck) {
   const directoriesToTest = [];
@@ -28,7 +29,7 @@ const passed = [];
 const failedInstalls = [];
 const noTest = [];
 const failedTests = [];
-for (directoryToTest of getAllExamples(path.join(__dirname))) {
+for (directoryToTest of getAllExamples(examplesFolder)) {
   console.log(chalk.green(`testing: ${directoryToTest}`));
   const pkgJson = require(path.join(directoryToTest, "package.json"));
   if (pkgJson.engines && pkgJson.engines.node) {
