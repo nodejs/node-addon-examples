@@ -44,7 +44,7 @@ src/
 ├── 5-async-work/
 ├── 6-threadsafe-function/
 ├── 7-events/
-├── 8-tooling/
+└── 8-tooling/
 ```
 
 In each example's implementation subdirectory, run
