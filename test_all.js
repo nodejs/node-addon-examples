@@ -24,7 +24,11 @@ function getAllTests(pathToCheck) {
   return directoriesToTest;
 }
 
-for (directoryToTest of getAllTests(__dirname)) {
+const passed = [];
+const noTest = [];
+const failedInstalls = [];
+const failedTests = [];
+for (directoryToTest of getAllTests(path.join(__dirname, "threadsafe-function"))) {
   console.log(chalk.green(`testing: ${directoryToTest}`));
   const pkgJson = require(path.join(directoryToTest, "package.json"));
   if (pkgJson.engines && pkgJson.engines.node) {
@@ -40,10 +44,40 @@ for (directoryToTest of getAllTests(__dirname)) {
       continue;
     }
   }
-  let stdout = execSync("npm install", { cwd: directoryToTest });
-  console.log(stdout.toString());
-  if ("scripts" in pkgJson && "test" in pkgJson.scripts) {
-    stdout = execSync("npm test", { cwd: directoryToTest });
+  try {
+    const stdout = execSync("npm install", { cwd: directoryToTest });
     console.log(stdout.toString());
+  } catch (err) {
+    console.log(err)
+    failedInstalls.push(directoryToTest);
+    continue;
   }
+  if ("scripts" in pkgJson && "test" in pkgJson.scripts) {
+    try {
+      const stdout = execSync("npm test", { cwd: directoryToTest });
+      console.log(stdout.toString());
+      passed.push(directoryToTest);
+    } catch (err) {
+      console.log(err)
+      failedTests.push(directoryToTest);
+    }
+  } else {
+    noTest.push(directoryToTest);
+  }
+}
+
+passed.map((dir) => console.log(chalk.green(`passed: ${dir}`)));
+
+if (noTest.length > 0) {
+  console.warn(chalk.yellow("no test found:"));
+  noTest.map((dir) => console.warn(chalk.yellow(`    ${dir}`)));
+}
+
+if (failedInstalls.length > 0) {
+  console.error(chalk.red("failed to install:"));
+  failedInstalls.map((dir) => console.warn(chalk.red(`    ${dir}`)));
+}
+if (failedTests.length > 0) {
+  console.error(chalk.red("failed tests:"));
+  failedTests.map((dir) => console.warn(chalk.red(`    ${dir}`)));
 }
