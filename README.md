@@ -15,37 +15,41 @@ Implementations against unsupported versions of Node.js are provided for
 completeness and historical context. They are not maintained.
 
 The examples are primarily maintained for Node-API and node-addon-api and as outlined in
-the Node.js [documentation](https://nodejs.org/dist/latest/docs/api/addons.html), 
+the Node.js [documentation](https://nodejs.org/dist/latest/docs/api/addons.html),
 unless there is a need for direct access to functionality which
-is not exposed by Node-API, use Node-API. 
+is not exposed by Node-API, use Node-API.
 
-The [Node-API Resource](http://nodejs.github.io/node-addon-examples/) offers an 
-excellent orientation and tips for developers just getting started with Node-API 
+The [Node-API Resource](http://nodejs.github.io/node-addon-examples/) offers an
+excellent orientation and tips for developers just getting started with Node-API
 and `node-addon-api`.
 
 ## Usage
 
 The directory structure is as follows:
 
+```sh
+src/
+├── 1-getting-started/
+│   ├── example1/
+│   │   ├── nan/
+│   │   │   └── files for nan version of example1
+│   │   ├── node-addon-api
+│   │   └── napi
+│   └── example2/
+├── 2-js-to-native-conversion/
+├── 3-context-awareness/
+├── 4-references-and-handle-scope/
+├── 5-async-work/
+├── 6-threadsafe-function/
+├── 7-events/
+├── 8-tooling/
 ```
-<name of example>
-  |
-  +--- <implementation 1>
-  |      |
-  |      +--- files...
-  +--- <implementation 2>
-  .      |
-  .      +--- files...
-  .
-```
-
 
 In each example's implementation subdirectory, run
 
 ```text
-$ npm install
-$ node ./
+npm install
+node ./
 ```
 
 to see the example in action.
-
