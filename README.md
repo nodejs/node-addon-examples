@@ -28,23 +28,25 @@ and `node-addon-api`.
 The directory structure is as follows:
 
 ```sh
-src/
-├── 1-getting-started/
-│   ├── example1/
-│   │   ├── nan/
-│   │   │   └── nan version of example1
-│   │   ├── node-addon-api/
-│   │   │   └── node-addon-api version of example1
-│   │   └── napi/
-│   │       └── napi version of example1
-│   └── example2/
-├── 2-js-to-native-conversion/
-├── 3-context-awareness/
-├── 4-references-and-handle-scope/
-├── 5-async-work/
-├── 6-threadsafe-function/
-├── 7-events/
-└── 8-tooling/
+REPO_ROOT
+├── test_all.js
+├── package.json
+├── README.md
+└── src
+    ├── 1-getting-started
+    │   ├── example1
+    │   │   ├── nan
+    │   │   ├── node-addon-api
+    │   │   └── napi
+    │   ├── example2
+    │   └── example3
+    ├── 2-js-to-native-conversion
+    ├── 3-context-awareness
+    ├── 4-references-and-handle-scope
+    ├── 5-async-work
+    ├── 6-threadsafe-function
+    ├── 7-events
+    └── 8-tooling
 ```
 
 In each example's implementation subdirectory, run
