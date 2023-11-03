@@ -1,49 +1,90 @@
-const fs = require('fs')
-const path = require('path')
-const { execSync } = require('child_process')
-const chalk = require('chalk')
-const semver = require('semver')
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+const chalk = require("chalk");
+const semver = require("semver");
 
-const excludeFolder = ['node_modules', 'website']
+const examplesFolder = path.join(__dirname, "src");
 
-function getAllTests() {
-  return fs
-    .readdirSync('./')
-    .filter(i => {
-      return (
-        !i.startsWith('.') &&
-        fs.statSync(i).isDirectory() &&
-        !excludeFolder.includes(i)
-      )
-    })
-    .map(i => {
-      const p = path.join(__dirname, i)
-      const tests = fs
-        .readdirSync(p)
-        .filter(j => fs.statSync(path.join(p, j)).isDirectory())
-        .map(j => path.join(p, j))
-      return tests
-    })
+function getAllExamples(pathToCheck) {
+  const directoriesToTest = [];
+  for (const fd of fs.readdirSync(pathToCheck)) {
+    const absPath = path.join(pathToCheck, fd);
+    if (fs.existsSync(path.join(absPath, "package.json"))) {
+      directoriesToTest.push(absPath);
+      continue;
+    }
+    if (fs.statSync(absPath).isDirectory()) {
+      directoriesToTest.push(...getAllExamples(absPath));
+    }
+  }
+  return directoriesToTest;
 }
 
-getAllTests().map(tests => {
-  tests.map(i => {
-    console.log(chalk.green(`testing: ${i}`))
-    const p = require(path.join(i, 'package.json'))
-    if (p.engines && p.engines.node) {
-      const currentNodeVersion = process.versions.node
-      const range = p.engines.node
-      const engineOk = semver.satisfies(currentNodeVersion, range)
-      if (!engineOk) {
-        console.warn(
-          chalk.yellow(`${i} require Node.js ${range}, current is ${currentNodeVersion}, skipping`)
+const passed = [];
+const failedInstalls = [];
+const noTest = [];
+const failedTests = [];
+for (directoryToTest of getAllExamples(examplesFolder)) {
+  console.log(chalk.green(`testing: ${directoryToTest}`));
+  const pkgJson = require(path.join(directoryToTest, "package.json"));
+  if (pkgJson.engines && pkgJson.engines.node) {
+    const currentNodeVersion = process.versions.node;
+    const range = pkgJson.engines.node;
+    const engineOk = semver.satisfies(currentNodeVersion, range);
+    if (!engineOk) {
+      console.warn(
+        chalk.yellow(
+          `${directoryToTest} require Node.js ${range}, current is ${currentNodeVersion}, skipping`
         )
-        return
-      }
+      );
+      continue;
     }
-    const stdout = execSync('npm install', {
-      cwd: i
-    })
-    console.log(stdout.toString())
-  })
-})
+  }
+
+  try {
+    const stdout = execSync("npm install", { cwd: directoryToTest });
+    console.log(stdout.toString());
+  } catch (err) {
+    console.log(err);
+    failedInstalls.push(directoryToTest);
+    continue;
+  }
+
+  let testCommand;
+  if ("scripts" in pkgJson && "start" in pkgJson.scripts) {
+    testCommand = "npm start";
+  } else if ("scripts" in pkgJson && "test" in pkgJson.scripts) {
+    testCommand = "npm test";
+  } else if ("main" in pkgJson) {
+    testCommand = `node ${pkgJson.main}`
+  } else {
+    noTest.push(directoryToTest);
+    continue;
+  }
+
+  try {
+    const stdout = execSync(testCommand, { cwd: directoryToTest });
+    console.log(stdout.toString());
+    passed.push(directoryToTest);
+  } catch (err) {
+    console.log(err);
+    failedTests.push(directoryToTest);
+  }
+}
+
+passed.map((dir) => console.log(chalk.green(`passed: ${dir}`)));
+
+if (noTest.length > 0) {
+  console.warn(chalk.yellow("no test found:"));
+  noTest.map((dir) => console.warn(chalk.yellow(`    ${dir}`)));
+}
+
+if (failedInstalls.length > 0) {
+  console.error(chalk.red("failed to install:"));
+  failedInstalls.map((dir) => console.warn(chalk.red(`    ${dir}`)));
+}
+if (failedTests.length > 0) {
+  console.error(chalk.red("failed tests:"));
+  failedTests.map((dir) => console.warn(chalk.red(`    ${dir}`)));
+}

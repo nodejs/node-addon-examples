@@ -15,9 +15,9 @@ class NamedInterceptor : public ObjectWrap {
   char buf[256];
 
  public:
-  NamedInterceptor() { std::strncpy(this->buf, "foo", sizeof (this->buf)); }
+  NamedInterceptor() { std::strncpy(this->buf, "foo", sizeof(this->buf)); }
   static NAN_MODULE_INIT(Init);
-  static v8::Local<v8::Value> NewInstance ();
+  static v8::Local<v8::Value> NewInstance();
   static NAN_METHOD(New);
 
   static NAN_PROPERTY_GETTER(PropertyGetter);
@@ -35,33 +35,32 @@ NAN_METHOD(CreateNew) {
 
 NAN_MODULE_INIT(NamedInterceptor::Init) {
   v8::Local<v8::FunctionTemplate> tpl =
-    Nan::New<v8::FunctionTemplate>(NamedInterceptor::New);
+      Nan::New<v8::FunctionTemplate>(NamedInterceptor::New);
   namedinterceptors_constructor.Reset(tpl);
   tpl->SetClassName(Nan::New("NamedInterceptor").ToLocalChecked());
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
   v8::Local<v8::ObjectTemplate> inst = tpl->InstanceTemplate();
 
-  SetNamedPropertyHandler(
-      inst
-    , NamedInterceptor::PropertyGetter
-    , NamedInterceptor::PropertySetter
-    , NamedInterceptor::PropertyQuery
-    , NamedInterceptor::PropertyDeleter
-    , NamedInterceptor::PropertyEnumerator);
+  SetNamedPropertyHandler(inst,
+                          NamedInterceptor::PropertyGetter,
+                          NamedInterceptor::PropertySetter,
+                          NamedInterceptor::PropertyQuery,
+                          NamedInterceptor::PropertyDeleter,
+                          NamedInterceptor::PropertyEnumerator);
 
   v8::Local<v8::Function> createnew =
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(CreateNew))
-    .ToLocalChecked();
+      Nan::GetFunction(Nan::New<v8::FunctionTemplate>(CreateNew))
+          .ToLocalChecked();
   Set(target, Nan::New("create").ToLocalChecked(), createnew);
 }
 
-v8::Local<v8::Value> NamedInterceptor::NewInstance () {
+v8::Local<v8::Value> NamedInterceptor::NewInstance() {
   EscapableHandleScope scope;
   v8::Local<v8::FunctionTemplate> constructorHandle =
       Nan::New(namedinterceptors_constructor);
   v8::Local<v8::Object> instance =
-    Nan::NewInstance(GetFunction(constructorHandle).ToLocalChecked())
-    .ToLocalChecked();
+      Nan::NewInstance(GetFunction(constructorHandle).ToLocalChecked())
+          .ToLocalChecked();
   return scope.Escape(instance);
 }
 
@@ -71,10 +70,9 @@ NAN_METHOD(NamedInterceptor::New) {
   info.GetReturnValue().Set(info.This());
 }
 
-
 NAN_PROPERTY_GETTER(NamedInterceptor::PropertyGetter) {
   NamedInterceptor* interceptor =
-    ObjectWrap::Unwrap<NamedInterceptor>(info.Holder());
+      ObjectWrap::Unwrap<NamedInterceptor>(info.Holder());
   if (!std::strcmp(*Nan::Utf8String(property), "prop")) {
     info.GetReturnValue().Set(Nan::New(interceptor->buf).ToLocalChecked());
   } else {
@@ -84,12 +82,10 @@ NAN_PROPERTY_GETTER(NamedInterceptor::PropertyGetter) {
 
 NAN_PROPERTY_SETTER(NamedInterceptor::PropertySetter) {
   NamedInterceptor* interceptor =
-    ObjectWrap::Unwrap<NamedInterceptor>(info.Holder());
+      ObjectWrap::Unwrap<NamedInterceptor>(info.Holder());
   if (!std::strcmp(*Nan::Utf8String(property), "prop")) {
     std::strncpy(
-        interceptor->buf
-      , *Nan::Utf8String(value)
-      , sizeof (interceptor->buf));
+        interceptor->buf, *Nan::Utf8String(value), sizeof(interceptor->buf));
     info.GetReturnValue().Set(info.This());
   } else {
     info.GetReturnValue().Set(info.This());
@@ -104,8 +100,8 @@ NAN_PROPERTY_ENUMERATOR(NamedInterceptor::PropertyEnumerator) {
 
 NAN_PROPERTY_DELETER(NamedInterceptor::PropertyDeleter) {
   NamedInterceptor* interceptor =
-    ObjectWrap::Unwrap<NamedInterceptor>(info.Holder());
-  std::strncpy(interceptor->buf, "goober", sizeof (interceptor->buf));
+      ObjectWrap::Unwrap<NamedInterceptor>(info.Holder());
+  std::strncpy(interceptor->buf, "goober", sizeof(interceptor->buf));
   info.GetReturnValue().Set(True());
 }
 

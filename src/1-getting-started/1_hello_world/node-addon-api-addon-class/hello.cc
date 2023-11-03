@@ -3,9 +3,8 @@
 class HelloAddon : public Napi::Addon<HelloAddon> {
  public:
   HelloAddon(Napi::Env env, Napi::Object exports) {
-    DefineAddon(exports, {
-      InstanceMethod("hello", &HelloAddon::Hello, napi_enumerable)
-    });
+    DefineAddon(exports,
+                {InstanceMethod("hello", &HelloAddon::Hello, napi_enumerable)});
   }
 
  private:
