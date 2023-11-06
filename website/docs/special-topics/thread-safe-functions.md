@@ -59,21 +59,21 @@ This example node-addon-api module creates exposes a single function that create
 
 ### binding.gyp
 
-[**binding.gyp**](https://github.com/nodejs/node-addon-examples/blob/main/thread_safe_function_counting/node-addon-api/binding.gyp)
+[**binding.gyp**](https://github.com/nodejs/node-addon-examples/blob/main/src/6-threadsafe-function/thread_safe_function_counting/node-addon-api/binding.gyp)
 
-`embed:thread_safe_function_counting/node-addon-api/binding.gyp`
+`embed:src/6-threadsafe-function/thread_safe_function_counting/node-addon-api/binding.gyp`
 
 ### addon.cc
 
-[**addon.cc**](https://github.com/nodejs/node-addon-examples/blob/main/thread_safe_function_counting/node-addon-api/addon.cc)
+[**addon.cc**](https://github.com/nodejs/node-addon-examples/blob/main/src/6-threadsafe-function/thread_safe_function_counting/node-addon-api/addon.cc)
 
-`embed:thread_safe_function_counting/node-addon-api/addon.cc`
+`embed:src/6-threadsafe-function/thread_safe_function_counting/node-addon-api/addon.cc`
 
 ### addon.js
 
-[**addon.js**](https://github.com/nodejs/node-addon-examples/blob/main/thread_safe_function_counting/node-addon-api/addon.js)
+[**addon.js**](https://github.com/nodejs/node-addon-examples/blob/main/src/6-threadsafe-function/thread_safe_function_counting/node-addon-api/addon.js)
 
-`embed:thread_safe_function_counting/node-addon-api/addon.js`
+`embed:src/6-threadsafe-function/thread_safe_function_counting/node-addon-api/addon.js`
 
 Running the above script will provide output similar to:
 

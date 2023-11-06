@@ -3,7 +3,7 @@
 ### Build and run:
 
 ```
-npm install 
+npm install
 npm test
 ```
 
@@ -16,4 +16,4 @@ This is a C++ function.
 This is a C function.
 ```
 
-This is using cmake and cmake-js based on the example [build_with_cmake](../build_with_cmake)
+This is using cmake and cmake-js based on the example [build_with_cmake](../../build_with_cmake)
