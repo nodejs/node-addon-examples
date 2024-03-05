@@ -40,9 +40,9 @@ This example code shows how to use the `FunctionReference` class.
 
 ### src/native-addon.h
 
-[**native-addon.h**](https://github.com/nodejs/node-addon-examples/blob/main/function-reference-demo/node-addon-api/src/native-addon.h)
+[**native-addon.h**](https://github.com/nodejs/node-addon-examples/blob/main/src/4-references-and-handle-scope/function-reference-demo/src/native-addon.h)
 
-`embed:function-reference-demo/node-addon-api/src/native-addon.h`
+`embed:src/4-references-and-handle-scope/function-reference-demo/src/native-addon.h`
 
 The `NativeAddon` C++ class has two data members that are populated in the `NativeAddon` constructor:
 
@@ -51,9 +51,9 @@ The `NativeAddon` C++ class has two data members that are populated in the `Nati
 
 ### src/native-addon.cc
 
-[**native-addon.cc**](https://github.com/nodejs/node-addon-examples/blob/main/function-reference-demo/node-addon-api/src/native-addon.cc)
+[**native-addon.cc**](https://github.com/nodejs/node-addon-examples/blob/main/src/4-references-and-handle-scope/function-reference-demo/src/native-addon.cc)
 
-`embed:function-reference-demo/node-addon-api/src/native-addon.cc`
+`embed:src/4-references-and-handle-scope/function-reference-demo/src/native-addon.cc`
 
 The `NativeAddon` constructor, which is called from JavaScript, takes two function arguments. The first argument is stored as a `Napi::FunctionReference` and the second is stored as a `Napi::Function`.
 
@@ -65,17 +65,17 @@ The `NativeAddon` class implements two methods which can be called from JavaScri
 
 ### src/binding.cc
 
-[**binding.cc**](https://github.com/nodejs/node-addon-examples/blob/main/function-reference-demo/node-addon-api/src/binding.cc)
+[**binding.cc**](https://github.com/nodejs/node-addon-examples/blob/main/src/4-references-and-handle-scope/function-reference-demo/src/binding.cc)
 
-`embed:function-reference-demo/node-addon-api/src/binding.cc`
+`embed:src/4-references-and-handle-scope/function-reference-demo/src/binding.cc`
 
 This is a standard `binding.cc` file:
 
 ### index.js
 
-[**index.js**](https://github.com/nodejs/node-addon-examples/blob/main/function-reference-demo/node-addon-api/index.js)
+[**index.js**](https://github.com/nodejs/node-addon-examples/blob/main/src/4-references-and-handle-scope/function-reference-demo/index.js)
 
-`embed:function-reference-demo/node-addon-api/index.js`
+`embed:src/4-references-and-handle-scope/function-reference-demo/index.js`
 
 This JavaScript code shows the use of the  `NativeAddon` class. Note that the call to the native `tryCallByStoredFunction` method fails because the data member on which it relies is not valid.
 

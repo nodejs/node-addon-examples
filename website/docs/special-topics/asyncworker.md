@@ -17,9 +17,9 @@ In this example, we're going to create a `SimpleAsyncWorker` class that subclass
 
 Here's the C++ header file for `SimpleAsyncWorker`:
 
-[**SimpleAsyncWorker.h**](https://github.com/nodejs/node-addon-examples/blob/main/napi-asyncworker-example/node-addon-api/src/SimpleAsyncWorker.h)
+[**SimpleAsyncWorker.h**](https://github.com/nodejs/node-addon-examples/blob/main/src/5-async-work/napi-asyncworker-example/node-addon-api/src/SimpleAsyncWorker.h)
 
-`embed:napi-asyncworker-example/node-addon-api/src/SimpleAsyncWorker.h`
+`embed:src/5-async-work/napi-asyncworker-example/node-addon-api/src/SimpleAsyncWorker.h`
 
 This code declares a constructor that takes as an argument the length of time (in seconds) the `SimpleAsyncWorker` is to run. A private data member is declared to hold this value.
 
@@ -27,9 +27,9 @@ The header also declares two methods, `Execute` and `OnOK`, which override metho
 
 And here's the C++ implementation file for `SimpleAsyncWorker`:
 
-[**SimpleAsyncWorker.cc**](https://github.com/nodejs/node-addon-examples/blob/main/napi-asyncworker-example/node-addon-api/src/SimpleAsyncWorker.cc)
+[**SimpleAsyncWorker.cc**](https://github.com/nodejs/node-addon-examples/blob/main/src/5-async-work/napi-asyncworker-example/node-addon-api/src/SimpleAsyncWorker.cc)
 
-`embed:napi-asyncworker-example/node-addon-api/src/SimpleAsyncWorker.cc`
+`embed:src/5-async-work/napi-asyncworker-example/node-addon-api/src/SimpleAsyncWorker.cc`
 
 The constructor takes two arguments. `callback` is the JavaScript function that gets called when the `Execute` method returns. `callback` gets called whether there was an error or not. The second constructor argument, `runTime`, is an integer value indicating how long (in seconds) the worker is to run.
 
@@ -47,9 +47,9 @@ Note that unlike `Execute`, the `OnOK` and `OnError` methods _do_ have access to
 
 We need a C++ function that instantiates `SimpleAsyncWorker` objects and requests them to be queued. This function needs to be registered with Node-API so that it is accessible from the JavaScript code.
 
-[**RunSimpleAsyncWorker.cc**](https://github.com/nodejs/node-addon-examples/blob/main/napi-asyncworker-example/node-addon-api/src/RunSimpleAsyncWorker.cc)
+[**RunSimpleAsyncWorker.cc**](https://github.com/nodejs/node-addon-examples/blob/main/src/5-async-work/napi-asyncworker-example/node-addon-api/src/RunSimpleAsyncWorker.cc)
 
-`embed:napi-asyncworker-example/node-addon-api/src/RunSimpleAsyncWorker.cc`
+`embed:src/5-async-work/napi-asyncworker-example/node-addon-api/src/RunSimpleAsyncWorker.cc`
 
 The `runSimpleAsyncWorker` function, which is accessible from JavaScript, takes two arguments which are passed through the `info` argument. The first argument, which is passed as `info[0]`, is the `runTime` and the second argument is the JavaScript callback function which gets called when the `Execute` method returns.
 
@@ -61,9 +61,9 @@ Once the `SimpleAsyncWorker` object is queued, `runSimpleAsyncWorker` formulates
 
 Here's a simple JavaScript program that shows how to run `SimpleAsyncWorker` instances.
 
-[**Test.js**](https://github.com/nodejs/node-addon-examples/blob/main/napi-asyncworker-example/node-addon-api/test/Test.js)
+[**Test.js**](https://github.com/nodejs/node-addon-examples/blob/main/src/5-async-work/napi-asyncworker-example/node-addon-api/test/Test.js)
 
-`embed:napi-asyncworker-example/node-addon-api/test/Test.js`
+`embed:src/5-async-work/napi-asyncworker-example/node-addon-api/test/Test.js`
 
 In this code, the `runSimpleAsyncWorker` function is called three times, each with a different `runTime` parameter. Each call specifies `AsyncWorkerCompletion` as the callback function.
 

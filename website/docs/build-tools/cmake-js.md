@@ -68,9 +68,9 @@ An alternative is to manually add the development dependency to your `package.js
 
 Here is a complete `package.json` file:
 
- [**package.json**](https://github.com/nodejs/node-addon-examples/blob/main/build_with_cmake/node-addon-api/package.json)
+ [**package.json**](https://github.com/nodejs/node-addon-examples/blob/main/src/8-tooling/build_with_cmake/node-addon-api/package.json)
 
-`embed:build_with_cmake/node-addon-api/package.json`
+`embed:src/8-tooling/build_with_cmake/node-addon-api/package.json`
 
 ## CMakeLists.txt
 
@@ -129,9 +129,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
 
 Here is a complete `CMakeLists.txt` file for an Node-API native module built on `node-addon-api`:
 
- [**CMakeLists.txt**](https://github.com/nodejs/node-addon-examples/blob/main/build_with_cmake/node-addon-api/CMakeLists.txt)
+ [**CMakeLists.txt**](https://github.com/nodejs/node-addon-examples/blob/main/src/8-tooling/build_with_cmake/node-addon-api/CMakeLists.txt)
 
-`embed:build_with_cmake/node-addon-api/CMakeLists.txt`
+`embed:src/8-tooling/build_with_cmake/node-addon-api/CMakeLists.txt`
 
 ## Resources
 

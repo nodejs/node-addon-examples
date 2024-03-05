@@ -6,267 +6,267 @@ updates:
       interval: daily
 
   - package-ecosystem: npm
-    directory: /1_hello_world/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /1_hello_world/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /1_hello_world/node-addon-api-addon-class
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /1_hello_world/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /2_function_arguments/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /2_function_arguments/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /2_function_arguments/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /3_callbacks/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /3_callbacks/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /3_callbacks/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /4_object_factory/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /4_object_factory/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /4_object_factory/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /5_function_factory/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /5_function_factory/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /5_function_factory/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /6_object_wrap/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /6_object_wrap/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /6_object_wrap/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /7_factory_wrap/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /7_factory_wrap/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /7_factory_wrap/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /8_passing_wrapped/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /8_passing_wrapped/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /8_passing_wrapped/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /a-first-project/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /array_buffer_to_native/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /async-iterator/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /async_pi_estimate/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /async_pi_estimate/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /async_work_promise/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /async_work_promise/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /async_work_thread_safe_function/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /build_with_cmake/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /build_with_cmake/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /call-js-from-async-worker-execute/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /emit_event_from_cpp/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /function-reference-demo/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /inherits_from_event_emitter/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /multiple_load/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /multiple_load/node_10
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /napi-asyncworker-example/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /object-template-demo/nan
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /object-template-demo/napi
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /object-wrap-demo/node-addon-api
-    schedule:
-      interval: daily
-
-  - package-ecosystem: npm
     directory: /
     schedule:
       interval: daily
 
   - package-ecosystem: npm
-    directory: /promise-callback-demo/node-addon-api
+    directory: /src/1-getting-started/1_hello_world/nan
     schedule:
       interval: daily
 
   - package-ecosystem: npm
-    directory: /thread_safe_function_counting/node-addon-api
+    directory: /src/1-getting-started/1_hello_world/napi
     schedule:
       interval: daily
 
   - package-ecosystem: npm
-    directory: /thread_safe_function_round_trip/napi
+    directory: /src/1-getting-started/1_hello_world/node-addon-api-addon-class
     schedule:
       interval: daily
 
   - package-ecosystem: npm
-    directory: /threadsafe-async-iterator/node-addon-api
+    directory: /src/1-getting-started/1_hello_world/node-addon-api
     schedule:
       interval: daily
 
   - package-ecosystem: npm
-    directory: /typed_array_to_native/node-addon-api
+    directory: /src/1-getting-started/2_function_arguments/nan
     schedule:
       interval: daily
 
   - package-ecosystem: npm
-    directory: /typed_threadsafe_function/node-addon-api
+    directory: /src/1-getting-started/2_function_arguments/napi
     schedule:
       interval: daily
 
   - package-ecosystem: npm
-    directory: /typescript_with_addon/node-addon-api
+    directory: /src/1-getting-started/2_function_arguments/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/3_callbacks/nan
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/3_callbacks/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/3_callbacks/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/4_object_factory/nan
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/4_object_factory/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/4_object_factory/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/5_function_factory/nan
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/5_function_factory/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/5_function_factory/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/6_object_wrap/nan
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/6_object_wrap/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/6_object_wrap/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/7_factory_wrap/nan
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/7_factory_wrap/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/7_factory_wrap/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/1-getting-started/a-first-project/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/2-js-to-native-conversion/8_passing_wrapped/nan
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/2-js-to-native-conversion/8_passing_wrapped/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/2-js-to-native-conversion/8_passing_wrapped/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/2-js-to-native-conversion/array_buffer_to_native/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/5-async-work/async-iterator/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/5-async-work/async_pi_estimate/nan
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/5-async-work/async_pi_estimate/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/5-async-work/async_work_promise/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/5-async-work/async_work_promise/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/5-async-work/async_work_thread_safe_function/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/8-tooling/build_with_cmake/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/8-tooling/build_with_cmake/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/5-async-work/call-js-from-async-worker-execute/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/7-events/emit_event_from_cpp/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/4-references-and-handle-scope/function-reference-demo/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/7-events/inherits_from_event_emitter/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/3-context-awareness/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/3-context-awareness/node_10
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/5-async-work/napi-asyncworker-example/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/2-js-to-native-conversion/object-template-demo/nan
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/2-js-to-native-conversion/object-template-demo/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/2-js-to-native-conversion/object-wrap-demo/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/6-threadsafe-function/promise-callback-demo/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/6-threadsafe-function/thread_safe_function_counting/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/6-threadsafe-function/thread_safe_function_round_trip/napi
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/6-threadsafe-function/threadsafe-async-iterator/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/2-js-to-native-conversion/typed_array_to_native/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/6-threadsafe-function/typed_threadsafe_function/node-addon-api
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /src/8-tooling/typescript_with_addon/node-addon-api
     schedule:
       interval: daily
 
