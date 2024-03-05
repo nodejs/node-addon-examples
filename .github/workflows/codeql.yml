@@ -64,7 +64,7 @@ jobs:
 
       - name: Use Node.js v18.x
         if: matrix.language == 'cpp'
-        uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3.7.0
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 18.x
 
