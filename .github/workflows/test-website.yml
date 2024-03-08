@@ -1,0 +1,26 @@
+name: Test Website Builds
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test-website:
+    runs-on: ubuntu-latest
+    container: node
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@55d479fb1c5bcad5a4f9099a5d9f37c8857b2845 # v2.4.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - run: npx envinfo
+      - name: Build and Deploy
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+        working-directory: ./website
+        run: |
+          npm install
+          npx gatsby build --prefix-paths
