@@ -4,7 +4,7 @@
   "description": "TypeScript calling Javascript calling C++ calling C with building with CMake and node-addon-api C++ wrapper.",
   "dependencies": {
     "bindings": "^1.5.0",
-    "node-addon-api": "^3.0.2"
+    "node-addon-api": "^8.0.0"
   },
   "scripts": {
     "install": "npx cmake-js compile",
