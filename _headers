@@ -43,7 +43,7 @@
   Link: </node-addon-examples/component---src-templates-page-tsx-37a010f9defe0c54061b.js>; rel=preload; as=script
   Link: </node-addon-examples/page-data/app-data.json>; rel=preload; as=fetch; crossorigin
   Link: </node-addon-examples/page-data/about/uses/page-data.json>; rel=preload; as=fetch; crossorigin
-/node-addon-examples/build-tools/node-pre-gyp/
+/node-addon-examples/build-tools/cmake-js/
   Link: </node-addon-examples/webpack-runtime-7ee89a081e81ca920552.js>; rel=preload; as=script
   Link: </node-addon-examples/framework-41dcfb9f256e57f35ec2.js>; rel=preload; as=script
   Link: </node-addon-examples/app-ce5371670f1ad00ee6ab.js>; rel=preload; as=script
@@ -51,7 +51,7 @@
   Link: </node-addon-examples/30420f175656fdf9ebba9c2792f772c41d3f674e-ecf5abdb347fd9008cba.js>; rel=preload; as=script
   Link: </node-addon-examples/component---src-templates-page-tsx-37a010f9defe0c54061b.js>; rel=preload; as=script
   Link: </node-addon-examples/page-data/app-data.json>; rel=preload; as=fetch; crossorigin
-  Link: </node-addon-examples/page-data/build-tools/node-pre-gyp/page-data.json>; rel=preload; as=fetch; crossorigin
+  Link: </node-addon-examples/page-data/build-tools/cmake-js/page-data.json>; rel=preload; as=fetch; crossorigin
 /node-addon-examples/about/what/
   Link: </node-addon-examples/webpack-runtime-7ee89a081e81ca920552.js>; rel=preload; as=script
   Link: </node-addon-examples/framework-41dcfb9f256e57f35ec2.js>; rel=preload; as=script
@@ -88,7 +88,7 @@
   Link: </node-addon-examples/component---src-templates-page-tsx-37a010f9defe0c54061b.js>; rel=preload; as=script
   Link: </node-addon-examples/page-data/app-data.json>; rel=preload; as=fetch; crossorigin
   Link: </node-addon-examples/page-data/getting-started/first/page-data.json>; rel=preload; as=fetch; crossorigin
-/node-addon-examples/build-tools/cmake-js/
+/node-addon-examples/build-tools/node-pre-gyp/
   Link: </node-addon-examples/webpack-runtime-7ee89a081e81ca920552.js>; rel=preload; as=script
   Link: </node-addon-examples/framework-41dcfb9f256e57f35ec2.js>; rel=preload; as=script
   Link: </node-addon-examples/app-ce5371670f1ad00ee6ab.js>; rel=preload; as=script
@@ -96,7 +96,7 @@
   Link: </node-addon-examples/30420f175656fdf9ebba9c2792f772c41d3f674e-ecf5abdb347fd9008cba.js>; rel=preload; as=script
   Link: </node-addon-examples/component---src-templates-page-tsx-37a010f9defe0c54061b.js>; rel=preload; as=script
   Link: </node-addon-examples/page-data/app-data.json>; rel=preload; as=fetch; crossorigin
-  Link: </node-addon-examples/page-data/build-tools/cmake-js/page-data.json>; rel=preload; as=fetch; crossorigin
+  Link: </node-addon-examples/page-data/build-tools/node-pre-gyp/page-data.json>; rel=preload; as=fetch; crossorigin
 /node-addon-examples/getting-started/helloworld/
   Link: </node-addon-examples/webpack-runtime-7ee89a081e81ca920552.js>; rel=preload; as=script
   Link: </node-addon-examples/framework-41dcfb9f256e57f35ec2.js>; rel=preload; as=script
@@ -133,15 +133,6 @@
   Link: </node-addon-examples/component---src-templates-page-tsx-37a010f9defe0c54061b.js>; rel=preload; as=script
   Link: </node-addon-examples/page-data/app-data.json>; rel=preload; as=fetch; crossorigin
   Link: </node-addon-examples/page-data/getting-started/prerequisites/page-data.json>; rel=preload; as=fetch; crossorigin
-/node-addon-examples/getting-started/tools/
-  Link: </node-addon-examples/webpack-runtime-7ee89a081e81ca920552.js>; rel=preload; as=script
-  Link: </node-addon-examples/framework-41dcfb9f256e57f35ec2.js>; rel=preload; as=script
-  Link: </node-addon-examples/app-ce5371670f1ad00ee6ab.js>; rel=preload; as=script
-  Link: </node-addon-examples/commons-db866e63a6e8fe827fab.js>; rel=preload; as=script
-  Link: </node-addon-examples/30420f175656fdf9ebba9c2792f772c41d3f674e-ecf5abdb347fd9008cba.js>; rel=preload; as=script
-  Link: </node-addon-examples/component---src-templates-page-tsx-37a010f9defe0c54061b.js>; rel=preload; as=script
-  Link: </node-addon-examples/page-data/app-data.json>; rel=preload; as=fetch; crossorigin
-  Link: </node-addon-examples/page-data/getting-started/tools/page-data.json>; rel=preload; as=fetch; crossorigin
 /node-addon-examples/special-topics/asyncworker/
   Link: </node-addon-examples/webpack-runtime-7ee89a081e81ca920552.js>; rel=preload; as=script
   Link: </node-addon-examples/framework-41dcfb9f256e57f35ec2.js>; rel=preload; as=script
@@ -151,6 +142,15 @@
   Link: </node-addon-examples/component---src-templates-page-tsx-37a010f9defe0c54061b.js>; rel=preload; as=script
   Link: </node-addon-examples/page-data/app-data.json>; rel=preload; as=fetch; crossorigin
   Link: </node-addon-examples/page-data/special-topics/asyncworker/page-data.json>; rel=preload; as=fetch; crossorigin
+/node-addon-examples/getting-started/tools/
+  Link: </node-addon-examples/webpack-runtime-7ee89a081e81ca920552.js>; rel=preload; as=script
+  Link: </node-addon-examples/framework-41dcfb9f256e57f35ec2.js>; rel=preload; as=script
+  Link: </node-addon-examples/app-ce5371670f1ad00ee6ab.js>; rel=preload; as=script
+  Link: </node-addon-examples/commons-db866e63a6e8fe827fab.js>; rel=preload; as=script
+  Link: </node-addon-examples/30420f175656fdf9ebba9c2792f772c41d3f674e-ecf5abdb347fd9008cba.js>; rel=preload; as=script
+  Link: </node-addon-examples/component---src-templates-page-tsx-37a010f9defe0c54061b.js>; rel=preload; as=script
+  Link: </node-addon-examples/page-data/app-data.json>; rel=preload; as=fetch; crossorigin
+  Link: </node-addon-examples/page-data/getting-started/tools/page-data.json>; rel=preload; as=fetch; crossorigin
 /node-addon-examples/special-topics/context-awareness/
   Link: </node-addon-examples/webpack-runtime-7ee89a081e81ca920552.js>; rel=preload; as=script
   Link: </node-addon-examples/framework-41dcfb9f256e57f35ec2.js>; rel=preload; as=script
