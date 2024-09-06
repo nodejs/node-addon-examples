@@ -6,6 +6,6 @@
   "author": "",
   "dependencies": {
     "bindings": "*",
-    "node-addon-api": "^7.0.0"
+    "node-addon-api": "^8.1.0"
   }
 }
