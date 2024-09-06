@@ -186,7 +186,7 @@ static napi_value StartThread(napi_env env, napi_callback_info info) {
 }
 
 // Free the per-addon-instance data.
-static void addon_getting_unloaded(napi_env env, void* data, void* hint) {
+static void addon_getting_unloaded(const struct napi_env__ *env, void* data, void* hint) {
   AddonData* addon_data = (AddonData*)data;
   assert(addon_data->work == NULL &&
       "No work item in progress at module unload");
