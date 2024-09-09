@@ -1,4 +1,7 @@
 // Use the "bindings" package to locate the native bindings.
+/**
+ * @type {import('../type')}
+ */
 const binding = require('bindings')('binding');
 
 // Call the function "startWork" which the native bindings library exposes.
