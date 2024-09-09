@@ -1,3 +1,6 @@
+/**
+ * @type {import('./type')}
+ */
 const binding = require('bindings')('array_buffer_to_native');
 const array = new Int32Array(10);
 
