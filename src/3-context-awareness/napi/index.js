@@ -9,6 +9,9 @@ const {
 } = require('worker_threads');
 
 // We load the native addon.
+/**
+ * @type {import('../type')}
+ */
 const addon = require('bindings')('multiple_load');
 
 // The iteration count can be tweaked to ensure that the output from the two
@@ -16,8 +19,14 @@ const addon = require('bindings')('multiple_load');
 // follows the output of the other, not really illustrating the concurrency.
 const iterations = 1000;
 
-// This function is an idle loop that performs a random walk from 0 by calling
-// into the native addon to either increment or decrement the initial value.
+/**
+ * This function is an idle loop that performs a random walk from 0 by calling
+ * into the native addon to either increment or decrement the initial value.
+ * 
+ * @param {import('../type')} addon 
+ * @param {string} prefix 
+ * @param {number} iterations 
+ */
 function useAddon(addon, prefix, iterations) {
   if (iterations >= 0) {
     if (Math.random() < 0.5) {

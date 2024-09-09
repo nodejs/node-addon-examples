@@ -1,4 +1,4 @@
-export class MyObject{
+export declare class MyObject{
     constructor(num: number);
     public value(): number;
     public plusOne(): number;
