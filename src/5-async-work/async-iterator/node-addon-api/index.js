@@ -1,5 +1,13 @@
+/**
+ * @type {import('./type')}
+ */
 const { AsyncIteratorExample } = require('bindings')('example');
 
+/**
+ * 
+ * @param {number} from 
+ * @param {number} to 
+ */
 async function main(from, to) {
     const iterator = new AsyncIteratorExample(from, to);
     for await (const value of iterator) {

@@ -5,7 +5,7 @@ assert(HelloWorld, "The expected function is undefined");
 
 function testBasic()
 {
-    const result =  HelloWorld("hello");
+    const result = HelloWorld("hello");
     assert.strictEqual(result, "world", "Unexpected value returned");
 }
 

@@ -1,3 +1,6 @@
+/**
+ * @type {import('../type')}
+ */
 var addon = require('bindings')('addon');
 
 var obj1 = addon.createObject(10);
