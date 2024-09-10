@@ -10,6 +10,7 @@ class MyObject : public Napi::ObjectWrap<MyObject> {
 
  private:
   Napi::Value GetValue(const Napi::CallbackInfo& info);
+  void SetValue(const Napi::CallbackInfo& info, const Napi::Value& value);
   Napi::Value PlusOne(const Napi::CallbackInfo& info);
   Napi::Value Multiply(const Napi::CallbackInfo& info);
 
