@@ -5,6 +5,9 @@
   "main": "addon.js",
   "private": true,
   "gypfile": true,
+  "scripts": {
+    "test": "node addon.js"
+  },
   "dependencies": {
     "bindings": "~1.5.0"
   }
