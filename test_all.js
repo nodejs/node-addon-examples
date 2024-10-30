@@ -6,6 +6,9 @@ const semver = require("semver");
 
 const examplesFolder = path.join(__dirname, "src");
 
+/**
+ * Recursively get all folders with package.json
+ */
 function getAllExamples(pathToCheck) {
   const directoriesToTest = [];
   for (const fd of fs.readdirSync(pathToCheck)) {
@@ -28,6 +31,8 @@ const failedTests = [];
 for (directoryToTest of getAllExamples(examplesFolder)) {
   console.log(chalk.green(`testing: ${directoryToTest}`));
   const pkgJson = require(path.join(directoryToTest, "package.json"));
+
+  // Check if a node version exists, then skip the project if the current node version does not satisfy the range
   if (pkgJson.engines && pkgJson.engines.node) {
     const currentNodeVersion = process.versions.node;
     const range = pkgJson.engines.node;
@@ -42,6 +47,7 @@ for (directoryToTest of getAllExamples(examplesFolder)) {
     }
   }
 
+  // install dependencies
   try {
     const stdout = execSync("npm install", { cwd: directoryToTest });
     console.log(stdout.toString());
@@ -51,6 +57,7 @@ for (directoryToTest of getAllExamples(examplesFolder)) {
     continue;
   }
 
+  // choose a project entry point scripts.start or scripts.test or main file
   let testCommand;
   if ("scripts" in pkgJson && "start" in pkgJson.scripts) {
     testCommand = "npm start";
@@ -63,6 +70,7 @@ for (directoryToTest of getAllExamples(examplesFolder)) {
     continue;
   }
 
+  // call the test command
   try {
     const stdout = execSync(testCommand, { cwd: directoryToTest });
     console.log(stdout.toString());
