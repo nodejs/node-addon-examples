@@ -1,3 +1,6 @@
+/**
+ * @type {import('../type').default}
+ */
 var addon = require('bindings')('addon');
 
 var obj1 = addon('hello');

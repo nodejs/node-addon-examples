@@ -1,3 +1,6 @@
+/**
+ * @type {import('./type')}
+ */
 const binding = require('bindings')('typed_array_to_native');
 
 {
