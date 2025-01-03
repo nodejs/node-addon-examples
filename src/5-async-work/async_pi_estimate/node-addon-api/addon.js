@@ -1,3 +1,6 @@
+/**
+ * @type {import('../type')}
+ */
 var addon = require('bindings')('addon');
 var calculations = process.argv[2] || 100000000;
 
