@@ -15,9 +15,12 @@ void MyObject::Init(v8::Local<v8::Object> exports) {
   v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
   tpl->SetClassName(Nan::New("MyObject").ToLocalChecked());
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-  // Prototype
-  Nan::SetPrototypeMethod(tpl, "value", GetValue);
+  // define a filed with getter and setter
+  Nan::SetAccessor(tpl->InstanceTemplate(),
+                   Nan::New("value").ToLocalChecked(),
+                   GetValueAcc,
+                   SetValueAcc);
+  Nan::SetPrototypeMethod(tpl, "getValue", GetValue);
   Nan::SetPrototypeMethod(tpl, "plusOne", PlusOne);
   Nan::SetPrototypeMethod(tpl, "multiply", Multiply);
 
@@ -44,6 +47,24 @@ void MyObject::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     info.GetReturnValue().Set(
         cons->NewInstance(context, argc, argv).ToLocalChecked());
   }
+}
+/**
+ * Nan Property Getter
+ */
+void MyObject::GetValueAcc(v8::Local<v8::String> property,
+                           const Nan::PropertyCallbackInfo<v8::Value>& info) {
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
+  info.GetReturnValue().Set(Nan::New(obj->value_));
+}
+/**
+ * Nan Property Setter
+ */
+void MyObject::SetValueAcc(v8::Local<v8::String> property,
+                           v8::Local<v8::Value> value,
+                           const Nan::PropertyCallbackInfo<void>& info) {
+  MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
+  obj->value_ =
+      value->NumberValue(info.GetIsolate()->GetCurrentContext()).FromJust();
 }
 
 void MyObject::GetValue(const Nan::FunctionCallbackInfo<v8::Value>& info) {
