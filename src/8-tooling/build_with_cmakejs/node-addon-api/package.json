@@ -1,7 +1,7 @@
 {
-  "name": "build-node-addon-api-with-cmake",
+  "name": "build-node-addon-api-with-cmakejs",
   "version": "0.0.0",
-  "description": "Build Node-API native addon with CMake and node-addon-api C++ wrapper.",
+  "description": "Build Node-API native addon with CMake.js and node-addon-api C++ wrapper.",
   "main": "hello.js",
   "private": true,
   "dependencies": {

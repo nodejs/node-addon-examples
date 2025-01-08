@@ -1,7 +1,7 @@
 {
-  "name": "build-napi-with-cmake",
+  "name": "build-napi-with-cmakejs",
   "version": "0.0.0",
-  "description": "Build Node-API native addon with CMake.",
+  "description": "Build Node-API native addon with CMake.js.",
   "main": "hello.js",
   "private": true,
   "dependencies": {
