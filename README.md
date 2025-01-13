@@ -9,7 +9,7 @@ Implementations of examples are named either after Node.js versions (`node_0.10`
 - [`nan`](https://github.com/nodejs/nan): C++-based abstraction between Node and direct V8 APIs.
 - [`Node-API`](https://nodejs.org/api/n-api.html): C-based API guaranteeing [ABI stability](https://nodejs.org/en/docs/guides/abi-stability/) across different node versions as well as JavaScript engines. (Node-API was previously known as N-API.)
 - [`node-addon-api`](https://github.com/nodejs/node-addon-api): header-only C++ wrapper classes which simplify the use of the C-based Node-API.
-- [`node-addon-api-addon-class`](https://github.com/nodejs/node-addon-api/tree/main/doc/addon.md): Similar to `node-addon-api`, but deriving from the `Napi::Addon` class. [1_hello_world](./1_hello_world) provides an example.
+- [`node-addon-api-addon-class`](https://github.com/nodejs/node-addon-api/tree/main/doc/addon.md): Similar to `node-addon-api`, but deriving from the `Napi::Addon` class. [1_hello_world](./src/1-getting-started/1_hello_world) provides an example.
 
 Implementations against unsupported versions of Node.js are provided for
 completeness and historical context. They are not maintained.
