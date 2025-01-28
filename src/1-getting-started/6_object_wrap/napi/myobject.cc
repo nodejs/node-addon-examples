@@ -21,13 +21,14 @@ napi_value MyObject::Init(napi_env env, napi_value exports) {
   napi_status status;
   napi_property_descriptor properties[] = {
       {"value", 0, 0, GetValue, SetValue, 0, napi_default, 0},
+      DECLARE_NAPI_METHOD("getValue", GetValue),
       DECLARE_NAPI_METHOD("plusOne", PlusOne),
       DECLARE_NAPI_METHOD("multiply", Multiply),
   };
 
   napi_value cons;
   status = napi_define_class(
-      env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 3, properties, &cons);
+      env, "MyObject", NAPI_AUTO_LENGTH, New, nullptr, 4, properties, &cons);
   assert(status == napi_ok);
 
   // We will need the constructor `cons` later during the life cycle of the
