@@ -1,0 +1,12 @@
+{
+    "name": "build-napi-with-cmake-and-vcpkg",
+    "version": "0.0.0",
+    "description": "Build Node-API native addon with CMake abd Vcpkg.",
+    "main": "hello.js",
+    "private": true,
+    "dependencies": {},
+    "scripts": {
+        "install": "git submodule update --init && mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && cmake --build . --config Release",
+        "test": "node hello.js"
+    }
+}
