@@ -1,3 +1,6 @@
+/**
+ * @type {import('../type')}
+ */
 var addon = require('bindings')('addon');
 
 var obj = new addon.MyObject(10);

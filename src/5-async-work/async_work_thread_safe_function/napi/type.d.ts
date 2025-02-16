@@ -1,0 +1,1 @@
+export function startThread(callback: (thread: number) => void): void;

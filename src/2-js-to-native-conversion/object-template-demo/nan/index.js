@@ -1,3 +1,6 @@
+/**
+ * @type {import('../type')}
+ */
 const addon = require('bindings')('object-template-demo');
 
 const interceptor = addon.create();
