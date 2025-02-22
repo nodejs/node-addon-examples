@@ -1,12 +1,13 @@
 #include "myobject.h"
 
 Napi::Object MyObject::Init(Napi::Env env, Napi::Object exports) {
-  Napi::Function func =
-      DefineClass(env,
-                  "MyObject",
-                  {InstanceMethod("plusOne", &MyObject::PlusOne),
-                   InstanceMethod("value", &MyObject::GetValue),
-                   InstanceMethod("multiply", &MyObject::Multiply)});
+  Napi::Function func = DefineClass(
+      env,
+      "MyObject",
+      {InstanceMethod("plusOne", &MyObject::PlusOne),
+       InstanceMethod("getValue", &MyObject::GetValue),
+       InstanceAccessor("value", &MyObject::GetValue, &MyObject::SetValue),
+       InstanceMethod("multiply", &MyObject::Multiply)});
 
   Napi::FunctionReference* constructor = new Napi::FunctionReference();
   *constructor = Napi::Persistent(func);
@@ -35,6 +36,19 @@ Napi::Value MyObject::GetValue(const Napi::CallbackInfo& info) {
   double num = this->value_;
 
   return Napi::Number::New(info.Env(), num);
+}
+
+void MyObject::SetValue(const Napi::CallbackInfo& info,
+                        const Napi::Value& value) {
+  Napi::Env env = info.Env();
+
+  if (!value.IsNumber()) {
+    Napi::TypeError::New(env, "Number expected").ThrowAsJavaScriptException();
+    return;
+  }
+
+  Napi::Number num = value.As<Napi::Number>();
+  this->value_ = num.DoubleValue();
 }
 
 Napi::Value MyObject::PlusOne(const Napi::CallbackInfo& info) {
