@@ -5,7 +5,7 @@ function ObjectWrapDemo(name) {
         return _addonInstance.greet(str);
     }
 
-    var _addonInstance = new addon.ObjectWrapDemo(name);
+    const _addonInstance = new addon.ObjectWrapDemo(name);
 }
 
 module.exports = ObjectWrapDemo;

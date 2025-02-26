@@ -147,10 +147,10 @@ The Node-API header files configure themselves based on the C/C++ symbol `NAPI_V
 JavaScript code that requires the native code must be updated to dynamically locate the `.node` file.
 
 ```
-var binary = require('node-pre-gyp');
-var path = require('path');
-var binding_path = binary.find(path.resolve(path.join(__dirname,'./package.json')));
-var binding = require(binding_path);
+const binary = require('node-pre-gyp');
+const path = require('path');
+const binding_path = binary.find(path.resolve(path.join(__dirname,'./package.json')));
+const binding = require(binding_path);
 ```
 
 ## Build

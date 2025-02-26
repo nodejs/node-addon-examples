@@ -98,7 +98,7 @@ in `build/Release/`.
 You can now use the binary addon in a Node project `hello.js` by pointing `require` to
 the recently built `hello.node` module:
 
-    var addon = require('./build/Release/hello');
+    const addon = require('./build/Release/hello');
 
     console.log(addon.hello()); // 'world'
 
@@ -175,7 +175,7 @@ function calls and return a result. This is the main and only needed source
 
 You can test it with the following JavaScript snippet:
 
-    var addon = require('./build/Release/addon');
+    const addon = require('./build/Release/addon');
 
     console.log( 'This should be eight:', addon.add(3,5) );
 
@@ -215,7 +215,7 @@ adding the function as a property of `exports`.
 
 To test it run the following JavaScript snippet:
 
-    var addon = require('./build/Release/addon');
+    const addon = require('./build/Release/addon');
 
     addon(function(msg){
       console.log(msg); // 'hello world'
@@ -251,10 +251,10 @@ the string passed to `createObject()`:
 
 To test it in JavaScript:
 
-    var addon = require('./build/Release/addon');
+    const addon = require('./build/Release/addon');
 
-    var obj1 = addon('hello');
-    var obj2 = addon('world');
+    const obj1 = addon('hello');
+    const obj2 = addon('world');
     console.log(obj1.msg+' '+obj2.msg); // 'hello world'
 
 
@@ -293,9 +293,9 @@ wraps a C++ function:
 
 To test:
 
-    var addon = require('./build/Release/addon');
+    const addon = require('./build/Release/addon');
 
-    var fn = addon();
+    const fn = addon();
     console.log(fn()); // 'hello world'
 
 
@@ -398,9 +398,9 @@ prototype:
 
 Test it with:
 
-    var addon = require('./build/Release/addon');
+    const addon = require('./build/Release/addon');
 
-    var obj = new addon.MyObject(10);
+    const obj = new addon.MyObject(10);
     console.log( obj.plusOne() ); // 11
     console.log( obj.plusOne() ); // 12
     console.log( obj.plusOne() ); // 13
@@ -411,9 +411,9 @@ Test it with:
 This is useful when you want to be able to create native objects without
 explicitly instantiating them with the `new` operator in JavaScript, e.g.
 
-    var obj = addon.createObject();
+    const obj = addon.createObject();
     // instead of:
-    // var obj = new addon.Object();
+    // const obj = new addon.Object();
 
 Let's register our `createObject` method in `addon.cc`:
 
@@ -528,14 +528,14 @@ The implementation is similar to the above in `myobject.cc`:
 
 Test it with:
 
-    var createObject = require('./build/Release/addon');
+    const createObject = require('./build/Release/addon');
 
-    var obj = createObject(10);
+    const obj = createObject(10);
     console.log( obj.plusOne() ); // 11
     console.log( obj.plusOne() ); // 12
     console.log( obj.plusOne() ); // 13
 
-    var obj2 = createObject(20);
+    const obj2 = createObject(20);
     console.log( obj2.plusOne() ); // 21
     console.log( obj2.plusOne() ); // 22
     console.log( obj2.plusOne() ); // 23
@@ -662,10 +662,10 @@ The implementation of `myobject.cc` is similar as before:
 
 Test it with:
 
-    var addon = require('./build/Release/addon');
+    const addon = require('./build/Release/addon');
 
-    var obj1 = addon.createObject(10);
-    var obj2 = addon.createObject(20);
-    var result = addon.add(obj1, obj2);
+    const obj1 = addon.createObject(10);
+    const obj2 = addon.createObject(20);
+    const result = addon.add(obj1, obj2);
 
     console.log(result); // 30

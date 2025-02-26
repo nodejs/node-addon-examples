@@ -1,5 +1,5 @@
-var addon = require('bindings')('addon');
+const addon = require('bindings')('addon');
 
-var obj1 = addon('hello');
-var obj2 = addon('world');
+const obj1 = addon('hello');
+const obj2 = addon('world');
 console.log(obj1.msg+' '+obj2.msg); // 'hello world'
