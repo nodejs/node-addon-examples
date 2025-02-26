@@ -1,0 +1,1 @@
+export default function addon(callback: (msg: "hello world") => void): void;

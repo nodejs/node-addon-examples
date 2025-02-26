@@ -1,6 +1,9 @@
+/**
+ * @type {import('./type')}
+ */
 const addon = require('bindings')('typescript_with_addon');
 
-function javascriptPart (value) {
+function javascriptPart(value) {
   const result = addon.cppPartExportedByNapi(++value);
 
   console.log('I\'m a Javascript function and I\'m sending', 

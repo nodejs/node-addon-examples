@@ -1,5 +1,8 @@
 'use strict'
 
+/**
+ * @type {import('./type')}
+ */
 const { NativeAddon } = require('bindings')('addon')
 
 function JSFnRef() {

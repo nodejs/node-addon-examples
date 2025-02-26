@@ -1,3 +1,6 @@
+/**
+ * @type {import('../type').default}
+ */
 var createObject = require('bindings')('addon');
 
 var obj = createObject(10);

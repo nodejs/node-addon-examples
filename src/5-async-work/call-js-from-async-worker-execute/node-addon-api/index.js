@@ -1,6 +1,9 @@
 'use strict'
 
 const { EventEmitter } = require('node:events');
+/**
+ * @type {import('./type')}
+ */
 const { dispatch } = require('bindings')('dispatcher');
 
 class Socket extends EventEmitter {
