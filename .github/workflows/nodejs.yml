@@ -15,8 +15,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
-        operating-system: [ubuntu-latest, windows-2019, macos-latest]
+        node-version: [20.x, 22.x, 24.x]
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Harden Runner
