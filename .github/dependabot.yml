@@ -24,11 +24,3 @@ updates:
         patterns:
           - '*'
 
-  - package-ecosystem: npm
-    directory: /website
-    schedule:
-      interval: weekly
-    groups:
-      all:
-        patterns:
-          - '*'

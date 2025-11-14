@@ -10,7 +10,7 @@ MyObject::~MyObject() {
 void MyObject::Destructor(napi_env env,
                           void* nativeObject,
                           void* /*finalize_hint*/) {
-  reinterpret_cast<MyObject*>(nativeObject)->~MyObject();
+  delete reinterpret_cast<MyObject*>(nativeObject);
 }
 
 napi_status MyObject::Init(napi_env env) {

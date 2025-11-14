@@ -141,4 +141,4 @@ The [CMake](https://cmake.org) project home page.
 
 [CMake](https://cmake.org/documentation/) documentation.
 
-A couple of working [examples](https://github.com/nodejs/node-addon-examples/tree/main/build_with_cmake).
+A couple of working [examples](https://github.com/nodejs/node-addon-examples/tree/main/src/8-tooling/build_with_cmake).
