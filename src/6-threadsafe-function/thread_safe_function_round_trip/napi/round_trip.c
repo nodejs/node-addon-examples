@@ -342,7 +342,7 @@ static napi_value GetPrime(napi_env env, napi_callback_info info) {
   return prime_property;
 }
 
-static void addon_is_unloading(napi_env env, void* data, void* hint) {
+static void addon_is_unloading(const struct napi_env__ *env, void* data, void* hint) {
   AddonData* addon_data = (AddonData*)data;
   uv_mutex_destroy(&(addon_data->check_status_mutex));
   CHECK(napi_delete_reference(env,
