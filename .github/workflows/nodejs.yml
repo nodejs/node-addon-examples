@@ -29,8 +29,7 @@ jobs:
         uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install -g cmake-js@6.3.2
-      - run: npm install
+      - run: npm ci --ignore-scripts
       - name: Environment Information
         run: npx envinfo
       - name: Run Test
@@ -50,8 +49,7 @@ jobs:
       - run: node -p process.versions
       - name: Environment Information
         run: npx envinfo
-      - run: npm install -g cmake-js@6.3.2
-      - run: npm install
+      - run: npm ci --ignore-scripts
       - name: Environment Information
         run: npx envinfo
       - name: Run Test

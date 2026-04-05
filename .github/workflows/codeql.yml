@@ -71,7 +71,7 @@ jobs:
       - name: Build cpp
         if: matrix.language == 'cpp'
         run: |
-          npm install -g cmake-js@6.3.2 && npm install && npm test
+          npm ci --ignore-scripts && npm test
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun

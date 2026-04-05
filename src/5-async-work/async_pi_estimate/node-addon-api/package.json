@@ -1,5 +1,5 @@
 {
-  "name": "async_work",
+  "name": "async_work_node_addon_api",
   "version": "0.0.0",
   "description": "Node.js Addons Example #9",
   "main": "addon.js",

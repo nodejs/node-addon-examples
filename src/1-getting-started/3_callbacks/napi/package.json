@@ -1,5 +1,5 @@
 {
-  "name": "napi_callbacks",
+  "name": "callbacks_napi",
   "version": "0.0.0",
   "description": "Node.js Addons Example #3",
   "main": "addon.js",

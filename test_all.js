@@ -23,7 +23,7 @@ function getAllExamples(pathToCheck) {
 const main = async () => {
   const { default: chalk } = await import("chalk");
   const passed = [];
-  const failedInstalls = [];
+  const failedBuilds = [];
   const noTest = [];
   const failedTests = [];
   for (directoryToTest of getAllExamples(examplesFolder)) {
@@ -43,12 +43,16 @@ const main = async () => {
       }
     }
 
+    let buildCommand = "npx node-gyp rebuild";
+    if ("scripts" in pkgJson && "install" in pkgJson.scripts) {
+      buildCommand = "npm run install";
+    }
     try {
-      const stdout = execSync("npm install", { cwd: directoryToTest });
+      const stdout = execSync(buildCommand, { cwd: directoryToTest });
       console.log(stdout.toString());
     } catch (err) {
       console.log(err);
-      failedInstalls.push(directoryToTest);
+      failedBuilds.push(directoryToTest);
       continue;
     }
 
@@ -81,9 +85,9 @@ const main = async () => {
     noTest.map((dir) => console.warn(chalk.yellow(`    ${dir}`)));
   }
 
-  if (failedInstalls.length > 0) {
-    console.error(chalk.red("failed to install:"));
-    failedInstalls.map((dir) => console.warn(chalk.red(`    ${dir}`)));
+  if (failedBuilds.length > 0) {
+    console.error(chalk.red("failed to build:"));
+    failedBuilds.map((dir) => console.warn(chalk.red(`    ${dir}`)));
   }
   if (failedTests.length > 0) {
     console.error(chalk.red("failed tests:"));

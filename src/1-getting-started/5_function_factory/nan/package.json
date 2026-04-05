@@ -1,5 +1,5 @@
 {
-  "name": "function_factory",
+  "name": "function_factory_nan",
   "version": "0.0.0",
   "description": "Node.js Addons Example #5",
   "main": "addon.js",

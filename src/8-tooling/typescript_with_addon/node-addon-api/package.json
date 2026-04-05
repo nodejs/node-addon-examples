@@ -7,10 +7,11 @@
     "node-addon-api": "^8.1.0"
   },
   "scripts": {
-    "install": "npx cmake-js compile",
+    "install": "cmake-js compile",
     "test": "ts-node index.ts"
   },
   "devDependencies": {
+    "cmake-js": "^8.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2"
   }

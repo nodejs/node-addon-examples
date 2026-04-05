@@ -7,6 +7,9 @@
   "dependencies": {
     "bindings": "~1.5.0"
   },
+  "devDependencies": {
+    "cmake-js": "^8.0.0"
+  },
   "scripts": {
     "install": "cmake-js compile",
     "test": "node hello.js"
