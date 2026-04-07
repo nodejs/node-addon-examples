@@ -24,7 +24,6 @@ class TsfnObjectWrap : public Napi::ObjectWrap<TsfnObjectWrap> {
   }
 
   ~TsfnObjectWrap() {
-    _tsfn.Abort();
     _thread.join();
   }
 
@@ -44,7 +43,7 @@ class TsfnObjectWrap : public Napi::ObjectWrap<TsfnObjectWrap> {
       idx = (idx + 1) % 3;
       int64_t* value_ref = &buffer[idx];
       napi_status status = tsfn.BlockingCall(
-          value_ref, [](Napi::Env env, Napi::Function fn, int64_t* data) {
+          value_ref, [tsfn](Napi::Env env, Napi::Function fn, int64_t* data) {
             int64_t native_value = *data;
             Napi::Value result =
                 fn.Call({Napi::Number::New(env, native_value)});
@@ -54,6 +53,9 @@ class TsfnObjectWrap : public Napi::ObjectWrap<TsfnObjectWrap> {
             } else {
               printf("main with %" PRId64 ": Done!\n",
                      result.As<Napi::Number>().Int64Value());
+            }
+            if (native_value == 10) {
+              tsfn.Abort();
             }
           });
       // We break out of the infinite loop when we're informed that the thread-

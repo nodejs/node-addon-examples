@@ -1,5 +1,5 @@
 {
-  "name": "function_arguments",
+  "name": "function_arguments_node_addon_api",
   "version": "0.0.0",
   "description": "Node.js Addons Example #2",
   "main": "addon.js",

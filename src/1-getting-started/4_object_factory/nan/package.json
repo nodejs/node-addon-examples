@@ -1,5 +1,5 @@
 {
-  "name": "object_factory",
+  "name": "object_factory_nan",
   "version": "0.0.0",
   "description": "Node.js Addons Example #4",
   "main": "addon.js",

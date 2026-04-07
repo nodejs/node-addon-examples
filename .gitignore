@@ -4,7 +4,6 @@ Debug/
 Release/
 *.lock
 *.log
-package-lock.json
 npm-debug.log*
 
 .idea/

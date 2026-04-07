@@ -1,6 +1,5 @@
 #include <assert.h>
 #include <stdlib.h>
-#define NAPI_EXPERIMENTAL
 #include <node_api.h>
 
 // Limit ourselves to this many primes, starting at 2

@@ -1,5 +1,5 @@
 {
-  "name": "object_wrap",
+  "name": "object_wrap_napi",
   "version": "0.0.0",
   "description": "Node.js Addons Example #6",
   "main": "addon.js",

@@ -1,5 +1,5 @@
 {
-  "name": "factory_wrap",
+  "name": "factory_wrap_napi",
   "version": "0.0.0",
   "description": "Node.js Addons Example #7",
   "main": "addon.js",

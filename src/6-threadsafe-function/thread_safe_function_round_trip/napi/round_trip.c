@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <uv.h>
-#define NAPI_EXPERIMENTAL
 #include <node_api.h>
 
 #define CHECK(expr) \
