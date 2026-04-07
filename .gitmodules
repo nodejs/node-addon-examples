@@ -1,0 +1,6 @@
+[submodule "src/8-tooling/build_with_cmake_and_vcpkg/napi/vcpkg"]
+	path = src/8-tooling/build_with_cmake_and_vcpkg/napi/vcpkg
+	url = https://github.com/microsoft/vcpkg.git
+[submodule "src/8-tooling/build_with_cmake_and_vcpkg/node-addon-api/vcpkg"]
+	path = src/8-tooling/build_with_cmake_and_vcpkg/node-addon-api/vcpkg
+	url = https://github.com/microsoft/vcpkg.git

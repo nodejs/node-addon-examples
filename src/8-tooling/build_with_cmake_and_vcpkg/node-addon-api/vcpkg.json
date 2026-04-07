@@ -1,0 +1,9 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "build-node-addon-api-with-cmake-and-vcpk",
+    "homepage": "https://github.com/nodejs/node-addon-examples",
+    "description": "Build Node-API native addon with CMake abd Vcpkg.",
+    "dependencies": [
+        "node-addon-api"
+    ]
+}
