@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "clang-format": "^1.4.0",
-    "node-gyp": "^12.2.0",
+    "node-gyp": "^12.3.0",
     "husky": "^4.3.0",
     "lint-staged": "^16.1.0"
   },
