@@ -1,0 +1,15 @@
+{
+  "name": "tsfn-counting",
+  "version": "0.0.0",
+  "description": "Thread-safe Function Example",
+  "main": "addon.js",
+  "private": true,
+  "gypfile": true,
+  "dependencies": {
+    "node-addon-api": "*",
+    "bindings": "*"
+  },
+  "engines": {
+    "node": ">= 10.16.0"
+  }
+}
